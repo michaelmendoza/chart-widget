@@ -1,0 +1,38 @@
+.app {
+  text-align: center;
+}
+
+.nav {
+  padding: 2em 0;
+  
+  button {
+    font-size: 1em;
+    margin: 0 1em;
+    padding: 1em;
+
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+
+    &:focus {
+        outline:none;
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+.viewport {
+
+}
+
+.chart {
+  background-color: #eeeeee;
+  padding: 6em;
+
+  svg {
+    background-color: #f8f8f8; 
+  }
+}

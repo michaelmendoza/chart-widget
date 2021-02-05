@@ -1,0 +1,21 @@
+import Stats from './stats';
+
+const Fit = {
+
+    /**
+	 * Returns the coefficents for a simple linear regression model given a set of x, y data. 
+	 * Coefficents are calculated using ordinary least squares. Given the model 
+	 * y[i] = alpha * beta * x[i], the set of parameters (alpha, beta) are calculated 
+	 * as beta = covariance(x,y) / variance(x) and alpha = avg(y) - beta * avg(x)
+	 */
+	simpleLinearRegression: function(x : number[], y : number[]) {
+
+		var beta = Stats.covariance(x,y) / Stats.variance(x);
+		var alpha = Stats.mean(y) - beta * Stats.mean(x);
+
+		return { alpha:alpha, beta:beta };
+    }
+    
+}
+
+export default Fit;
