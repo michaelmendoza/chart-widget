@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import ChartMockData from './Chart/services/ChartMockData';
+
+const test = ChartMockData.transformEntityToBarChartData([2,2,2,2,2,2,2,2,2,5,5]);
+console.log(test);
 
 ReactDOM.render(
   <React.StrictMode>

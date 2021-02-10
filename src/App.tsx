@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.scss';
-import Chart from './components/Chart';
-import ChartWidget from './components/ChartWidget';
-import ChartState from './states/ChartState';
+import ChartWidget from './Chart/components/ChartWidget';
+import ChartState from './Chart/states/ChartState';
 
 function App() {
   return (

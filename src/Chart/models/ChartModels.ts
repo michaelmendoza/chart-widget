@@ -1,4 +1,4 @@
-import { ChartTypes } from "./ChartTypes";
+import { ChartModes, ChartTypes } from "./ChartTypes";
 
 export interface IDataPoint { 
     x: string | number,
@@ -12,5 +12,6 @@ export interface IChart {
 
 export type IChartState = {
     chartList: IChart[],
-    chartFilters: any
+    chartFilters: any,
+    chartMode: any
 }

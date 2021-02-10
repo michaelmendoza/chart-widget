@@ -1,8 +1,24 @@
+body {
+  background: #e8e8e8;
+}
+
 .app {
   text-align: center;
 }
 
+.layout-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.layout-space-between {
+  justify-content:space-between
+}
+
 .nav {
+  background-color: #fefefe;
   padding: 2em 0;
   
   button {
@@ -12,8 +28,7 @@
 
     cursor: pointer;
     border: none;
-    background-color: transparent;
-
+  
     &:focus {
         outline:none;
     }
@@ -25,7 +40,7 @@
 }
 
 .viewport {
-
+  
 }
 
 .chart {
@@ -35,4 +50,55 @@
   svg {
     background-color: #f8f8f8; 
   }
+}
+
+.chart-widget {
+  margin: 2em;
+  padding: 2em;
+  width: 600px;
+  background-color: #fefefe;
+}
+
+.chart-header { 
+  padding: 1em;
+}
+
+.chart-filters {
+  padding: 1em;
+}
+
+.chart-controls {
+  padding: 1em;
+}
+
+.chart-editor {
+  padding: 1em;
+
+  .chart-editor-item {
+    margin: 1em 0;
+    width: 100%;
+
+    label { 
+      display: block;
+      text-align: left;
+      margin-bottom: 0.25em; 
+      font-size: 0.75em;
+    }
+    input { width: 100%;  }
+    select { width:100%; }
+  }
+
+  .chart-editor-save {
+    text-align: right;
+  }
+}
+
+.chart-view {
+  li {
+    list-style: none;
+  }
+}
+
+.chart-item-controls {
+  text-align: right;
 }

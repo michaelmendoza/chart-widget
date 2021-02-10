@@ -1,15 +1,21 @@
 import { IChart, IChartState } from '../models/ChartModels';
+import { ChartModes } from '../models/ChartTypes';
 
 export enum ActionTypes {
     ADD, 
     DELETE, 
-    CLEAR
+    CLEAR,
+    UPDATE
 }
+
+export type ChartModeActions = 
+    | { type: ActionTypes.UPDATE; mode: ChartModes }
 
 export type Actions =
     | { type: ActionTypes.ADD; item: any }
     | { type: ActionTypes.DELETE; index: number }
     | { type: ActionTypes.CLEAR; }
+    | ChartModeActions
 
 export const ChartListReducer = (state: IChart[], action: Actions) => {
     switch(action.type) { 
@@ -31,11 +37,23 @@ export const ChartFilterReducer = (state: any, action: Actions) => {
     }
 }
 
+export const ChartModeReducer = (state:any, action: Actions) => {
+    switch(action.type) { 
+        case ActionTypes.UPDATE:
+            return action.mode;
+        default:
+            return state;
+    }
+}
+
 export const ChartReducer = (state: IChartState , action: Actions) => {
     console.log("Chart Action: " + action.type + ' ' + action);
     
-    return ({ 
+    let updatedState = { 
         chartList: ChartListReducer(state.chartList, action), 
-        chartFilters: ChartFilterReducer(state.chartFilters, action)
-    })
+        chartFilters: ChartFilterReducer(state.chartFilters, action),
+        chartMode: ChartModeReducer(state.chartMode, action)
+    }
+
+    return updatedState;
 }
