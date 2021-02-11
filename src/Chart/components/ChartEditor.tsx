@@ -1,13 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import ChartState from '../states/ChartState';
 import { ChartModes, ChartTypes } from '../models/ChartTypes'
 import { ActionTypes } from '../reducers/ChartReducers';
+import LineAreaChart from './charts/LineAreaChart';
+import ChartDataService from '../services/ChartDataService';
 
 const ChartEditor = () => {
     const { state, dispatch } = useContext(ChartState.ChartContext);
+    const [chartType, setChartType] = useState(ChartTypes.Bar);
+    const [chartProperties, setChartProperties] = useState({
+        name:'Chart1',
+        dataSouce: ''
+    });
 
     const handleSave = () => {
-        dispatch({type:ActionTypes.ADD, item:{type:ChartTypes.Bar, data:[{x:'One',y:1},{x:'Two',y:2},{x:"Three",y:3}] }});
+        dispatch({type:ActionTypes.ADD, item:{type:chartType, data:ChartDataService.getChartDataItem(0), properties:chartProperties }});
         dispatch({type:ActionTypes.UPDATE, mode:ChartModes.ShowCharts});
     }
     
@@ -15,22 +22,29 @@ const ChartEditor = () => {
         dispatch({type:ActionTypes.UPDATE, mode:ChartModes.ShowCharts});
     }
     
+    const handleNameChange = (event : any) => {
+        setChartProperties({ ...chartProperties, name:event.target.value });
+    }
+
+    const handleTypeChange = (type : ChartTypes) => {
+        setChartType(type);
+    }
+
     return (
         <div className='chart-editor'> 
             <div className='chart-editor-item'>
-                <button> Number </button>
-                <button> Bar </button>
-                <button> Number </button>
-                <button> Pie </button>
-                <button> Line </button>
-                <button> Time Series </button>
+                <button onClick={()=>handleTypeChange(ChartTypes.Number)}> Number </button>
+                <button onClick={()=>handleTypeChange(ChartTypes.Bar)}> Bar </button>
+                <button onClick={()=>handleTypeChange(ChartTypes.Pie)}> Pie </button>
+                <button onClick={()=>handleTypeChange(ChartTypes.LineArea)}> Line </button>
+                <button onClick={()=>handleTypeChange(ChartTypes.TimeSeries)}> Time Series </button>
             </div>
 
             <div className='chart-editor-item'>
                 <label>Name</label>
-                <input type="text" name="name" />
+                <input type="text" name="name" value={chartProperties.name} onChange={handleNameChange}/>
             </div>
-                
+
             <div className='chart-editor-item'>
                 <label>Data Source</label>
                 <select>

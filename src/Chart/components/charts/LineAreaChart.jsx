@@ -1,6 +1,14 @@
 import * as d3 from 'd3';
 import React, { useEffect, useRef } from 'react';
 
+/**
+ * Plots a svg line/area chart using d3. Data is input as a point array. 
+ * 
+ * example: 
+ * const _data = Points.gaussianModel(-3, 3, 100, 1, 0.5);
+ * <LineAreaChart width={500} height={500} data={_data}></LineAreaChart>
+ * @param {{width, height, data}} props { width, height, data } 
+ */ 
 const LineAreaChart = (props) => {
     
     const d3Container = useRef(null);

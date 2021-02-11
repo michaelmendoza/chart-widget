@@ -1,5 +1,10 @@
 export enum ChartTypes { 
-    Bar, Histogram, LineArea, Pie
+    Number = 'Number', 
+    Bar = 'Bar', 
+    LineArea = 'LineArea', 
+    Pie = 'Pie', 
+    Histogram = 'Histogram', 
+    TimeSeries = 'TimeSeries'
 }
 
 export enum ChartModes { 

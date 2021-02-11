@@ -40,28 +40,20 @@ const Points = {
 		return y;
 	},
 
-	random: function(min:number, max:number, N:number) {
-		if( N === undefined )
-			return Math.random() * (max - min) + min;
-		else {
-			var array = [];
-			for(var i = 0; i < N; i++) {
-				array.push(Math.random() * (max - min) + min);
-			}
-			return array;
+	random: function(min:number, max:number, N:number = 1) : number[] {		
+		var array = [];
+		for(var i = 0; i < N; i++) {
+			array.push(Math.random() * (max - min) + min);
 		}
+		return array;
 	},
 
-	randomInt: function(min:number, max:number, N:number) {
-		if( N === undefined )
-			return Math.round(Math.random() * (max - min) + min);
-		else {
-			var array = [];
-			for(var i = 0; i < N; i++) {
-				array.push(Math.round(Math.random() * (max - min) + min));
-			}
-			return array;
+	randomInt: function(min:number, max:number, N:number = 1) : number[] {
+		var array = [];
+		for(var i = 0; i < N; i++) {
+			array.push(Math.round(Math.random() * (max - min) + min));
 		}
+		return array;
     },
     
 	linearModel: function(x:number[], alpha:number, beta:number) {

@@ -1,6 +1,13 @@
 import * as d3 from 'd3';
 import React, { useEffect, useRef } from 'react';
 
+/**
+ * Plots a svg bar chart using d3. Data is input as a point array. 
+ * 
+ * example: 
+ * <BarChart width={500} height={500} data={[{x:'One',y:1},{x:'Two',y:2},{x:"Three",y:3}]}></BarChart>
+ * @param {{width, height, data}} props { width, height, data } 
+ */
 const BarChart = (props) => {
     
     const d3Container = useRef(null);

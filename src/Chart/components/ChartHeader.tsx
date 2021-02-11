@@ -7,7 +7,7 @@ const ChartHeader = () => {
 
     return (
         <div className="chart-header"> 
-            <div> {state.chartMode} </div> 
+            <div> {state.chartView.mode} </div> 
         </div>
     )
 }

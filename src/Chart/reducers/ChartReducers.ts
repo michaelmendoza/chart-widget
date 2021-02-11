@@ -5,17 +5,25 @@ export enum ActionTypes {
     ADD, 
     DELETE, 
     CLEAR,
-    UPDATE
+    UPDATE, 
+    FILTER
 }
 
-export type ChartModeActions = 
+export type ChartListActions = 
+| { type: ActionTypes.ADD; item: any }
+| { type: ActionTypes.DELETE; index: number }
+| { type: ActionTypes.CLEAR; }
+
+export type ChartFilterActions = 
+    | { type: ActionTypes.FILTER; filter: any }
+
+export type ChartViewActions = 
     | { type: ActionTypes.UPDATE; mode: ChartModes }
 
 export type Actions =
-    | { type: ActionTypes.ADD; item: any }
-    | { type: ActionTypes.DELETE; index: number }
-    | { type: ActionTypes.CLEAR; }
-    | ChartModeActions
+    | ChartListActions
+    | ChartFilterActions
+    | ChartViewActions
 
 export const ChartListReducer = (state: IChart[], action: Actions) => {
     switch(action.type) { 
@@ -37,10 +45,10 @@ export const ChartFilterReducer = (state: any, action: Actions) => {
     }
 }
 
-export const ChartModeReducer = (state:any, action: Actions) => {
+export const ChartViewReducer = (state:any, action: Actions) => {
     switch(action.type) { 
         case ActionTypes.UPDATE:
-            return action.mode;
+            return {...state, mode:action.mode}
         default:
             return state;
     }
@@ -52,7 +60,7 @@ export const ChartReducer = (state: IChartState , action: Actions) => {
     let updatedState = { 
         chartList: ChartListReducer(state.chartList, action), 
         chartFilters: ChartFilterReducer(state.chartFilters, action),
-        chartMode: ChartModeReducer(state.chartMode, action)
+        chartView: ChartViewReducer(state.chartView, action)
     }
 
     return updatedState;

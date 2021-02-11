@@ -13,5 +13,5 @@ export interface IChart {
 export type IChartState = {
     chartList: IChart[],
     chartFilters: any,
-    chartMode: any
+    chartView: any
 }

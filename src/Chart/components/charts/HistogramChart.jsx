@@ -1,6 +1,14 @@
 import * as d3 from 'd3';
 import React, { useEffect, useRef } from 'react';
 
+/**
+ * Takes an array of data and histogram bins the data, then plots a svg bar 
+ * chart using d3. Data is input as a array of number. 
+ * 
+ * example:
+ * <HistogramChart width={500} height={500} data={[2,2,2,2,2,4,6,7,3,4]}></HistogramChart>
+ * @param {{width, height, data}} props { width, height, data } 
+ */
 const HistogramChart = (props) => {
     
     const d3Container = useRef(null);

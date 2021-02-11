@@ -8,17 +8,18 @@ import ChartState from '../states/ChartState';
 import { ChartModes, ChartTypes } from '../models/ChartTypes'
 import { ActionTypes } from '../reducers/ChartReducers';
 
-const NoDataChartItem = () => {
-    return <div> Please add chart </div>
+interface Props {
+    item?: any,
+    index: number
 }
 
-const ChartItemControls = () => {
+const ChartItemControls: React.FC <Props> = (props) => {
     const { state, dispatch } = useContext(ChartState.ChartContext); 
 
-    const handleDelete = () => {
-
+    const handleDelete = (index : number) => {
+        dispatch({type:ActionTypes.DELETE, index:index})
     }
-
+    
     const handleEdit = () => {
         dispatch({type:ActionTypes.UPDATE, mode:ChartModes.ShowChartEditor})
     }
@@ -26,25 +27,36 @@ const ChartItemControls = () => {
     return (
         <div className='chart-item-controls'>
             <button onClick={handleEdit}> Edit </button>
-            <button onClick={handleDelete}>Delete</button>
+            <button onClick={() => handleDelete(props.index)}>Delete</button>
         </div>
     )
 }
 
-interface Props {
-    item: any
-}
-
 const ChartViewItem: React.FC <Props> = (props) => {
+
+    const renderChartByChartType = () => {
+        switch(props.item.type) {
+            case ChartTypes.Bar:
+                return <BarChart width={500} height={500} data={props.item.data}/>
+            case ChartTypes.Pie:
+                return <PieChart width={500} height={500} data={props.item.data}/>
+            case ChartTypes.LineArea:
+                return <LineAreaChart width={500} height={500} data={props.item.data}/>
+            default:
+                return null;
+        }}
+    
     return (
         <li className='chart-view-item'> 
-            <ChartItemControls></ChartItemControls>
-            {
-                props.item.type == ChartTypes.Bar ? <BarChart width={500} height={500} data={props.item.data}/> : null
-            }
-            
+            <div> { props.item.properties.name } </div>
+            <ChartItemControls index={props.index}></ChartItemControls>
+            { renderChartByChartType() }
         </li> 
     )
+}
+
+const NoDataChartItem = () => {
+    return <div> Please add chart </div>
 }
 
 const ChartView = () => {
@@ -53,13 +65,12 @@ const ChartView = () => {
     
     return (
         <div className='chart-view'> 
-            {
-                state.chartList.length == 0 ? <NoDataChartItem></NoDataChartItem> : null
-            }
+
+            { state.chartList.length == 0 ? <NoDataChartItem></NoDataChartItem> : null }
             
             {
-                state.chartList.map((item : any, idx : number) => {
-                    return <ChartViewItem item={item}></ChartViewItem>
+                state.chartList.map((item : any, index : number) => {
+                    return <ChartViewItem item={item} index={index}></ChartViewItem>
                 })
             }
         </div>
@@ -67,8 +78,3 @@ const ChartView = () => {
 }
 
 export default ChartView;
-//const _data = Points.gaussianModel(-3, 3, 100, 1, 0.5);
-//<LineAreaChart width={500} height={500} data={_data}></LineAreaChart>
-//<BarChart width={500} height={500} data={[{x:'One',y:1},{x:'Two',y:2},{x:"Three",y:3}]}></BarChart>
-//<HistogramChart width={500} height={500} data={[2,2,2,2,2,4,6,7,3,4]}></HistogramChart>
-//<PieChart width={500} height={500} data={[46, 28, 26]}></PieChart>
