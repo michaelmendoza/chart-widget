@@ -17,7 +17,7 @@ const BarChart = (props) => {
     const textColor = '#222222';
     const binMax = 10;
     const binCount = 10;
-
+    
     useEffect(() => {
 
 		// Get margin adjusted width and height

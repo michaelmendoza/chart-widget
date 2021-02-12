@@ -1,9 +1,8 @@
 import React, { useContext, useState } from 'react';
 import ChartState from '../states/ChartState';
 import { ChartModes, ChartTypes } from '../models/ChartTypes'
-import { ActionTypes } from '../reducers/ChartReducers';
-import LineAreaChart from './charts/LineAreaChart';
 import ChartDataService from '../services/ChartDataService';
+import { ActionTypes } from '../reducers/ChartActions';
 
 /**
  * Contains input fields and dropsdown for setting a chart type, chart properties, 
@@ -15,7 +14,7 @@ const ChartEditor = () => {
     const [chartProperties, setChartProperties] = useState({
         name:'Chart1',
         dataSouce: ''
-    });
+    }); 
 
     const handleSave = () => {
         dispatch({type:ActionTypes.ADD, item:{type:chartType, data:ChartDataService.getChartDataItem(0), properties:chartProperties }});

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import ChartState from '../states/ChartState';
 import { ChartModes, ChartTypes } from '../models/ChartTypes'
-import { ActionTypes } from '../reducers/ChartReducers';
+import { ActionTypes } from '../reducers/ChartActions';
 
 /**
  * Component that contains chart control buttons i.e. Adding new chart item 

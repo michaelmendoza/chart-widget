@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
-import BarChart from '../../Chart/components/charts/BarChart';
-import DualChart from '../../Chart/components/charts/DualChart';
-import LineAreaChart from '../../Chart/components/charts/LineAreaChart';
-import PieChart from '../../Chart/components/charts/PieChart';
+import BarChart from '../../Chart/components/Charts/BarChart';
+import DualChart from '../../Chart/components/Charts/DualChart';
+import LineAreaChart from '../../Chart/components/Charts/LineAreaChart';
+import PieChart from '../../Chart/components/Charts/PieChart';
 
 const Playground = () => {
 

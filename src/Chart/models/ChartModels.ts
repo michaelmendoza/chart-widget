@@ -7,6 +7,7 @@ export interface IDataPoint {
 
 export interface IChart {
     type: ChartTypes,
+    properties: any,
     data: IDataPoint[]
 }
 

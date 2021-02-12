@@ -1,12 +1,16 @@
 import React, { useState, useContext } from 'react';
 import ChartFilters from './ChartFilters';
-import ChartView from './ChartView';
+import ChartView from './ChartView/ChartView';
 import ChartEditor from './ChartEditor';
 import ChartHeader from './ChartHeader';
 import ChartState from '../states/ChartState';
 import { ChartModes } from '../models/ChartTypes';
 import ChartControls from './ChartControls';
 
+/**
+ * Container component for ChartHeader, ChartFilters, ChartControls and ChartView.
+ * Depends on chartView.mode to switch modes from showing chart and chart editor. 
+ */
 const ChartWidget = () => {
 
     const { state, dispatch } = useContext(ChartState.ChartContext);
