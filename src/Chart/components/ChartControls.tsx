@@ -3,6 +3,9 @@ import ChartState from '../states/ChartState';
 import { ChartModes, ChartTypes } from '../models/ChartTypes'
 import { ActionTypes } from '../reducers/ChartReducers';
 
+/**
+ * Component that contains chart control buttons i.e. Adding new chart item 
+ */
 const ChartControls = () => {
 
     const { state, dispatch } = useContext(ChartState.ChartContext);

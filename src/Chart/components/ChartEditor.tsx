@@ -5,6 +5,10 @@ import { ActionTypes } from '../reducers/ChartReducers';
 import LineAreaChart from './charts/LineAreaChart';
 import ChartDataService from '../services/ChartDataService';
 
+/**
+ * Contains input fields and dropsdown for setting a chart type, chart properties, 
+ * and data properties 
+ */
 const ChartEditor = () => {
     const { state, dispatch } = useContext(ChartState.ChartContext);
     const [chartType, setChartType] = useState(ChartTypes.Bar);
@@ -52,6 +56,63 @@ const ChartEditor = () => {
                     <option value="lime">Lime</option>
                     <option selected value="coconut">Coconut</option>
                     <option value="mango">Mango</option>
+                </select>
+            </div>
+
+            <div className='chart-editor-item'>
+                <label>Aggregation Method</label>
+                <select>
+                    <option value="grapefruit">Count</option>
+                    <option value="grapefruit">Sum</option>
+                </select>
+            </div>
+
+            <div className='chart-editor-item'>
+                <label>Attribute to Plot</label>
+                <select>
+                    <option value="grapefruit">Awesomeness</option>
+                </select>
+            </div>
+
+            <div className='chart-editor-item'>
+                <label>Layer Shape</label>
+                <select>
+                    <option value="grapefruit">US States</option>
+                </select>
+            </div>
+
+            Advanced options
+
+            <div className='chart-editor-item'>
+                <label>Chart Type</label>
+                <select>
+                    <option value="grapefruit">Bar</option>
+                    <option value="grapefruit">Line</option>
+                </select>
+            </div>
+
+            <div className='chart-editor-item'>
+                <label>History</label>
+                <select>
+                    <option value="grapefruit">30 days</option>
+                    <option value="grapefruit">60 days</option>
+                    <option value="grapefruit">90 days</option>
+                </select>
+            </div>
+
+            <div className='chart-editor-item'>
+                <label>Secondary Attribute to Plot</label>
+                <select>
+                    <option value="grapefruit">Bar</option>
+                    <option value="grapefruit">Line</option>
+                </select>
+            </div>
+
+            <div className='chart-editor-item'>
+                <label>Chart Type</label>
+                <select>
+                    <option value="grapefruit">Bar</option>
+                    <option value="grapefruit">Line</option>
                 </select>
             </div>
 
