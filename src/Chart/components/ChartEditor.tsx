@@ -12,12 +12,15 @@ const ChartEditor = () => {
     const { state, dispatch } = useContext(ChartState.ChartContext);
     const [chartType, setChartType] = useState(ChartTypes.Bar);
     const [chartProperties, setChartProperties] = useState({
-        name:'Chart1',
-        dataSouce: ''
+        name:'New Chart',
+        dataFeed: 'Population',
+        dataAttr: 'a'
     }); 
 
     const handleSave = () => {
-        dispatch({type:ActionTypes.ADD, item:{type:chartType, data:ChartDataService.getChartDataItem(0), properties:chartProperties }});
+        let dataFeed = chartProperties.dataFeed;
+        let dataAttr = chartProperties.dataAttr;
+        dispatch({type:ActionTypes.ADD, item:{type:chartType, data:ChartDataService.getChartData(dataFeed, dataAttr).data, properties:chartProperties }});
         dispatch({type:ActionTypes.UPDATE, mode:ChartModes.ShowCharts});
     }
     
@@ -31,6 +34,14 @@ const ChartEditor = () => {
 
     const handleTypeChange = (type : ChartTypes) => {
         setChartType(type);
+    }
+
+    const handleDataAttributeChange = (event : any) => {
+        setChartProperties({ ...chartProperties, dataAttr:event.target.value})
+    }
+
+    const handleDataFeedChange = (event : any) => {
+        setChartProperties({ ...chartProperties, dataFeed:event.target.value })
     }
 
     return (
@@ -47,14 +58,14 @@ const ChartEditor = () => {
                 <label>Name</label>
                 <input type="text" name="name" value={chartProperties.name} onChange={handleNameChange}/>
             </div>
-
+            
             <div className='chart-editor-item'>
                 <label>Data Source</label>
-                <select>
-                    <option value="grapefruit">Grapefruit</option>
-                    <option value="lime">Lime</option>
-                    <option selected value="coconut">Coconut</option>
-                    <option value="mango">Mango</option>
+                <select onChange={handleDataFeedChange} value={chartProperties.dataFeed}> 
+                    <option value="Lightning">Lightning</option>
+                    <option value="Hospitals">Hospitals</option>
+                    <option selected value="Traffic">Traffic</option>
+                    <option value="Population">Population</option>
                 </select>
             </div>
 
@@ -68,8 +79,11 @@ const ChartEditor = () => {
 
             <div className='chart-editor-item'>
                 <label>Attribute to Plot</label>
-                <select>
-                    <option value="grapefruit">Awesomeness</option>
+                <select onChange={handleDataAttributeChange}>
+                    <option value="a">Attribute A</option>
+                    <option value="b">Attribute B</option>
+                    <option value="c">Attribute C</option>
+                    <option value="d">Attribute D</option>
                 </select>
             </div>
 
@@ -85,17 +99,17 @@ const ChartEditor = () => {
             <div className='chart-editor-item'>
                 <label>Chart Type</label>
                 <select>
-                    <option value="grapefruit">Bar</option>
-                    <option value="grapefruit">Line</option>
+                    <option value="bar">Bar</option>
+                    <option value="line">Line</option>
                 </select>
             </div>
 
             <div className='chart-editor-item'>
                 <label>History</label>
                 <select>
-                    <option value="grapefruit">30 days</option>
-                    <option value="grapefruit">60 days</option>
-                    <option value="grapefruit">90 days</option>
+                    <option value="30">30 days</option>
+                    <option value="60">60 days</option>
+                    <option value="90">90 days</option>
                 </select>
             </div>
 

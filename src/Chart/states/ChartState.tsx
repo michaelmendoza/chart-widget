@@ -12,7 +12,7 @@ const initialState : IChartState = {
     chartList:[
         { type:ChartTypes.Bar, 
           properties:{ id:0, name:'Chart 1' }, 
-          data:ChartDataService.getChartDataItem(0) }
+          data:ChartDataService.getChartData('Population', 'a').data }
     ], 
     chartFilters: {},
     chartView: { index: 0, mode: ChartModes.ShowCharts }

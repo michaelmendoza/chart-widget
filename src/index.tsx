@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import ChartMockData from './Chart/services/ChartMockData';
+import { createtestData } from './Chart/services/ChartMockData';
 
 //const test = ChartMockData.transformEntityToBarChartData([2,2,2,2,2,2,2,2,2,5,5]);
-const test = ChartMockData.getChartData();
-
+//const test = ChartMockData.getChartData();
+var test = createtestData();
 console.log(test);
 
 ReactDOM.render(
