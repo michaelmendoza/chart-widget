@@ -12,7 +12,7 @@ const ChartStateDebugger = () => {
             ChartFilters
             <div> { JSON.stringify(state.chartFilters) } </div>
             ChartView
-            <div> { JSON.stringify(state.chartView) } </div>
+            <div> { JSON.stringify(state.chartConfig) } </div>
         </div>
     )
 }

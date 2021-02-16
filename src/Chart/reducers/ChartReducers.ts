@@ -1,4 +1,4 @@
-import { IChart, IChartState } from '../models/ChartModels';
+import { IChartItem, IChartState } from '../models/ChartModels';
 import { ActionTypes } from './ChartActionsTypes';
 import { ChartModes } from '../models/ChartTypes';
 
@@ -6,9 +6,9 @@ export type ChartListActions =
 { type: ActionTypes.ADD_CHART; item: any; } |
 { type: ActionTypes.DELETE_CHART; index: number; } |
 { type: ActionTypes.CLEAR_ALL_CHARTS; } |
-{ type: ActionTypes.UPDATE_CHART; index: number, updatedChart: any };
+{ type: ActionTypes.UPDATE_CHART; id: string, updatedChart: any };
 
-export const ChartListReducer = (state: IChart[], action: Actions) => {
+export const ChartListReducer = (state: IChartItem[], action: Actions) => {
     switch(action.type) { 
         case ActionTypes.ADD_CHART: 
             return [...state, action.item]
@@ -17,7 +17,7 @@ export const ChartListReducer = (state: IChart[], action: Actions) => {
         case  ActionTypes.CLEAR_ALL_CHARTS:
             return [];
         case ActionTypes.UPDATE_CHART:
-            return state.map((chart) => (chart.id == action.index ? action.updatedChart : chart))
+            return state.map((chart) => (chart.id == action.id ? action.updatedChart : chart))
         default:
             return state;
     }
@@ -32,9 +32,9 @@ export const ChartFilterReducer = (state: any, action: Actions) => {
     }
 }
 
-export type ChartViewActions = { type: ActionTypes.UPDATE_CHART_MODE; mode: ChartModes; };
+export type ChartConfigActions = { type: ActionTypes.UPDATE_CHART_MODE; mode: ChartModes; };
 
-export const ChartViewReducer = (state:any, action: Actions) => {
+export const ChartConfigReducer = (state:any, action: Actions) => {
     switch(action.type) { 
         case ActionTypes.UPDATE_CHART_MODE:
             return {...state, mode:action.mode}
@@ -45,7 +45,7 @@ export const ChartViewReducer = (state:any, action: Actions) => {
 
 export type Actions = ChartListActions |
     ChartFilterActions |
-    ChartViewActions;
+    ChartConfigActions;
 
 export const ChartReducer = (state: IChartState , action: Actions) => {
     console.log("Chart Action: " + action.type + ' ' + action);
@@ -53,8 +53,8 @@ export const ChartReducer = (state: IChartState , action: Actions) => {
     let updatedState = { 
         chartList: ChartListReducer(state.chartList, action), 
         chartFilters: ChartFilterReducer(state.chartFilters, action),
-        chartView: ChartViewReducer(state.chartView, action)
+        chartConfig: ChartConfigReducer(state.chartConfig, action)
     }
-
+    
     return updatedState;
 }

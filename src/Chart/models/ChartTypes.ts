@@ -14,3 +14,10 @@ export enum ChartModes {
     ShowChartCreator = 'Add Chart',
     ShowChartEditor = 'Edit Chart'
 }
+
+/** Types of Chart DataTypes that are supported */
+export enum DataTypes {
+    ChartData,
+    EntityData,
+    EntityDataByAttribute
+}

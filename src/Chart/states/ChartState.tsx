@@ -1,29 +1,43 @@
 import React, { createContext, useReducer } from 'react';
-import { IChartState } from '../models/ChartModels';
+import { ChartConfig, IChartState, ChartItem } from '../models/ChartModels';
 import { Actions, ChartReducer } from '../reducers/ChartReducers';
-import { ChartModes, ChartTypes } from '../models/ChartTypes';
+import { ChartTypes, DataTypes } from '../models/ChartTypes';
 import ChartDataService from '../services/ChartDataService';
 
 /**
  * Inital state for ChartState (implements IChartState)
  */
-const initialState : IChartState = {
-    chartList:[
-        { id: 0,
-          type:ChartTypes.Bar, 
-          properties:{ id:0, name:'Chart 1', dataFeed: 'Population', dataAttr: 'a' }, 
-          data:ChartDataService.getChartData('Population', 'a').data }
+const initialState : IChartState = { 
+    chartList:[ 
+        new ChartItem('Chart 1', 
+        ChartTypes.Bar, 
+        'Population', 
+        ['b'], 
+        { type: DataTypes.ChartData, data:ChartDataService.getChartData('Population', 'a').data}) 
     ], 
     chartFilters: {},
-    chartView: { index: 0, mode: ChartModes.ShowCharts } // active information
+    chartConfig: new ChartConfig() 
+}
+
+/** 
+ * StateManager is a set of helper functions used to orhestrate the interaction between state properties.  
+ * Note: As a general rule different state properties shouldn't directly interact with each other.
+ */
+const useStateManager = (state: IChartState) => {
+    return {
+        getEditChart: () => {
+            return state.chartList[state.chartConfig.index];
+        }
+    }
 }
 
 /**
  * ChartContext using React context api
  */
-const ChartContext = createContext<{state: IChartState; dispatch: React.Dispatch<Actions>;}>({
+const ChartContext = createContext<{state: IChartState; dispatch: React.Dispatch<Actions>; manager: any}>({
     state: initialState,
-    dispatch: () => null
+    dispatch: () => null,
+    manager: {}
   });
 
 /**
@@ -31,9 +45,10 @@ const ChartContext = createContext<{state: IChartState; dispatch: React.Dispatch
  */
 const ChartStateProvider: React.FC = ({ children }) => {
     const [state, dispatch] = useReducer(ChartReducer, initialState);
+    const manager = useStateManager(state)
 
     return (
-        <ChartContext.Provider value={{state, dispatch}}>
+        <ChartContext.Provider value={{state, dispatch, manager}}>
             { children }
         </ChartContext.Provider>
     )

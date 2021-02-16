@@ -16,13 +16,15 @@ interface Props {
 export const ChartViewItem: React.FC<Props> = (props) => {
 
     const renderChartByChartType = () => {
+        const data = props.item.getData();
+
         switch (props.item.type) {
             case ChartTypes.Bar:
-                return <BarChart width={500} height={500} data={props.item.data} />;
+                return <BarChart width={500} height={500} data={data} />;
             case ChartTypes.Pie:
-                return <PieChart width={500} height={500} data={props.item.data} />;
+                return <PieChart width={500} height={500} data={data} />;
             case ChartTypes.LineArea:
-                return <LineAreaChart width={500} height={500} data={props.item.data} />;
+                return <LineAreaChart width={500} height={500} data={data} />;
             default:
                 return null;
         }
@@ -30,7 +32,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
 
     return (
         <li className='chart-view-item'>
-            <div> {props.item.properties.name} </div>
+            <div> {props.item.name} </div>
             <ChartViewItemControls index={props.index}></ChartViewItemControls>
             {renderChartByChartType()}
         </li>

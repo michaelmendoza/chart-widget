@@ -1,8 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import ChartState from '../states/ChartState';
-import { ChartModes, ChartTypes } from '../models/ChartTypes'
+import { ChartModes, ChartTypes, DataTypes } from '../models/ChartTypes'
 import ChartDataService from '../services/ChartDataService';
 import { ActionTypes } from '../reducers/ChartActionsTypes';
+import { ChartItem } from '../models/ChartModels';
 
 /**
  * Contains input fields and dropsdown for setting a chart type, chart properties, 
@@ -13,28 +14,34 @@ const ChartEditor = () => {
     const [chartType, setChartType] = useState(ChartTypes.Bar);
     const [chartProperties, setChartProperties] = useState({
         name:'New Chart',
-        dataFeed: 'Population',
-        dataAttr: 'a'
+        feedName: 'Population',
+        attributes: 'a'
     }); 
-
+    
     useEffect(()=> {
-        if(state.chartView.mode == ChartModes.ShowChartEditor) {
+        if(state.chartConfig.mode == ChartModes.ShowChartEditor) {
             setChartProperties({ 
-                name:state.chartList[state.chartView.index].properties.name,  
-                dataFeed:state.chartList[state.chartView.index].properties.dataFeed, 
-                dataAttr:state.chartList[state.chartView.index].properties.dataAttr
+                name:state.chartList[state.chartConfig.index].name,  
+                feedName:state.chartList[state.chartConfig.index].feedName,
+                attributes:state.chartList[state.chartConfig.index].attributes[0]
             })
         }
     }, [])
-
+    
     const handleSave = () => {
-        let dataFeed = chartProperties.dataFeed;
-        let dataAttr = chartProperties.dataAttr;
-        if(state.chartView.mode == ChartModes.ShowChartCreator) {
-            dispatch({type:ActionTypes.ADD_CHART, item:{type:chartType, data:ChartDataService.getChartData(dataFeed, dataAttr).data, properties:chartProperties }});
+        let chartItem = new ChartItem(chartProperties.name, 
+            chartType, 
+            chartProperties.feedName, 
+            [chartProperties.attributes], 
+            { type: DataTypes.ChartData, data:ChartDataService.getChartData(chartProperties.feedName, chartProperties.attributes).data}) 
+
+        if(state.chartConfig.mode == ChartModes.ShowChartCreator) {
+            dispatch({type:ActionTypes.ADD_CHART, item:chartItem});
             dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
         }
-        else if(state.chartView.mode == ChartModes.ShowChartEditor) {
+        else if(state.chartConfig.mode == ChartModes.ShowChartEditor) {
+            const id = state.chartList[state.chartConfig.index].id;
+            dispatch({type:ActionTypes.UPDATE_CHART, id:id, updatedChart:chartItem})
             dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
         }
     }
@@ -52,11 +59,11 @@ const ChartEditor = () => {
     }
 
     const handleDataAttributeChange = (event : any) => {
-        setChartProperties({ ...chartProperties, dataAttr:event.target.value})
+        setChartProperties({ ...chartProperties, attributes:event.target.value})
     }
 
     const handleDataFeedChange = (event : any) => {
-        setChartProperties({ ...chartProperties, dataFeed:event.target.value })
+        setChartProperties({ ...chartProperties, feedName:event.target.value })
     }
 
     const getButtonClassName = (type : ChartTypes) => { 
@@ -80,7 +87,7 @@ const ChartEditor = () => {
 
             <div className='chart-editor-item'>
                 <label>Data Source</label>
-                <select onChange={handleDataFeedChange} value={chartProperties.dataFeed}> 
+                <select onChange={handleDataFeedChange} value={chartProperties.feedName}> 
                     <option value="Lightning">Lightning</option>
                     <option value="Hospitals">Hospitals</option>
                     <option selected value="Traffic">Traffic</option>
@@ -98,7 +105,7 @@ const ChartEditor = () => {
 
             <div className='chart-editor-item'>
                 <label>Attribute to Plot</label>
-                <select onChange={handleDataAttributeChange}>
+                <select onChange={handleDataAttributeChange} value={chartProperties.attributes}>
                     <option value="a">Attribute A</option>
                     <option value="b">Attribute B</option>
                     <option value="c">Attribute C</option>
@@ -113,40 +120,47 @@ const ChartEditor = () => {
                 </select>
             </div>
 
-            Advanced options
+            {
+                chartType == ChartTypes.TimeSeries ? 
 
-            <div className='chart-editor-item'>
-                <label>Chart Type</label>
-                <select>
-                    <option value="bar">Bar</option>
-                    <option value="line">Line</option>
-                </select>
-            </div>
+                <section> 
+                    <div> Advanced options </div>
 
-            <div className='chart-editor-item'>
-                <label>History</label>
-                <select>
-                    <option value="30">30 days</option>
-                    <option value="60">60 days</option>
-                    <option value="90">90 days</option>
-                </select>
-            </div>
+                    <div className='chart-editor-item'>
+                        <label>Chart Type</label>
+                        <select>
+                            <option value="bar">Bar</option>
+                            <option value="line">Line</option>
+                        </select>
+                    </div>
 
-            <div className='chart-editor-item'>
-                <label>Secondary Attribute to Plot</label>
-                <select>
-                    <option value="grapefruit">Bar</option>
-                    <option value="grapefruit">Line</option>
-                </select>
-            </div>
+                    <div className='chart-editor-item'>
+                        <label>History</label>
+                        <select>
+                            <option value="30">30 days</option>
+                            <option value="60">60 days</option>
+                            <option value="90">90 days</option>
+                        </select>
+                    </div>
 
-            <div className='chart-editor-item'>
-                <label>Chart Type</label>
-                <select>
-                    <option value="grapefruit">Bar</option>
-                    <option value="grapefruit">Line</option>
-                </select>
-            </div>
+                    <div className='chart-editor-item'>
+                        <label>Secondary Attribute to Plot</label>
+                        <select>
+                            <option value="grapefruit">Bar</option>
+                            <option value="grapefruit">Line</option>
+                        </select>
+                    </div>
+
+                    <div className='chart-editor-item'>
+                        <label>Chart Type</label>
+                        <select>
+                            <option value="grapefruit">Bar</option>
+                            <option value="grapefruit">Line</option>
+                        </select>
+                    </div>
+                    
+                </section> : null
+            }
 
             <div className='chart-editor-save'>
                 <button onClick={handleSave}> Save </button>
