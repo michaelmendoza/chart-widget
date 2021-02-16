@@ -1,0 +1,9 @@
+
+export enum ActionTypes {
+    ADD_CHART,
+    DELETE_CHART,
+    CLEAR_ALL_CHARTS,
+    UPDATE_CHART_MODE,
+    FILTER_ALL_CHARTS,
+    UPDATE_CHART
+}

@@ -1,8 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ChartState from '../states/ChartState';
 import { ChartModes, ChartTypes } from '../models/ChartTypes'
 import ChartDataService from '../services/ChartDataService';
-import { ActionTypes } from '../reducers/ChartActions';
+import { ActionTypes } from '../reducers/ChartActionsTypes';
 
 /**
  * Contains input fields and dropsdown for setting a chart type, chart properties, 
@@ -17,15 +17,30 @@ const ChartEditor = () => {
         dataAttr: 'a'
     }); 
 
+    useEffect(()=> {
+        if(state.chartView.mode == ChartModes.ShowChartEditor) {
+            setChartProperties({ 
+                name:state.chartList[state.chartView.index].properties.name,  
+                dataFeed:state.chartList[state.chartView.index].properties.dataFeed, 
+                dataAttr:state.chartList[state.chartView.index].properties.dataAttr
+            })
+        }
+    }, [])
+
     const handleSave = () => {
         let dataFeed = chartProperties.dataFeed;
         let dataAttr = chartProperties.dataAttr;
-        dispatch({type:ActionTypes.ADD, item:{type:chartType, data:ChartDataService.getChartData(dataFeed, dataAttr).data, properties:chartProperties }});
-        dispatch({type:ActionTypes.UPDATE, mode:ChartModes.ShowCharts});
+        if(state.chartView.mode == ChartModes.ShowChartCreator) {
+            dispatch({type:ActionTypes.ADD_CHART, item:{type:chartType, data:ChartDataService.getChartData(dataFeed, dataAttr).data, properties:chartProperties }});
+            dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
+        }
+        else if(state.chartView.mode == ChartModes.ShowChartEditor) {
+            dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
+        }
     }
     
     const handleCancel = () => {
-        dispatch({type:ActionTypes.UPDATE, mode:ChartModes.ShowCharts});
+        dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
     }
     
     const handleNameChange = (event : any) => {
@@ -44,21 +59,25 @@ const ChartEditor = () => {
         setChartProperties({ ...chartProperties, dataFeed:event.target.value })
     }
 
+    const getButtonClassName = (type : ChartTypes) => { 
+        return chartType == type ? 'chart-editor-button active' : 'chart-editor-button' 
+    } 
+
     return (
         <div className='chart-editor'> 
             <div className='chart-editor-item'>
-                <button onClick={()=>handleTypeChange(ChartTypes.Number)}> Number </button>
-                <button onClick={()=>handleTypeChange(ChartTypes.Bar)}> Bar </button>
-                <button onClick={()=>handleTypeChange(ChartTypes.Pie)}> Pie </button>
-                <button onClick={()=>handleTypeChange(ChartTypes.LineArea)}> Line </button>
-                <button onClick={()=>handleTypeChange(ChartTypes.TimeSeries)}> Time Series </button>
+                <button className={getButtonClassName(ChartTypes.Number)} onClick={()=>handleTypeChange(ChartTypes.Number)}> Number </button>
+                <button className={getButtonClassName(ChartTypes.Bar)}onClick={()=>handleTypeChange(ChartTypes.Bar)}> Bar </button>
+                <button className={getButtonClassName(ChartTypes.Pie)} onClick={()=>handleTypeChange(ChartTypes.Pie)}> Pie </button>
+                <button className={getButtonClassName(ChartTypes.LineArea)} onClick={()=>handleTypeChange(ChartTypes.LineArea)}> Line </button>
+                <button className={getButtonClassName(ChartTypes.TimeSeries)} onClick={()=>handleTypeChange(ChartTypes.TimeSeries)}> Time Series </button>
             </div>
 
             <div className='chart-editor-item'>
                 <label>Name</label>
                 <input type="text" name="name" value={chartProperties.name} onChange={handleNameChange}/>
             </div>
-            
+
             <div className='chart-editor-item'>
                 <label>Data Source</label>
                 <select onChange={handleDataFeedChange} value={chartProperties.dataFeed}> 

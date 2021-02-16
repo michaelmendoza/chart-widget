@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import ChartState from '../../states/ChartState';
 import { ChartModes } from '../../models/ChartTypes';
-import { ActionTypes } from '../../reducers/ChartActions';
+import { ActionTypes } from '../../reducers/ChartActionsTypes';
 
 interface Props {
     item?: any,
@@ -15,11 +15,11 @@ export const ChartViewItemControls: React.FC<Props> = (props) => {
     const { state, dispatch } = useContext(ChartState.ChartContext);
 
     const handleDelete = (index: number) => {
-        dispatch({ type: ActionTypes.DELETE, index: index });
+        dispatch({ type: ActionTypes.DELETE_CHART, index: index });
     };
 
     const handleEdit = () => {
-        dispatch({ type: ActionTypes.UPDATE, mode: ChartModes.ShowChartEditor });
+        dispatch({ type: ActionTypes.UPDATE_CHART_MODE, mode: ChartModes.ShowChartEditor });
     };
 
     return (

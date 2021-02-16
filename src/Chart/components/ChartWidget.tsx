@@ -14,7 +14,7 @@ import ChartControls from './ChartControls';
 const ChartWidget = () => {
 
     const { state, dispatch } = useContext(ChartState.ChartContext);
-
+    
     const showChartEditor = state.chartView.mode == ChartModes.ShowChartEditor || state.chartView.mode == ChartModes.ShowChartCreator;
     const showCharts = state.chartView.mode == ChartModes.ShowCharts;
 

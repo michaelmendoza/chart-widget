@@ -1,7 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 import { IChartState } from '../models/ChartModels';
-import { ChartReducer } from '../reducers/ChartReducers';
-import { Actions } from "../reducers/ChartActions";
+import { Actions, ChartReducer } from '../reducers/ChartReducers';
 import { ChartModes, ChartTypes } from '../models/ChartTypes';
 import ChartDataService from '../services/ChartDataService';
 
@@ -10,12 +9,13 @@ import ChartDataService from '../services/ChartDataService';
  */
 const initialState : IChartState = {
     chartList:[
-        { type:ChartTypes.Bar, 
-          properties:{ id:0, name:'Chart 1' }, 
+        { id: 0,
+          type:ChartTypes.Bar, 
+          properties:{ id:0, name:'Chart 1', dataFeed: 'Population', dataAttr: 'a' }, 
           data:ChartDataService.getChartData('Population', 'a').data }
     ], 
     chartFilters: {},
-    chartView: { index: 0, mode: ChartModes.ShowCharts }
+    chartView: { index: 0, mode: ChartModes.ShowCharts } // active information
 }
 
 /**

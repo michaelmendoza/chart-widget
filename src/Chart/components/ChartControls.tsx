@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import ChartState from '../states/ChartState';
 import { ChartModes, ChartTypes } from '../models/ChartTypes'
-import { ActionTypes } from '../reducers/ChartActions';
+import { ActionTypes } from '../reducers/ChartActionsTypes';
 
 /**
  * Component that contains chart control buttons i.e. Adding new chart item 
@@ -11,10 +11,10 @@ const ChartControls = () => {
     const { state, dispatch } = useContext(ChartState.ChartContext);
 
     const handleAdd = () => {
-        dispatch({type:ActionTypes.UPDATE, mode:ChartModes.ShowChartCreator});    }
+        dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowChartCreator});    }
     
     const handleClear = () => {
-        dispatch({ type:ActionTypes.CLEAR })
+        dispatch({ type:ActionTypes.CLEAR_ALL_CHARTS })
     }
 
     return (

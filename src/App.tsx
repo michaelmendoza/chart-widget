@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
+import 'normalize.css';
 import './App.scss';
+import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import ChartWidget from './Chart/components/ChartWidget';
 import ChartState from './Chart/states/ChartState';
 import ChartStateDebugger from './Chart/states/ChartStateDebuger';
 import Playground from './ChartPlayground/components/Playground';
-
 
 enum AppModes {
   StartScreen, WidgetScreen, PlaygroundScreen
