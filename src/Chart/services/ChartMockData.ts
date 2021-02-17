@@ -2,10 +2,10 @@ import * as d3 from 'd3';
 import Points from '../modules/points';
 import Utils from '../modules/utils';
 
-const histogramDataToBins = (data : any) => {
-    var binMax = 10;
+const histogramDataToBins = (data : number[]) => {
     var binCount = 5;
-    var xmax = binMax;
+    var maxValue = d3.max(data, function(d) { return d; });
+    var xmax : number = maxValue ? Math.round(maxValue):0;
 
     var x = d3.scaleLinear()
         .domain([0, xmax])
@@ -14,8 +14,8 @@ const histogramDataToBins = (data : any) => {
         .thresholds(x.ticks(binCount - 1))
     var bins = bin(data);
 
-    var lastBin = bins.pop()
-    lastBin?.forEach(item => bins[binCount-1].push(item));
+    //var lastBin = bins.pop()
+    //lastBin?.forEach( (item : number) => bins[binCount-1].push(item));
     return bins;
 }
 
@@ -41,7 +41,7 @@ const transformDataToChartData = (data : any) => {
 }
 
 var entityData: any[] = [];
-const layerNames = ['Lightning', 'Hopsitals', 'Traffic', 'Population'];
+const layerNames = ['Lightning', 'Hospitals', 'Traffic', 'Population'];
 
 const ChartMockData = {
         
@@ -57,7 +57,7 @@ const ChartMockData = {
         const data = ids.map((id) => {
             const name = layerNames[Utils.randomInt(0,3)];
             const geo = { x:Utils.random(-1,1), y:Utils.random(-1,1) }
-            const attr = { a:Utils.random(0, 100), b:Utils.random(0, 50), c:Utils.random(0, 1000), d:Utils.random(0, 250)}
+            const attr = { a:Utils.random(0, 123), b:Utils.random(0, 50), c:Utils.random(0, 1000), d:Utils.random(0, 250)}
             return { id:id, name:name, geo:geo, attr:attr }
         })
 

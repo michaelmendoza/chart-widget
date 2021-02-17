@@ -10,7 +10,7 @@ import { ChartItem } from '../models/ChartModels';
  * and data properties 
  */
 const ChartEditor = () => {
-    const { state, dispatch } = useContext(ChartState.ChartContext);
+    const { state, dispatch, manager } = useContext(ChartState.ChartContext);
     const [chartType, setChartType] = useState(ChartTypes.Bar);
     const [chartProperties, setChartProperties] = useState({
         name:'New Chart',
@@ -21,9 +21,9 @@ const ChartEditor = () => {
     useEffect(()=> {
         if(state.chartConfig.mode == ChartModes.ShowChartEditor) {
             setChartProperties({ 
-                name:state.chartList[state.chartConfig.index].name,  
-                feedName:state.chartList[state.chartConfig.index].feedName,
-                attributes:state.chartList[state.chartConfig.index].attributes[0]
+                name:manager.getChartToEdit().name,  
+                feedName:manager.getChartToEdit().feedName,
+                attributes:manager.getChartToEdit().attributes[0]
             })
         }
     }, [])
@@ -40,7 +40,7 @@ const ChartEditor = () => {
             dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
         }
         else if(state.chartConfig.mode == ChartModes.ShowChartEditor) {
-            const id = state.chartList[state.chartConfig.index].id;
+            const id = manager.getChartToEdit().id;
             dispatch({type:ActionTypes.UPDATE_CHART, id:id, updatedChart:chartItem})
             dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
         }

@@ -19,13 +19,18 @@ const initialState : IChartState = {
     chartConfig: new ChartConfig() 
 }
 
+/** Interface for StateManager - Constains State helper functions  */
+interface IChartStateManager {
+    getChartToEdit: () => any
+}
+
 /** 
  * StateManager is a set of helper functions used to orhestrate the interaction between state properties.  
  * Note: As a general rule different state properties shouldn't directly interact with each other.
  */
-const useStateManager = (state: IChartState) => {
+const stateManagerFactory = (state: IChartState) => {
     return {
-        getEditChart: () => {
+        getChartToEdit: () => {
             return state.chartList[state.chartConfig.index];
         }
     }
@@ -34,10 +39,10 @@ const useStateManager = (state: IChartState) => {
 /**
  * ChartContext using React context api
  */
-const ChartContext = createContext<{state: IChartState; dispatch: React.Dispatch<Actions>; manager: any}>({
+const ChartContext = createContext<{state: IChartState; dispatch: React.Dispatch<Actions>; manager: IChartStateManager}>({
     state: initialState,
     dispatch: () => null,
-    manager: {}
+    manager: stateManagerFactory(initialState)
   });
 
 /**
@@ -45,7 +50,7 @@ const ChartContext = createContext<{state: IChartState; dispatch: React.Dispatch
  */
 const ChartStateProvider: React.FC = ({ children }) => {
     const [state, dispatch] = useReducer(ChartReducer, initialState);
-    const manager = useStateManager(state)
+    const manager = stateManagerFactory(state)
 
     return (
         <ChartContext.Provider value={{state, dispatch, manager}}>

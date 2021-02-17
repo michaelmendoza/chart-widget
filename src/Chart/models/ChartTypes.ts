@@ -17,7 +17,7 @@ export enum ChartModes {
 
 /** Types of Chart DataTypes that are supported */
 export enum DataTypes {
-    ChartData,
-    EntityData,
-    EntityDataByAttribute
+    ChartData = 'ChartData',
+    EntityData = 'EntityData',
+    EntityDataByAttribute = 'EntityDataByAttribute'
 }

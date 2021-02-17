@@ -7,12 +7,18 @@ const ChartStateDebugger = () => {
 
     return (
         <div className='chart-state-debugger'> 
-            ChartList 
-            <div> { JSON.stringify(state.chartList) } </div>
-            ChartFilters
-            <div> { JSON.stringify(state.chartFilters) } </div>
-            ChartView
+
+            <header> Chart State Debugger </header>
+            <label> ChartConfig </label>
             <div> { JSON.stringify(state.chartConfig) } </div>
+            <label> ChartFilters </label>
+            <div> { JSON.stringify(state.chartFilters) } </div>
+            <label> ChartList </label>
+            <ol> 
+                { 
+                    state.chartList.map((item)=> <li> { JSON.stringify(item, null, 1) } </li>)
+                } 
+             </ol>
         </div>
     )
 }
