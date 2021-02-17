@@ -1,8 +1,9 @@
 import React, { createContext, useReducer } from 'react';
-import { ChartConfig, IChartState, ChartItem } from '../models/ChartModels';
+import { ChartConfig, IChartState, ChartItem, IChartItem } from '../models/ChartModels';
 import { Actions, ChartReducer } from '../reducers/ChartReducers';
 import { ChartTypes, DataTypes } from '../models/ChartTypes';
 import ChartDataService from '../services/ChartDataService';
+import { DataSource } from '../services/ChartDataPipeline';
 
 /**
  * Inital state for ChartState (implements IChartState)
@@ -13,7 +14,7 @@ const initialState : IChartState = {
         ChartTypes.Bar, 
         'Population', 
         ['b'], 
-        { type: DataTypes.ChartData, data:ChartDataService.getChartData('Population', 'a').data}) 
+        new DataSource('Population', 'a'))
     ], 
     chartFilters: {},
     chartConfig: new ChartConfig() 
@@ -21,7 +22,7 @@ const initialState : IChartState = {
 
 /** Interface for StateManager - Constains State helper functions  */
 interface IChartStateManager {
-    getChartToEdit: () => any
+    getChartToEdit: () => IChartItem
 }
 
 /** 

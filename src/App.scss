@@ -136,6 +136,12 @@ label {
   flex-direction: row;
 }
 
+.layout-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .flex-100 {
   flex:0 0 1;
 }
@@ -272,7 +278,6 @@ label {
   padding: 2em;
   margin-bottom: 1em;
   border-bottom: 1px solid #e8e8e8;
-
 }
 
 .chart-item-controls {

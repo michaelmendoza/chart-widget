@@ -3,6 +3,11 @@ export interface IPoint {
     y:number
 }
 
+export interface IXYPointArray {
+	x:number[],
+	y:number[]
+}
+
 const Points = {
 
     toPointArray: function(x:number[], y:number[]) : IPoint[] {

@@ -1,3 +1,4 @@
+import { DataSource } from "../services/ChartDataPipeline";
 import { ChartModes, ChartTypes, DataTypes } from "./ChartTypes";
 
 /*
@@ -25,16 +26,14 @@ export interface IEntityDataPoint {
     attr: { }                       // Attribute value for entity 
 }
 
-export interface IEntityDataByAttribute { 
-    id: string | number, // Entity ID
-    name: string,        // Entity Name
+export interface IAttributeDataArray { 
     attribute: string,   // Attribute key
     values: number[]     // Attribute values
 }
 
 export interface ChartDataSet {
     type: DataTypes,
-    data: IDataPoint[] | IEntityDataPoint[] | IEntityDataByAttribute[]
+    data: IDataPoint[] | IEntityDataPoint[] | IAttributeDataArray[]
 }
 
 /** Interface for data to be feed into ChartViewItem */
@@ -44,7 +43,7 @@ export interface IChartItem {
     type: ChartTypes,
     feedName: string,
     attributes: string[],
-    rawdata: ChartDataSet
+    dataSource: DataSource
 }
 
 let chartItemCount = 0;
@@ -60,13 +59,13 @@ export class ChartItem {
     attributes: string[];
     properties: any = {};
     filters: any[] = [];
-    rawdata: ChartDataSet;
+    dataSource: DataSource;
 
     constructor(name: string, 
                 type: ChartTypes, 
                 feedName: string, 
                 attributes: string[],
-                rawdata: ChartDataSet) {
+                dataSource: DataSource) {
         this.id = chartItemCount.toString();
         this.name = name;
         this.type = type;
@@ -74,13 +73,12 @@ export class ChartItem {
         this.dateCreated = new Date();
         this.dateUpdated = new Date();
         this.attributes = attributes;
-        this.rawdata = rawdata;
-
+        this.dataSource = dataSource;
         chartItemCount++;
     }
-
-    getData = ()=> {
-        return this.rawdata.data;
+    
+    fetchData = ()=> {
+        return this.dataSource.fetch();
     };
 }
 

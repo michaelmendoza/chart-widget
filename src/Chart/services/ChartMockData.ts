@@ -1,44 +1,5 @@
-import * as d3 from 'd3';
-import Points from '../modules/points';
 import Utils from '../modules/utils';
-
-const histogramDataToBins = (data : number[]) => {
-    var binCount = 5;
-    var maxValue = d3.max(data, function(d) { return d; });
-    var xmax : number = maxValue ? Math.round(maxValue):0;
-
-    var x = d3.scaleLinear()
-        .domain([0, xmax])
-    var bin = d3.bin()
-        .domain([0, xmax])
-        .thresholds(x.ticks(binCount - 1))
-    var bins = bin(data);
-
-    //var lastBin = bins.pop()
-    //lastBin?.forEach( (item : number) => bins[binCount-1].push(item));
-    return bins;
-}
-
-const binsToPointArray = (bins : d3.Bin<number, number>[]) => {
-    var values = bins.map((item)=> {
-        return { x:item.x1, 
-                 y:item.length,
-                 label: item.x0?.toString() + ' - ' + item.x1?.toString()
-                }
-    })
-    return values;
-}
-
-export const createtestData = () => {
-    var dataPoints = Points.random(0, 10, 100); 
-    var bins = histogramDataToBins(dataPoints);
-    return binsToPointArray(bins);
-}
-
-const transformDataToChartData = (data : any) => {
-    var bins = histogramDataToBins(data);
-    return binsToPointArray(bins);
-}
+import { DataArrayToBinnedXYArray } from '../modules/Histogram';
 
 var entityData: any[] = [];
 const layerNames = ['Lightning', 'Hospitals', 'Traffic', 'Population'];
@@ -48,20 +9,69 @@ const ChartMockData = {
     /**
      * Creates a mock entity data array of size count.
      * 
-     * Entity data is of form: { id, name, geo: {x, y}, attr: { a, b, c, d }}
+     * Entity data is of form: { id, name, geo: {x, y}, attr: { a, b, c, d }, time }
      * @param count Size of entity data array
      */
     createEntityData: (count : number) => {
-        
+        // Date Ranges for Uniformly Distrubuted Dates between startTime and endTime 
+        const milliSecondsInDay = 1000 * 60 * 60 * 24;
+        const endTime = (new Date()).getTime();
+        const startTime =  endTime - 30 * milliSecondsInDay;
+
+        // Create Entity DataPoints 
         const ids = Utils.range(0, count);
         const data = ids.map((id) => {
             const name = layerNames[Utils.randomInt(0,3)];
             const geo = { x:Utils.random(-1,1), y:Utils.random(-1,1) }
             const attr = { a:Utils.random(0, 123), b:Utils.random(0, 50), c:Utils.random(0, 1000), d:Utils.random(0, 250)}
-            return { id:id, name:name, geo:geo, attr:attr }
+            const time = new Date(Utils.random(startTime, endTime))
+            return { id:id, name:name, geo:geo, attr:attr, time:time }
         })
 
         entityData = data;
+    },
+
+    getEntityData: () => {
+        // Create EntityData if not generated already
+        if (entityData.length == 0) 
+            ChartMockData.createEntityData(400);
+            
+        return entityData;
+    },
+
+    getEntityDataByFeed: (feedName : string) => {
+        // Create EntityData if not generated already
+        if (entityData.length == 0) 
+            ChartMockData.createEntityData(400);
+        
+        // Filter EntityData array by Feed
+        return entityData.filter((item)=>item.name == feedName)
+    },
+
+    getAttributeDataByFeed: (feedName :string) => {
+        // Create EntityData if not generated already
+        if (entityData.length == 0) 
+            ChartMockData.createEntityData(400);
+         
+        // Filter EntityData array by Feed
+        let entityDataByFeed = entityData.filter((item)=>item.name == feedName)
+
+        // Add Date to Attribute Values 
+        entityDataByFeed = entityDataByFeed.map((item)=>{
+            return { attr: { ...item.attr, time:item.time }}
+        })
+        const keys = Object.keys(entityDataByFeed[0].attr)
+
+        // Transform EntityData array to FeedData of form { a:[], b:[], c:[], d:[], ..., time:[] }
+        const values : number[] = []
+        const data = keys.map(key => { return { attribute:key, values:values }})
+        entityDataByFeed.forEach((item : any)=> {  
+            keys.forEach((key : string, index) => { // Assuming constant index order for keys
+                data[index].values.push(item.attr[key]);
+            })
+        }) 
+
+        return { id:feedName, data:data }   
     },
 
     getChartData: (feedName :string, attributeKey : string) => {
@@ -79,11 +89,15 @@ const ChartMockData = {
         })
         
         // Transform rawData to binned histogram data
-        feedData.data = transformDataToChartData(feedData.rawdata);
-
-        return feedData;
-    }
+        feedData.data = DataArrayToBinnedXYArray(feedData.rawdata);
+        
+        return feedData.data;
+    },
     
+    getChartDataByTime: () => {
+
+    }
+
 }
 
 export default ChartMockData;

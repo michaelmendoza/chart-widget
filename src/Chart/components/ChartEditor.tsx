@@ -4,6 +4,7 @@ import { ChartModes, ChartTypes, DataTypes } from '../models/ChartTypes'
 import ChartDataService from '../services/ChartDataService';
 import { ActionTypes } from '../reducers/ChartActionsTypes';
 import { ChartItem } from '../models/ChartModels';
+import { DataSource } from '../services/ChartDataPipeline';
 
 /**
  * Contains input fields and dropsdown for setting a chart type, chart properties, 
@@ -15,26 +16,42 @@ const ChartEditor = () => {
     const [chartProperties, setChartProperties] = useState({
         name:'New Chart',
         feedName: 'Population',
-        attributes: 'a'
+        attribute: 'a'
     }); 
+    const [timeSeriesOptions, setTimeSeriesOptions] = useState({
+        chartTypes: [ChartTypes.Bar, ChartTypes.LineArea],
+        attribute: 'b',  // Secondary Attribute 
+        history: '30'
+    })
     
     useEffect(()=> {
-        if(state.chartConfig.mode == ChartModes.ShowChartEditor) {
+        const showEditor = state.chartConfig.mode == ChartModes.ShowChartEditor;
+        const isTimeSeries = manager.getChartToEdit().type;
+        if(showEditor) { 
+            setChartType(manager.getChartToEdit().type);
             setChartProperties({ 
                 name:manager.getChartToEdit().name,  
                 feedName:manager.getChartToEdit().feedName,
-                attributes:manager.getChartToEdit().attributes[0]
+                attribute:manager.getChartToEdit().attributes[0]
             })
         }
+        if(showEditor && isTimeSeries) {
+            setTimeSeriesOptions({
+                chartTypes: [ChartTypes.Bar, ChartTypes.LineArea],
+                attribute: 'b',  
+                history: '30'
+            })
+        }
+
     }, [])
     
     const handleSave = () => {
         let chartItem = new ChartItem(chartProperties.name, 
             chartType, 
             chartProperties.feedName, 
-            [chartProperties.attributes], 
-            { type: DataTypes.ChartData, data:ChartDataService.getChartData(chartProperties.feedName, chartProperties.attributes).data}) 
-
+            [chartProperties.attribute], 
+            new DataSource(chartProperties.feedName, chartProperties.attribute)) 
+        
         if(state.chartConfig.mode == ChartModes.ShowChartCreator) {
             dispatch({type:ActionTypes.ADD_CHART, item:chartItem});
             dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
@@ -50,21 +67,39 @@ const ChartEditor = () => {
         dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
     }
     
-    const handleNameChange = (event : any) => {
-        setChartProperties({ ...chartProperties, name:event.target.value });
-    }
-
     const handleTypeChange = (type : ChartTypes) => {
         setChartType(type);
     }
 
-    const handleDataAttributeChange = (event : any) => {
-        setChartProperties({ ...chartProperties, attributes:event.target.value})
+    const handleNameChange = (event : any) => {
+        setChartProperties({ ...chartProperties, name:event.target.value });
     }
 
-    const handleDataFeedChange = (event : any) => {
+    const handleAttributeChange = (event : any) => {
+        setChartProperties({ ...chartProperties, attribute:event.target.value})
+    }
+
+    const handleFeedChange = (event : any) => {
         setChartProperties({ ...chartProperties, feedName:event.target.value })
     }
+
+    const handleTimeSeriesAttributeChange = (event : any) => {
+        setTimeSeriesOptions({ ...timeSeriesOptions, attribute:event.target.value })
+     }
+
+     const handleTimeSeriesHistoryChange = (event : any) => {
+        setTimeSeriesOptions({ ...timeSeriesOptions, history:event.target.value })
+     }
+
+     const handleTimeSeriesChartTypeChange = (event : any) => {
+        const updatedChartType = timeSeriesOptions.chartTypes.map((item, index) => (index == 0 ? event.target.value : item))
+        setTimeSeriesOptions({ ...timeSeriesOptions, chartTypes:updatedChartType})
+     }
+
+     const handleTimeSeriesChartType2Change = (event : any) => {
+        const updatedChartType = timeSeriesOptions.chartTypes.map((item, index) => (index == 1 ? event.target.value : item))
+        setTimeSeriesOptions({ ...timeSeriesOptions, chartTypes:updatedChartType})
+     }
 
     const getButtonClassName = (type : ChartTypes) => { 
         return chartType == type ? 'chart-editor-button active' : 'chart-editor-button' 
@@ -87,7 +122,7 @@ const ChartEditor = () => {
 
             <div className='chart-editor-item'>
                 <label>Data Source</label>
-                <select onChange={handleDataFeedChange} value={chartProperties.feedName}> 
+                <select onChange={handleFeedChange} value={chartProperties.feedName}> 
                     <option value="Lightning">Lightning</option>
                     <option value="Hospitals">Hospitals</option>
                     <option selected value="Traffic">Traffic</option>
@@ -105,7 +140,7 @@ const ChartEditor = () => {
 
             <div className='chart-editor-item'>
                 <label>Attribute to Plot</label>
-                <select onChange={handleDataAttributeChange} value={chartProperties.attributes}>
+                <select onChange={handleAttributeChange} value={chartProperties.attribute}>
                     <option value="a">Attribute A</option>
                     <option value="b">Attribute B</option>
                     <option value="c">Attribute C</option>
@@ -127,35 +162,37 @@ const ChartEditor = () => {
                     <div> Advanced options </div>
 
                     <div className='chart-editor-item'>
-                        <label>Chart Type</label>
-                        <select>
+                        <label>Primary Chart Type</label>
+                        <select onChange={handleTimeSeriesChartTypeChange} value={timeSeriesOptions.chartTypes[0]}>
                             <option value="bar">Bar</option>
                             <option value="line">Line</option>
                         </select>
                     </div>
-
+                    
                     <div className='chart-editor-item'>
-                        <label>History</label>
-                        <select>
-                            <option value="30">30 days</option>
-                            <option value="60">60 days</option>
-                            <option value="90">90 days</option>
+                        <label>Secondary Chart Type</label>
+                        <select onChange={handleTimeSeriesChartType2Change} value={timeSeriesOptions.chartTypes[1]}>
+                            <option value="grapefruit">Bar</option>
+                            <option value="grapefruit">Line</option>
                         </select>
                     </div>
 
                     <div className='chart-editor-item'>
                         <label>Secondary Attribute to Plot</label>
-                        <select>
-                            <option value="grapefruit">Bar</option>
-                            <option value="grapefruit">Line</option>
+                        <select onChange={handleTimeSeriesAttributeChange} value={timeSeriesOptions.attribute}>
+                            <option value="a">Attribute A</option>
+                            <option value="b">Attribute B</option>
+                            <option value="c">Attribute C</option>
+                            <option value="d">Attribute D</option>
                         </select>
                     </div>
 
                     <div className='chart-editor-item'>
-                        <label>Chart Type</label>
-                        <select>
-                            <option value="grapefruit">Bar</option>
-                            <option value="grapefruit">Line</option>
+                        <label>History</label>
+                        <select onChange={handleTimeSeriesHistoryChange} value={timeSeriesOptions.history}>
+                            <option value="30">30 days</option>
+                            <option value="60">60 days</option>
+                            <option value="90">90 days</option>
                         </select>
                     </div>
                     
