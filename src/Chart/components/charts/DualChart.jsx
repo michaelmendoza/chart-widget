@@ -12,9 +12,6 @@ const DualChart = (props) => {
     
     const d3Container = useRef(null);
     const margin = { top: 40, right: 40, bottom: 40, left: 50 };
-    const colors = ['#FE3701', '#FFB600', '#7DCC00'];
-    const fillColor = '#89D7F9'; 
-    const textColor = '#222222';
     const areaColor = '#C7EBFE';
     const lineColor = '#89D7F9';
 
@@ -75,7 +72,7 @@ const DualChart = (props) => {
 
 		// Create line chart
 		g.append("path")
-			.datum(props.data)
+			.datum(data)
 			.attr("class", "line")
 			.attr("stroke", lineColor)
 			.attr('stroke-width', 1)
@@ -88,7 +85,7 @@ const DualChart = (props) => {
 
 		// Create area chart
 		g.append("path")
-			.datum(props.data)
+			.datum(data)
 			.attr("class", "area")
 			.attr("fill", areaColor)	
 			.attr("opacity", "0.75")
@@ -99,7 +96,7 @@ const DualChart = (props) => {
     }
 
     useEffect(() => {
- 
+
         // Add margins to graph    
         var svg = d3.select(d3Container.current);
         
@@ -107,8 +104,8 @@ const DualChart = (props) => {
         var xmin = d3.min(props.data, function (d) { return d.x; });
 		var xmax = d3.max(props.data, function(d) { return d.x; });
 		var ymin = 0;
-		var ymax = d3.max(props.data, function(d) { return d.y; });
-        var ymax2 = d3.max(props.data, function(d) { return d.y2; });
+		var ymax = d3.max(props.data, function(d) { return d.y[0]; });
+        var ymax2 = d3.max(props.data, function(d) { return d.y[1]; });
 
         // Get x scale
 		var x = d3.scaleBand()
@@ -139,12 +136,15 @@ const DualChart = (props) => {
             .attr("transform", "translate(" + (margin.left) + ", " + margin.top + ")")
             .call(d3.axisLeft(y)); 
 
-        // Create first bar chart
-        createBarChart(svg, props.data, x, y);
+        // Create first chart
+        const data = props.data.map((item) => { 
+            return { x:item.x, y:item.y[0] }  
+        })
+        createBarChart(svg, data, x, y);
 
-        // Create second bar chart
+        // Create second chart
         const data2 = props.data.map((item) => { 
-            return { x:item.x, y:item.y2 }  
+            return { x:item.x, y:item.y[1] }  
         })
         createLineChart(svg, data2, xLine, y2);
     }, [])

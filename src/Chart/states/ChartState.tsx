@@ -13,8 +13,7 @@ const initialState : IChartState = {
         new ChartItem('Chart 1', 
         ChartTypes.Bar, 
         'Population', 
-        ['b'], 
-        new DataSource('Population', 'a'))
+        ['a'])
     ], 
     chartFilters: {},
     chartConfig: new ChartConfig() 

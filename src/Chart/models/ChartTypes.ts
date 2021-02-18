@@ -5,6 +5,7 @@ export enum ChartTypes {
     LineArea = 'LineArea', 
     Pie = 'Pie', 
     Histogram = 'Histogram', 
+    ScatterPlot = 'ScatterPlot',
     TimeSeries = 'TimeSeries'
 }
 

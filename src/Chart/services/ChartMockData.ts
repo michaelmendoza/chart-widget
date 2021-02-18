@@ -38,7 +38,7 @@ const ChartMockData = {
             
         return entityData;
     },
-
+    
     getEntityDataByFeed: (feedName : string) => {
         // Create EntityData if not generated already
         if (entityData.length == 0) 
@@ -71,7 +71,7 @@ const ChartMockData = {
             })
         }) 
 
-        return { id:feedName, data:data }   
+        return data;
     },
 
     getChartData: (feedName :string, attributeKey : string) => {
@@ -90,7 +90,7 @@ const ChartMockData = {
         
         // Transform rawData to binned histogram data
         feedData.data = DataArrayToBinnedXYArray(feedData.rawdata);
-        
+
         return feedData.data;
     },
     

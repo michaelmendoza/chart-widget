@@ -15,6 +15,17 @@ const ChartDataService = {
         return fetch;
     },
 
+    async fetchEntityDataByFeed(feedName:string) {
+        let fetch = new Promise((resolve, reject) => {
+            setTimeout(() =>  {
+                const data = this.getEntityDataByFeed(feedName)
+                resolve(data);
+            }, 1000)
+        })
+        
+        return fetch;
+    },
+
     getChartData: (feedName:string, attributeKey:string) => { 
         return ChartMockData.getChartData(feedName, attributeKey); 
     },

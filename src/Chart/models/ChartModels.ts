@@ -42,8 +42,7 @@ export interface IChartItem {
     name: string,
     type: ChartTypes,
     feedName: string,
-    attributes: string[],
-    dataSource: DataSource
+    attributes: string[]
 }
 
 let chartItemCount = 0;
@@ -64,8 +63,7 @@ export class ChartItem {
     constructor(name: string, 
                 type: ChartTypes, 
                 feedName: string, 
-                attributes: string[],
-                dataSource: DataSource) {
+                attributes: string[]) {
         this.id = chartItemCount.toString();
         this.name = name;
         this.type = type;
@@ -73,7 +71,7 @@ export class ChartItem {
         this.dateCreated = new Date();
         this.dateUpdated = new Date();
         this.attributes = attributes;
-        this.dataSource = dataSource;
+        this.dataSource = new DataSource(feedName, attributes, type);
         chartItemCount++;
     }
     

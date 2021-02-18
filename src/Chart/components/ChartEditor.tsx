@@ -5,6 +5,7 @@ import ChartDataService from '../services/ChartDataService';
 import { ActionTypes } from '../reducers/ChartActionsTypes';
 import { ChartItem } from '../models/ChartModels';
 import { DataSource } from '../services/ChartDataPipeline';
+import ScatterPlot from './Charts/ScatterPlot';
 
 /**
  * Contains input fields and dropsdown for setting a chart type, chart properties, 
@@ -46,12 +47,20 @@ const ChartEditor = () => {
     }, [])
     
     const handleSave = () => {
+        // Get attributes from editor 
+        let attributes;
+        if(chartType == ChartTypes.TimeSeries)
+            attributes = [chartProperties.attribute, timeSeriesOptions.attribute]
+        else
+            attributes = [chartProperties.attribute]
+
+        // Create ChartItem based on editor properties
         let chartItem = new ChartItem(chartProperties.name, 
             chartType, 
             chartProperties.feedName, 
-            [chartProperties.attribute], 
-            new DataSource(chartProperties.feedName, chartProperties.attribute)) 
+            attributes) 
         
+        // Update ChartState with new Chart information 
         if(state.chartConfig.mode == ChartModes.ShowChartCreator) {
             dispatch({type:ActionTypes.ADD_CHART, item:chartItem});
             dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
@@ -104,7 +113,7 @@ const ChartEditor = () => {
     const getButtonClassName = (type : ChartTypes) => { 
         return chartType == type ? 'chart-editor-button active' : 'chart-editor-button' 
     } 
-
+    
     return (
         <div className='chart-editor'> 
             <div className='chart-editor-item'>
@@ -112,6 +121,7 @@ const ChartEditor = () => {
                 <button className={getButtonClassName(ChartTypes.Bar)}onClick={()=>handleTypeChange(ChartTypes.Bar)}> Bar </button>
                 <button className={getButtonClassName(ChartTypes.Pie)} onClick={()=>handleTypeChange(ChartTypes.Pie)}> Pie </button>
                 <button className={getButtonClassName(ChartTypes.LineArea)} onClick={()=>handleTypeChange(ChartTypes.LineArea)}> Line </button>
+                <button className={getButtonClassName(ChartTypes.ScatterPlot)} onClick={()=>handleTypeChange(ChartTypes.ScatterPlot)}> ScatterPlot </button>
                 <button className={getButtonClassName(ChartTypes.TimeSeries)} onClick={()=>handleTypeChange(ChartTypes.TimeSeries)}> Time Series </button>
             </div>
 

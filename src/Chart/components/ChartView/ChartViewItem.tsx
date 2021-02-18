@@ -6,6 +6,7 @@ import DualChart from '../Charts/DualChart';
 import { ChartTypes } from '../../models/ChartTypes';
 import { ChartViewItemControls } from "./ChartViewItemControls";
 import LoadingSpinner from '../Loading/LoadingSpinner';
+import ScatterPlot from '../Charts/ScatterPlot.jsx';
 
 interface Props {
     item?: any,
@@ -50,6 +51,8 @@ export const ChartViewItem: React.FC<Props> = (props) => {
                 return <PieChart width={500} height={500} data={data} />;
             case ChartTypes.LineArea:
                 return <LineAreaChart width={500} height={500} data={data} />;
+            case ChartTypes.ScatterPlot:
+                return <ScatterPlot width={500} height={500} data={data}/>
             case ChartTypes.TimeSeries:
                 return <DualChart width={500} height={500} data={data} />;
             default:
