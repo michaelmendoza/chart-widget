@@ -129,6 +129,14 @@ label {
   text-align: center;
 }
 
+/** Helper atomic classes */
+
+.text-align-center {
+  text-align: center;
+}
+
+/** Layout with flex box */
+
 .layout-row {
   display: flex;
   align-items: center;
@@ -142,8 +150,10 @@ label {
   justify-content: center;
 }
 
-.flex-100 {
-  flex:0 0 1;
+.flex { box-sizing: border-box; flex: 1; }
+$percents: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100;
+@each $percent in $percents {
+    .flex-#{$percent} { flex: 0 0 percentage($percent/100); }
 }
 
 .layout-space-between {
@@ -291,8 +301,7 @@ label {
     padding: 1em 2em 2em 2em;
     box-shadow: $box-shadow;
 
-    width: 50em;
-    //height: 40em;
+    width: 25vmax;
     top: 0;
     bottom: 0;
     right: 0;

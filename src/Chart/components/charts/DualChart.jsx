@@ -13,7 +13,7 @@ const DualChart = (props) => {
     const d3Container = useRef(null);
     const margin = { top: 40, right: 40, bottom: 40, left: 50 };
     const areaColor = '#C7EBFE';
-    const lineColor = '#89D7F9';
+    const lineColor = '#ffab00'; //'#89D7F9';
 
     // Get margin adjusted width and height
     const width = props.width - margin.left - margin.right;
@@ -53,46 +53,36 @@ const DualChart = (props) => {
 		var line = d3.line()
 			.x(function(d) { return x(d.x); })
 			.y(function(d) { return y(d.y); })
+            .curve(d3.curveMonotoneX)
 
         // Line for start of animation 
 		var lineStart = d3.line() 
 			.x(function(d) { return x(d.x); })
-			.y(0)
-
-		var area = d3.area()
-			.x(function(d) { return x(d.x); })
-			.y0(height)
-			.y1(function(d) { return y(d.y); })
-
-        // Area for start of animation 
-		var areaStart = d3.area() 
-			.x(function(d) { return x(d.x); })
-			.y0(height)
-			.y1(height)
+            .y(0)
+            .curve(d3.curveMonotoneX)
 
 		// Create line chart
 		g.append("path")
 			.datum(data)
 			.attr("class", "line")
 			.attr("stroke", lineColor)
-			.attr('stroke-width', 1)
+			.attr('stroke-width', 2)
 			.attr("fill", 'none')				    
 			.attr("opacity", "0.8")
 			.attr("d", lineStart)
 			.transition()
 			.duration(500)
-			.attr("d", line)
-
-		// Create area chart
-		g.append("path")
-			.datum(data)
-			.attr("class", "area")
-			.attr("fill", areaColor)	
-			.attr("opacity", "0.75")
-			.attr("d", areaStart)
-			.transition()
-			.duration(500)
-            .attr("d", area)     
+            .attr("d", line)
+            
+        g.selectAll(".dot")
+            .data(data)
+            .enter().append("circle") // Uses the enter().append() method
+            .attr("class", "dot") // Assign a class for styling
+            .attr("fill", lineColor)	
+            .attr("cx", function(d, i) { return x(d.x) })
+            .attr("cy", function(d) { return y(d.y) })
+            .attr("r", 4);
+   
     }
 
     useEffect(() => {

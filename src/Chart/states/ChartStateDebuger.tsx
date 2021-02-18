@@ -1,5 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { idText } from 'typescript';
+import DataTable from '../components/Tables/DataTable';
+import { IChartItem } from '../models/ChartModels';
 import ChartState from '../states/ChartState';
+
+interface Props {
+    item: any
+}
+
+const DataSourceTable: React.FC<Props> = (props) => {
+
+    const [count, setCount] = useState(0);
+    const [data, setData] = useState([]);
+    const [columns, setColumns] = useState(['x','y']);
+
+    useEffect(()=> {
+        setData(props.item.dataSource.cache);
+        if(props.item.dataSource.cache)
+            setColumns(Object.keys(props.item.dataSource.cache[0]))
+    }, [props.item.dataSource.cache]) 
+
+    return (
+        <div style={{marginTop:"1em"}}>
+            { data ? <DataTable data = {data} columns = {columns}></DataTable> : null }
+        </div>
+    )
+}
 
 const ChartStateDebugger = () => {
 
@@ -16,7 +42,10 @@ const ChartStateDebugger = () => {
             <label> ChartList </label>
             <ol> 
                 { 
-                    state.chartList.map((item)=> <li> { JSON.stringify(item, null, 1) } </li>)
+                    state.chartList.map((item)=> <li> 
+                        <div> { JSON.stringify(item, null, 1) }  </div>
+                        <DataSourceTable item={item}></DataSourceTable>
+                    </li>)
                 } 
              </ol>
         </div>

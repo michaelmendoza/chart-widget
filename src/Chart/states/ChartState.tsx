@@ -2,8 +2,6 @@ import React, { createContext, useReducer } from 'react';
 import { ChartConfig, IChartState, ChartItem, IChartItem } from '../models/ChartModels';
 import { Actions, ChartReducer } from '../reducers/ChartReducers';
 import { ChartTypes, DataTypes } from '../models/ChartTypes';
-import ChartDataService from '../services/ChartDataService';
-import { DataSource } from '../services/ChartDataPipeline';
 
 /**
  * Inital state for ChartState (implements IChartState)
@@ -19,7 +17,7 @@ const initialState : IChartState = {
     chartConfig: new ChartConfig() 
 }
 
-/** Interface for StateManager - Constains State helper functions  */
+/** Interface for StateManager - Contains State helper functions  */
 interface IChartStateManager {
     getChartToEdit: () => IChartItem
 }

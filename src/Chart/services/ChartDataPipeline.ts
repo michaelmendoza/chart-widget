@@ -31,6 +31,7 @@ export class DataSource {
     feedName: string;
     attributes: string[];
     type: ChartTypes;
+    cache: any = null;
 
     constructor(feedName:string, attributes:string[] = [], type : ChartTypes) {
         this.feedName = feedName;
@@ -47,16 +48,21 @@ export class DataSource {
             case ChartTypes.Bar:
             case ChartTypes.Pie:
             case ChartTypes.LineArea:
-                return ChartDataService.fetchChartData(this.feedName, this.attributes[0]);
+                return ChartDataService.fetchChartData(this.feedName, this.attributes[0]).then((res : any) => {
+                    this.cache = res;
+                    return this.cache;
+                })
             case ChartTypes.ScatterPlot:
                 return ChartDataService.fetchEntityDataByFeed(this.feedName).then((res) => {
                     const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, DataIOTypes.XtYPointArray);
-                    return pipeline.processData();
+                    this.cache = pipeline.processData();
+                    return this.cache;
                 })
             case ChartTypes.TimeSeries:
                 return ChartDataService.fetchEntityDataByFeed(this.feedName).then((res) => {
                     const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, DataIOTypes.XtMultiPointArray);
-                    return pipeline.processData();
+                    this.cache = pipeline.processData();
+                    return this.cache;
                 })
         }
            
