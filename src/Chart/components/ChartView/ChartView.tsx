@@ -1,6 +1,4 @@
  import React, { useContext } from 'react';
-import HistogramChart from '../Charts/HistogramChart.jsx';
-import Points from '../../modules/points';
 import ChartState from '../../states/ChartState';
 import { NoDataChartItem, ChartViewItem } from './ChartViewItem';
 
@@ -10,12 +8,12 @@ import { NoDataChartItem, ChartViewItem } from './ChartViewItem';
  */
 const ChartView = () => {
 
-    const { state, dispatch } = useContext(ChartState.ChartContext);
+    const { state } = useContext(ChartState.ChartContext);
     
     return (
         <div className='chart-view'> 
 
-            { state.chartList.length == 0 ? <NoDataChartItem></NoDataChartItem> : null }
+            { state.chartList.length === 0 ? <NoDataChartItem></NoDataChartItem> : null }
             
             {
                 state.chartList.map((item : any, index : number) => {

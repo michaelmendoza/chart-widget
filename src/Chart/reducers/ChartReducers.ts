@@ -13,11 +13,11 @@ export const ChartListReducer = (state: IChartItem[], action: Actions) => {
         case ActionTypes.ADD_CHART: 
             return [...state, action.item]
         case ActionTypes.DELETE_CHART:
-            return state.filter( (item, index) => index != action.index)
+            return state.filter( (item, index) => index !== action.index)
         case  ActionTypes.CLEAR_ALL_CHARTS:
             return [];
         case ActionTypes.UPDATE_CHART:
-            return state.map((chart) => (chart.id == action.id ? action.updatedChart : chart))
+            return state.map((chart) => (chart.id === action.id ? action.updatedChart : chart))
         default:
             return state;
     }

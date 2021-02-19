@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import ChartState from '../states/ChartState';
-import { ChartModes, ChartTypes } from '../models/ChartTypes'
+import { ChartModes } from '../models/ChartTypes'
 import { ActionTypes } from '../reducers/ChartActionsTypes';
 
 /**
@@ -8,7 +8,7 @@ import { ActionTypes } from '../reducers/ChartActionsTypes';
  */
 const ChartControls = () => {
 
-    const { state, dispatch } = useContext(ChartState.ChartContext);
+    const { dispatch } = useContext(ChartState.ChartContext);
 
     const handleAdd = () => {
         dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowChartCreator});    }

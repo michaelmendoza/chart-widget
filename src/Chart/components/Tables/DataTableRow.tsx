@@ -1,4 +1,5 @@
 import React, { } from 'react';
+import Utils from '../../modules/utils';
 
 interface Props {
     row: any,
@@ -13,7 +14,9 @@ const DataTableRow: React.FC<Props> = (props) => {
                 props.columns.map((column : string, index : number)=> {
                     var key = column;
                     var cell = props.row[key];
-
+                    cell = Utils.isNumber(cell) ? cell.toFixed(4) : cell;
+                    cell = cell instanceof Date ? cell.toDateString() : cell;
+                    
                     return <div className={'data-table-cell flex ' + key} key={key}>{cell}</div>
                 })
             }

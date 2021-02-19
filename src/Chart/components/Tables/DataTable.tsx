@@ -1,6 +1,5 @@
 import React, { } from 'react';
 import Utils from '../../modules/utils';
-import DataTableFilters from './DataTableFilters';
 import DataTableHeaders from './DataTableHeaders';
 import DataTableRow from './DataTableRow';
 import './data-table.scss';

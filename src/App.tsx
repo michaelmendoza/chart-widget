@@ -28,8 +28,8 @@ function App() {
             <button onClick={()=>handleNavClick(AppModes.PlaygroundScreen)}>Playground</button>
           </header>
           <section className="viewport">
-            { appMode == AppModes.PlaygroundScreen ? <Playground/> : null }
-            { appMode == AppModes.WidgetScreen ? 
+            { appMode === AppModes.PlaygroundScreen ? <Playground/> : null }
+            { appMode === AppModes.WidgetScreen ? 
               <div>
                 <ChartWidget></ChartWidget>
                 <ChartStateDebugger></ChartStateDebugger>

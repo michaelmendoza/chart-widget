@@ -17,6 +17,11 @@ const Utils = {
         return Math.round(Math.random() * (max - min) + min);
 	},
 
+    isNumber: (value: string | number): boolean => {
+        return ((value != null) &&
+                (value !== '') &&
+                !isNaN(Number(value.toString())));
+    }
 }
 
 export default Utils;

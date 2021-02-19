@@ -33,7 +33,7 @@ const ChartMockData = {
 
     getEntityData: () => {
         // Create EntityData if not generated already
-        if (entityData.length == 0) 
+        if (entityData.length === 0) 
             ChartMockData.createEntityData(400);
             
         return entityData;
@@ -41,20 +41,20 @@ const ChartMockData = {
     
     getEntityDataByFeed: (feedName : string) => {
         // Create EntityData if not generated already
-        if (entityData.length == 0) 
+        if (entityData.length === 0) 
             ChartMockData.createEntityData(400);
         
         // Filter EntityData array by Feed
-        return entityData.filter((item)=>item.name == feedName)
+        return entityData.filter((item)=>item.name === feedName)
     },
 
     getAttributeDataByFeed: (feedName :string) => {
         // Create EntityData if not generated already
-        if (entityData.length == 0) 
+        if (entityData.length === 0) 
             ChartMockData.createEntityData(400);
          
         // Filter EntityData array by Feed
-        let entityDataByFeed = entityData.filter((item)=>item.name == feedName)
+        let entityDataByFeed = entityData.filter((item)=>item.name === feedName)
 
         // Add Date to Attribute Values 
         entityDataByFeed = entityDataByFeed.map((item)=>{
@@ -76,11 +76,11 @@ const ChartMockData = {
 
     getChartData: (feedName :string, attributeKey : string) => {
         // Create EntityData if not generated already
-        if (entityData.length == 0) 
+        if (entityData.length === 0) 
             ChartMockData.createEntityData(400);
         
         // Filter EntityData array by Feed
-        const entityDataByFeed = entityData.filter((item)=>item.name == feedName)
+        const entityDataByFeed = entityData.filter((item)=>item.name === feedName)
 
         // Transform EntityData array to FeedData of form { a:[], b:[], c:[], d:[] }
         const feedData = { id:feedName, rawdata:new Array(), data:new Array() }

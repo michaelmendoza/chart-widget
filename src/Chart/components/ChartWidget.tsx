@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import ChartFilters from './ChartFilters';
 import ChartView from './ChartView/ChartView';
 import ChartEditor from './ChartEditor';
@@ -13,10 +13,10 @@ import ChartControls from './ChartControls';
  */
 const ChartWidget = () => {
 
-    const { state, dispatch } = useContext(ChartState.ChartContext);
+    const { state } = useContext(ChartState.ChartContext);
 
-    const showChartEditor = state.chartConfig.mode == ChartModes.ShowChartEditor || state.chartConfig.mode == ChartModes.ShowChartCreator;
-    const showCharts = state.chartConfig.mode == ChartModes.ShowCharts;
+    const showChartEditor = state.chartConfig.mode === ChartModes.ShowChartEditor || state.chartConfig.mode === ChartModes.ShowChartCreator;
+    const showCharts = state.chartConfig.mode === ChartModes.ShowCharts;
 
     return ( 
         <div className="chart-widget"> 

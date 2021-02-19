@@ -14,7 +14,7 @@ const DualChart = (props) => {
     
     const d3Container = useRef(null);
     const margin = { top: 40, right: 40, bottom: 40, left: 50 };
-    const areaColor = '#C7EBFE';
+    const barColor = '#69b3a2';
     const lineColor = '#ffab00'; //'#89D7F9';
     const delayPeriod = 1000;
 
@@ -108,7 +108,7 @@ const DualChart = (props) => {
         .append("rect")
             .attr("x", function(d) { return x(d.x); })
             .attr("width", x.bandwidth())
-            .attr("fill", "#69b3a2")
+            .attr("fill", barColor)
             // no bar at the beginning thus:
             .attr("height", function(d) { return height - y(0); }) // always equal to 0
             .attr("y", function(d) { return y(0); })

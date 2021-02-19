@@ -47,7 +47,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
             case ChartTypes.Number:
                 return <div> Number </div>
             case ChartTypes.Bar:
-                if(props.item.attributes.length == 1) // Simple Bar Chart
+                if(props.item.attributes.length === 1) // Simple Bar Chart
                     return <BarChart width={500} height={500} data={data} />;
                 else // Muliple Bar Chart 
                     return <BarComparsionChart width={500} height={500} data={data}/>

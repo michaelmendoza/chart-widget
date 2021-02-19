@@ -38,7 +38,7 @@ export class DataSource {
     fetch(dataMetric : DataMetrics, historyLength: number) {
         switch(this.type) {
             case ChartTypes.Bar:
-                let outType = this.attributes.length == 1 ? DataIOTypes.XYPointArray : DataIOTypes.XMultiYPointArray;
+                let outType = this.attributes.length === 1 ? DataIOTypes.XYPointArray : DataIOTypes.XMultiYPointArray;
                 return ChartDataService.fetchEntityDataByFeed(this.feedName).then((res) => {
                     const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, outType, dataMetric);
                     this.cache = pipeline.processData();
@@ -100,7 +100,7 @@ export class DataPipeline {
     }
 
     transformEntity() {
-        let data = new Array();
+        let data = [];
         switch(this.outputType) {
             case DataIOTypes.XYPointArray:
                 // Transform EntityData array to an array of attibute values 

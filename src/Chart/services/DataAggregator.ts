@@ -55,7 +55,8 @@ export const GroupDataMatrixByValue = (data : any[], binCount : number = 5) => {
     // Take bins and create an XMultiYPoint Array 
     var bins = bin([]);
     var values = bins.map((item)=> {
-        return { x:item.x1, y:new Array(), label: item.x0?.toString() + ' - ' + item.x1?.toString() }
+        let y : number[] = []
+        return { x:item.x1, y:y, label: item.x0?.toString() + ' - ' + item.x1?.toString() }
     })
 
     // Populate y values for XMultiYPoint Array 
@@ -71,7 +72,7 @@ export const GroupDataMatrixByValue = (data : any[], binCount : number = 5) => {
 }
 
 export const EntityDataToDataArray = (data : IEntityDataPoint[], attribute : string) : number [] => {
-    const dataArray = new Array();
+    const dataArray : any[] = [];
     data.forEach((item : any)=> {  
         dataArray.push(item.attr[attribute]);
     })
@@ -83,7 +84,7 @@ export const EntityDataToDataArray = (data : IEntityDataPoint[], attribute : str
  * @param data Enityt data array
  * @param attributes attribute array 
  */
-export const EntityDataToDataMatrix = (data : IEntityDataPoint[], attributes : string[]) => {
+export const EntityDataToDataMatrix = (data : IEntityDataPoint [], attributes : string []) => {
     // Allocated memory for data matrix M[attr][value]
     const dataMatrix = new Array(attributes.length);
     attributes.forEach((attribute : any, index : number)=> {
@@ -121,7 +122,7 @@ export const GroupEntityDataByDate = (data : IEntityDataPoint[],
     const endTime = (new Date()).getTime();
     const startTime =  endTime - historyLength * binSize;
     const times = Utils.range(1, historyLength + 1);
-    const bins : number[][][] = times.map(() => [new Array(), new Array()]); // bins[date_bucket][attr][data_points]
+    const bins : number[][][] = times.map(() => [[], []]); // bins[date_bucket][attr][data_points]
 
     // Groups data into "bins" of binSize width.
     timeSeriesData.forEach((item : any) => {
@@ -134,7 +135,7 @@ export const GroupEntityDataByDate = (data : IEntityDataPoint[],
     const values =  bins.map((dateBucket, index) => {
         //const x = index; // startTime + (endTime - startTime) / historyLength * index
         const x = new Date(startTime + (endTime - startTime) / historyLength * index);
-        
+
         switch(metric) {
             case DataMetrics.Count:
                 return { x:x, y:[dateBucket[0].length, dateBucket[1].length]} 
@@ -146,6 +147,8 @@ export const GroupEntityDataByDate = (data : IEntityDataPoint[],
                 return { x:x, y:[Stats.median(dateBucket[0]), Stats.median(dateBucket[1])]}
             case DataMetrics.StdDev:
                 return { x:x, y:[Stats.std(dateBucket[0]), Stats.std(dateBucket[1])]}
+            default:
+                return null;
         }
     })
 

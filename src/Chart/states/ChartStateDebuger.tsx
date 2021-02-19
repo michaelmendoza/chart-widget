@@ -8,7 +8,6 @@ interface Props {
 
 const DataSourceTable: React.FC<Props> = (props) => {
 
-    const [count, setCount] = useState(0);
     const [data, setData] = useState([]);
     const [columns, setColumns] = useState(['x','y']);
 
@@ -27,7 +26,7 @@ const DataSourceTable: React.FC<Props> = (props) => {
 
 const ChartStateDebugger = () => {
 
-    const { state, dispatch } = useContext(ChartState.ChartContext);
+    const { state } = useContext(ChartState.ChartContext);
 
     return (
         <div className='chart-state-debugger'> 

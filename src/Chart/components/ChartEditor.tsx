@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import ChartState from '../states/ChartState';
-import { ChartModes, ChartTypes, DataMetrics, DataTypes } from '../models/ChartTypes'
+import { ChartModes, ChartTypes, DataMetrics } from '../models/ChartTypes'
 import { ActionTypes } from '../reducers/ChartActionsTypes';
 import { ChartItem } from '../models/ChartModels';
 
@@ -25,7 +25,7 @@ const ChartEditor = () => {
     
     useEffect(()=> {
         const chart = manager.getChartToEdit();
-        const showEditor = state.chartConfig.mode == ChartModes.ShowChartEditor;
+        const showEditor = state.chartConfig.mode === ChartModes.ShowChartEditor;
         const isTimeSeries = chart.type;
         if(showEditor) { 
             setChartType(chart.type);
@@ -45,7 +45,7 @@ const ChartEditor = () => {
     const handleSave = () => {
         // Get attributes from editor 
         let attributes;
-        if(chartType == ChartTypes.TimeSeries || chartType == ChartTypes.Bar)
+        if(chartType === ChartTypes.TimeSeries || chartType === ChartTypes.Bar)
             attributes = options.attribute === '' ? attributes = [chartProperties.attribute] : [chartProperties.attribute, options.attribute];
         else
             attributes = [chartProperties.attribute]
@@ -59,11 +59,11 @@ const ChartEditor = () => {
             options.history) 
         
         // Update ChartState with new Chart information 
-        if(state.chartConfig.mode == ChartModes.ShowChartCreator) {
+        if(state.chartConfig.mode === ChartModes.ShowChartCreator) {
             dispatch({type:ActionTypes.ADD_CHART, item:chartItem});
             dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
         }
-        else if(state.chartConfig.mode == ChartModes.ShowChartEditor) {
+        else if(state.chartConfig.mode === ChartModes.ShowChartEditor) {
             const id = manager.getChartToEdit().id;
             dispatch({type:ActionTypes.UPDATE_CHART, id:id, updatedChart:chartItem})
             dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowCharts});
@@ -103,17 +103,17 @@ const ChartEditor = () => {
      }
 
      const handleTimeSeriesChartTypeChange = (event : any) => {
-        const updatedChartType = options.chartTypes.map((item, index) => (index == 0 ? event.target.value : item))
+        const updatedChartType = options.chartTypes.map((item, index) => (index === 0 ? event.target.value : item))
         setOptions({ ...options, chartTypes:updatedChartType})
      }
 
      const handleTimeSeriesChartType2Change = (event : any) => {
-        const updatedChartType = options.chartTypes.map((item, index) => (index == 1 ? event.target.value : item))
+        const updatedChartType = options.chartTypes.map((item, index) => (index === 1 ? event.target.value : item))
         setOptions({ ...options, chartTypes:updatedChartType})
      }
 
     const getButtonClassName = (type : ChartTypes) => { 
-        return chartType == type ? 'chart-editor-button active' : 'chart-editor-button' 
+        return chartType === type ? 'chart-editor-button active' : 'chart-editor-button' 
     } 
     
     return (
@@ -171,7 +171,7 @@ const ChartEditor = () => {
             </div>
 
             {
-                chartType == ChartTypes.Bar ? 
+                chartType === ChartTypes.Bar ? 
 
                 <section> 
                     <div> Advanced options </div>
@@ -190,7 +190,7 @@ const ChartEditor = () => {
             }           
 
             {
-                chartType == ChartTypes.TimeSeries ? 
+                chartType === ChartTypes.TimeSeries ? 
 
                 <section> 
                     <div> Advanced options </div>

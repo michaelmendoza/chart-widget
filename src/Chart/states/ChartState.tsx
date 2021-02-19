@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import { ChartConfig, IChartState, ChartItem, IChartItem } from '../models/ChartModels';
 import { Actions, ChartReducer } from '../reducers/ChartReducers';
-import { ChartTypes, DataTypes } from '../models/ChartTypes';
+import { ChartTypes } from '../models/ChartTypes';
 
 /**
  * Inital state for ChartState (implements IChartState)
@@ -57,4 +57,5 @@ const ChartStateProvider: React.FC = ({ children }) => {
     )
 }
 
-export default { ChartStateProvider, ChartContext };
+const ChartState = { ChartStateProvider, ChartContext };
+export default ChartState;

@@ -13,7 +13,6 @@ const LineAreaChart = (props) => {
     
     const d3Container = useRef(null);
     const margin = { top: 40, right: 40, bottom: 40, left: 50 };
-    const colors = ['#FE3701', '#FFB600', '#7DCC00'];
     const areaColor = '#C7EBFE';
     const lineColor = '#89D7F9';
 

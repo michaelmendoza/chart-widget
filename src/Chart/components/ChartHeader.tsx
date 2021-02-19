@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import ChartState from '../states/ChartState';
 
 /**
@@ -6,7 +6,7 @@ import ChartState from '../states/ChartState';
  */
 const ChartHeader = () => {
 
-    const { state, dispatch } = useContext(ChartState.ChartContext); 
+    const { state } = useContext(ChartState.ChartContext); 
 
     return (
         <div className="chart-header"> 

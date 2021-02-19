@@ -63,6 +63,7 @@ $table-filter-bg: #E6E7E9;
 		border: solid 1px $table-border;
 		padding: 12px;
 		position: relative;
+		overflow-x: hidden;
 	}
 
 	.data-table-filters {
