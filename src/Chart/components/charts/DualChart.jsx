@@ -16,6 +16,7 @@ const DualChart = (props) => {
     const margin = { top: 40, right: 40, bottom: 40, left: 50 };
     const areaColor = '#C7EBFE';
     const lineColor = '#ffab00'; //'#89D7F9';
+    const delayPeriod = 1000;
 
     // Get margin adjusted width and height
     const width = props.width - margin.left - margin.right;
@@ -79,6 +80,7 @@ const DualChart = (props) => {
     }, [])
 
     const createBarChart = (svg, data, x, y) => {
+        
         var g = svg.append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -98,10 +100,10 @@ const DualChart = (props) => {
         // Animation
         g.selectAll("rect")
         .transition()
-        .duration(800)
+        .duration(delayPeriod)
         .attr("y", function(d) { return y(d.y); })
         .attr("height", function(d) { return height - y(d.y); })
-        .delay(function(d,i){ return(i * 100)})
+        .delay(function(d,i){ return(i * delayPeriod / props.data.length)})
     }
 
     const createLineChart = (svg, data, x, y) => {
@@ -130,17 +132,21 @@ const DualChart = (props) => {
 			.attr("opacity", "0.8")
 			.attr("d", lineStart)
 			.transition()
-			.duration(500)
+			.duration(delayPeriod)
             .attr("d", line)
-            
+
         g.selectAll(".dot")
             .data(data)
             .enter().append("circle") // Uses the enter().append() method
             .attr("class", "dot") // Assign a class for styling
             .attr("fill", lineColor)	
             .attr("cx", function(d, i) { return x(d.x) })
+            .attr("cy", function(d) { return 0 })
+            .attr("r", 4)
+            .transition()
+            .duration(delayPeriod)
             .attr("cy", function(d) { return y(d.y) })
-            .attr("r", 4);
+            
    
     }
 

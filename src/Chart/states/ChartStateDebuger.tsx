@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { idText } from 'typescript';
 import DataTable from '../components/Tables/DataTable';
-import { IChartItem } from '../models/ChartModels';
 import ChartState from '../states/ChartState';
 
 interface Props {
@@ -42,10 +40,13 @@ const ChartStateDebugger = () => {
             <label> ChartList </label>
             <ol> 
                 { 
-                    state.chartList.map((item)=> <li> 
-                        <div> { JSON.stringify(item, null, 1) }  </div>
-                        <DataSourceTable item={item}></DataSourceTable>
-                    </li>)
+                    state.chartList.map((item)=> { 
+                        const { id,name,type,feedName,attributes,dataMetric,historyLength } = item;
+                        return <li> 
+                            <div> { JSON.stringify({ id,name,type,feedName,attributes,dataMetric,historyLength }, null, 1) }  </div>
+                            <DataSourceTable item={item}></DataSourceTable>
+                        </li>
+                    })
                 } 
              </ol>
         </div>
