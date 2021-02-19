@@ -2,7 +2,6 @@
 import { ChartTypes, DataMetrics } from '../models/ChartTypes';
 import { EntityDataToDataArray, EntityDataToDataMatrix, EntityDataToTimeSeriesData, GroupDataArrayByValue, GroupDataMatrixByValue, GroupEntityDataByDate } from './DataAggregator';
 import ChartDataService from './ChartDataService';
-import Utils from '../modules/utils';
 
 export enum DataIOTypes {
     Entity,  
@@ -36,12 +35,12 @@ export class DataSource {
         return 'DataSource: feedName: ' + this.feedName + ', attribute: ' + this.attributes[0];
     }
     
-    fetch() {
+    fetch(dataMetric : DataMetrics, historyLength: number) {
         switch(this.type) {
             case ChartTypes.Bar:
                 let outType = this.attributes.length == 1 ? DataIOTypes.XYPointArray : DataIOTypes.XMultiYPointArray;
                 return ChartDataService.fetchEntityDataByFeed(this.feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, outType);
+                    const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, outType, dataMetric);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })
@@ -53,13 +52,13 @@ export class DataSource {
                 })
             case ChartTypes.ScatterPlot:
                 return ChartDataService.fetchEntityDataByFeed(this.feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, DataIOTypes.XtYPointArray);
+                    const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, DataIOTypes.XtYPointArray, dataMetric);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })
             case ChartTypes.TimeSeries:
                 return ChartDataService.fetchEntityDataByFeed(this.feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, DataIOTypes.XtMultiPointArray);
+                    const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, DataIOTypes.XtMultiPointArray, dataMetric, historyLength);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })
@@ -79,14 +78,16 @@ export class DataPipeline {
     inputType : DataIOTypes;
     outputType : DataIOTypes;
     dataMetric : DataMetrics;
+    historyLength: number;
 
-    constructor(inputData: any, attributes: string[], type: ChartTypes, inputType: DataIOTypes, outputType: DataIOTypes) {
+    constructor(inputData: any, attributes: string[], type: ChartTypes, inputType: DataIOTypes, outputType: DataIOTypes, dataMetric: DataMetrics, historyLength: number = 30) {
         this.inputData = inputData;
         this.attributes = attributes;
         this.type = type;
         this.inputType = inputType;
         this.outputType = outputType;
-        this.dataMetric = DataMetrics.Mean;
+        this.dataMetric = dataMetric;
+        this.historyLength = historyLength;
     }
 
     processData() {
@@ -117,7 +118,7 @@ export class DataPipeline {
                 return EntityDataToTimeSeriesData(this.inputData, this.attributes[0]);
                 
             case DataIOTypes.XtMultiPointArray:
-               return GroupEntityDataByDate(this.inputData, this.attributes, this.dataMetric);
+               return GroupEntityDataByDate(this.inputData, this.attributes, this.dataMetric, this.historyLength);
         }
     }
 }

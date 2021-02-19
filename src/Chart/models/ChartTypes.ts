@@ -24,6 +24,7 @@ export enum DataTypes {
 }
 
 export enum DataMetrics {
+    Count = "Count",
     Sum = 'Sum', 
     Mean = 'Mean', 
     StdDev = 'StdDev', 

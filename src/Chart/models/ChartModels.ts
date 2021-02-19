@@ -1,5 +1,5 @@
 import { DataSource } from "../services/ChartDataPipeline";
-import { ChartModes, ChartTypes, DataTypes } from "./ChartTypes";
+import { ChartModes, ChartTypes, DataMetrics, DataTypes } from "./ChartTypes";
 
 /*
 Note: There are three kinds of data:
@@ -42,7 +42,9 @@ export interface IChartItem {
     name: string,
     type: ChartTypes,
     feedName: string,
-    attributes: string[]
+    attributes: string[],
+    dataMetric : DataMetrics,
+    historyLength: number
 }
 
 let chartItemCount = 0;
@@ -56,6 +58,8 @@ export class ChartItem {
     dateUpdated: Date;
     dateHistoryLength: number = 30;
     attributes: string[];
+    dataMetric: DataMetrics;
+    historyLength: number;
     properties: any = {};
     filters: any[] = [];
     dataSource: DataSource;
@@ -63,7 +67,9 @@ export class ChartItem {
     constructor(name: string, 
                 type: ChartTypes, 
                 feedName: string, 
-                attributes: string[]) {
+                attributes: string[],
+                dataMetric: DataMetrics = DataMetrics.Count,
+                historyLength: number = 30) {
         this.id = chartItemCount.toString();
         this.name = name;
         this.type = type;
@@ -71,12 +77,14 @@ export class ChartItem {
         this.dateCreated = new Date();
         this.dateUpdated = new Date();
         this.attributes = attributes;
+        this.dataMetric = dataMetric;
+        this.historyLength = historyLength;
         this.dataSource = new DataSource(feedName, attributes, type);
         chartItemCount++;
     }
     
     fetchData = ()=> {
-        return this.dataSource.fetch();
+        return this.dataSource.fetch(this.dataMetric, this.historyLength);
     };
 }
 

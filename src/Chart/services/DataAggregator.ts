@@ -3,6 +3,7 @@ import * as d3 from 'd3';
 import { IEntityDataPoint } from '../models/ChartModels';
 import { DataMetrics } from '../models/ChartTypes';
 import Points from '../modules/points';
+import Stats from '../modules/stats';
 import Utils from '../modules/utils';
 
 /**
@@ -23,7 +24,7 @@ export const GroupDataArrayByValue = (data : number[], binCount : number = 5) =>
         .thresholds(ticks)
     
     var bins = bin(data);
-    
+
     // Take bins and create an XYPoint Array 
     var values = bins.map((item)=> {
         return { x:item.x1, 
@@ -120,21 +121,32 @@ export const GroupEntityDataByDate = (data : IEntityDataPoint[],
     const endTime = (new Date()).getTime();
     const startTime =  endTime - historyLength * binSize;
     const times = Utils.range(1, historyLength + 1);
-    const bins : number[][] = times.map(() => []);
+    const bins : number[][][] = times.map(() => [new Array(), new Array()]); // bins[date_bucket][attr][data_points]
 
     // Groups data into "bins" of binSize width.
     timeSeriesData.forEach((item : any) => {
-        var index = Math.floor(historyLength * (item.x.getTime() - startTime) / (endTime - startTime))
-        bins[index].push(item.y);
+        var dateBucketIndex = Math.floor(historyLength * (item.x.getTime() - startTime) / (endTime - startTime))
+        //bins[dateBucketIndex].push(item.y);
+        bins[dateBucketIndex][0].push(item.y[0]);
+        bins[dateBucketIndex][1].push(item.y[1]);
     })
 
     // Aggregate data for specified metric 
-    const values =  bins.map((bin, index) => {
-        const sum = [0,0]
-        bin.forEach((item : any) => { sum[0] += item[0]; sum[1] += item[1];})
-        return { x: index, y:sum } 
-        //return { x: startTime + (endTime - startTime) / historyLength * index, y:sum } // Sum
-        //return { x: startTime + (endTime - startTime) / historyLength * index, y:[bin.length] } // Count 
+    const values =  bins.map((dateBucket, index) => {
+        const x = index; // startTime + (endTime - startTime) / historyLength * index
+
+        switch(metric) {
+            case DataMetrics.Count:
+                return { x:x, y:[dateBucket[0].length, dateBucket[1].length]} 
+            case DataMetrics.Sum:
+                return { x:x, y:[Stats.sum(dateBucket[0]), Stats.sum(dateBucket[1])]}
+            case DataMetrics.Mean:
+                return { x:x, y:[Stats.mean(dateBucket[0]), Stats.mean(dateBucket[1])]}
+            case DataMetrics.Median:
+                return { x:x, y:[Stats.median(dateBucket[0]), Stats.median(dateBucket[1])]}
+            case DataMetrics.StdDev:
+                return { x:x, y:[Stats.std(dateBucket[0]), Stats.std(dateBucket[1])]}
+        }
     })
 
     return values;
