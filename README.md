@@ -1,3 +1,11 @@
+
+## Notes:
+
+TODO:
+Plot multiple against multiple feeds
+Plot against multipel feed with asome attr
+Nested Grouping by Location and by Attr  
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

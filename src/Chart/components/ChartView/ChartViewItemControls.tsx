@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import ChartState from '../../states/ChartState';
 import { ChartModes } from '../../models/ChartTypes';
 import { ActionTypes } from '../../reducers/ChartActionsTypes';
+import { ChartViewItemAttributeControls } from './ChartViewItemAttributeControls';
 
 interface Props {
     item?: any,
@@ -23,9 +24,11 @@ export const ChartViewItemControls: React.FC<Props> = (props) => {
     };
 
     return (
-        <div className='chart-item-controls'>
-            <button onClick={handleEdit}> Edit </button>
-            <button onClick={() => handleDelete(props.index)}>Delete</button>
+        <div className='chart-view-item-controls'>
+            <div> 
+                <button onClick={handleEdit}> Edit </button>
+                <button onClick={() => handleDelete(props.index)}>Delete</button>
+            </div>
         </div>
     );
 };

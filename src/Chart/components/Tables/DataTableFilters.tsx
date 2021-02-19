@@ -3,7 +3,7 @@ import React, { } from 'react';
 const DataTableFilters = () => {
 
     return (
-        <div className="chart-data-table-filters"> 
+        <div className="data-table-filters"> 
             <div>  </div> 
         </div>
     )

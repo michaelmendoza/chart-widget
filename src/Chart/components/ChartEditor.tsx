@@ -1,11 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import ChartState from '../states/ChartState';
 import { ChartModes, ChartTypes, DataTypes } from '../models/ChartTypes'
-import ChartDataService from '../services/ChartDataService';
 import { ActionTypes } from '../reducers/ChartActionsTypes';
 import { ChartItem } from '../models/ChartModels';
-import { DataSource } from '../services/ChartDataPipeline';
-import ScatterPlot from './Charts/ScatterPlot';
 
 /**
  * Contains input fields and dropsdown for setting a chart type, chart properties, 
@@ -21,7 +18,7 @@ const ChartEditor = () => {
     }); 
     const [timeSeriesOptions, setTimeSeriesOptions] = useState({
         chartTypes: [ChartTypes.Bar, ChartTypes.LineArea],
-        attribute: 'b',  // Secondary Attribute 
+        attribute: '',  // Secondary Attribute 
         history: '30'
     })
     
@@ -39,7 +36,7 @@ const ChartEditor = () => {
         if(showEditor && isTimeSeries) {
             setTimeSeriesOptions({
                 chartTypes: [ChartTypes.Bar, ChartTypes.LineArea],
-                attribute: 'b',  
+                attribute: '',  
                 history: '30'
             })
         }
@@ -49,8 +46,8 @@ const ChartEditor = () => {
     const handleSave = () => {
         // Get attributes from editor 
         let attributes;
-        if(chartType == ChartTypes.TimeSeries)
-            attributes = [chartProperties.attribute, timeSeriesOptions.attribute]
+        if(chartType == ChartTypes.TimeSeries || chartType == ChartTypes.Bar)
+            attributes = timeSeriesOptions.attribute === '' ? attributes = [chartProperties.attribute] : [chartProperties.attribute, timeSeriesOptions.attribute];
         else
             attributes = [chartProperties.attribute]
 
@@ -166,6 +163,25 @@ const ChartEditor = () => {
             </div>
 
             {
+                chartType == ChartTypes.Bar ? 
+
+                <section> 
+                    <div> Advanced options </div>
+                    <div className='chart-editor-item'>
+                        <label>Secondary Attribute to Plot</label>
+                        <select onChange={handleTimeSeriesAttributeChange} value={timeSeriesOptions.attribute}>
+                            <option value="">--</option>
+                            <option value="a">Attribute A</option>
+                            <option value="b">Attribute B</option>
+                            <option value="c">Attribute C</option>
+                            <option value="d">Attribute D</option>
+                        </select>
+                    </div>
+                    
+                </section> : null
+            }           
+
+            {
                 chartType == ChartTypes.TimeSeries ? 
 
                 <section> 
@@ -190,6 +206,7 @@ const ChartEditor = () => {
                     <div className='chart-editor-item'>
                         <label>Secondary Attribute to Plot</label>
                         <select onChange={handleTimeSeriesAttributeChange} value={timeSeriesOptions.attribute}>
+                            <option value="">--</option>
                             <option value="a">Attribute A</option>
                             <option value="b">Attribute B</option>
                             <option value="c">Attribute C</option>

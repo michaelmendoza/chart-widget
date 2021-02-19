@@ -2,10 +2,12 @@ import * as d3 from 'd3';
 import React, { useEffect, useRef } from 'react';
 
 /**
- * Plots a svg bar chart using d3. Data is input as a point array of { x, y, y2, label }
+ * Plots a svg bar chart using d3. Data is input as a point array of { x, y[], label }.
+ * Example:
  * 
- * example:
- * <DualChart width={500} height={500} data={} />
+ * const data = [{x:1,y:[1,3]},{x:2,y:[2,2]},{x:3,y:[3,1]}]
+ * 
+ * < DualChart width={500} height={500} data={data} />
  * @param {{width, height, data}} props { width, height, data } 
  */
 const DualChart = (props) => {
@@ -18,6 +20,63 @@ const DualChart = (props) => {
     // Get margin adjusted width and height
     const width = props.width - margin.left - margin.right;
     const height = props.height - margin.top - margin.bottom;
+
+    useEffect(() => {
+
+        // Add margins to graph    
+        var svg = d3.select(d3Container.current);
+        
+        // Min and Max Values
+        var xmin = d3.min(props.data, function (d) { return d.x; });
+		var xmax = d3.max(props.data, function(d) { return d.x; });
+		var ymin = 0;
+		var ymax = d3.max(props.data, function(d) { return d.y[0]; });
+        var ymax2 = d3.max(props.data, function(d) { return d.y[1]; });
+
+        // Get x scale
+		var x = d3.scaleBand()
+			.domain(props.data.map((d) => d.x))
+            .range([0, width])
+            .padding(0.2);
+        var xLine = d3.scaleLinear()
+			.domain([xmin, xmax])
+            .range([0, width]);
+
+        // Get y scale 
+		var y = d3.scaleLinear()
+			.domain([ymin , ymax])
+			.range([height, 0]);
+        var y2 = d3.scaleLinear()
+            .domain([ymin , ymax2])
+            .range([height, 0]);
+
+        // Create an axis component with d3.axisBottom
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
+            .call(d3.axisBottom(x)); 
+        
+        // Create an axis component with d3.axisLeft       
+        svg.append("g")
+            .attr("class", "y axis")
+            .attr("transform", "translate(" + (margin.left) + ", " + margin.top + ")")
+            .call(d3.axisLeft(y)); 
+
+        // Create first chart
+        const data = props.data.map((item) => { 
+            return { x:item.x, y:item.y[0] }  
+        })
+        createBarChart(svg, data, x, y);
+
+        // Create second chart
+        if(ymax2 > 0) { // Check for valid data 
+            const data2 = props.data.map((item) => { 
+                return { x:item.x, y:item.y[1] }  
+            })
+            createLineChart(svg, data2, xLine, y2);
+        }
+
+    }, [])
 
     const createBarChart = (svg, data, x, y) => {
         var g = svg.append("g")
@@ -84,60 +143,6 @@ const DualChart = (props) => {
             .attr("r", 4);
    
     }
-
-    useEffect(() => {
-
-        // Add margins to graph    
-        var svg = d3.select(d3Container.current);
-        
-        // Min and Max Values
-        var xmin = d3.min(props.data, function (d) { return d.x; });
-		var xmax = d3.max(props.data, function(d) { return d.x; });
-		var ymin = 0;
-		var ymax = d3.max(props.data, function(d) { return d.y[0]; });
-        var ymax2 = d3.max(props.data, function(d) { return d.y[1]; });
-
-        // Get x scale
-		var x = d3.scaleBand()
-			.domain(props.data.map((d) => d.x))
-            .range([0, width])
-            .padding(0.2);
-        var xLine = d3.scaleLinear()
-			.domain([xmin, xmax])
-            .range([0, width]);
-
-        // Get y scale 
-		var y = d3.scaleLinear()
-			.domain([ymin , ymax])
-			.range([height, 0]);
-        var y2 = d3.scaleLinear()
-            .domain([ymin , ymax2])
-            .range([height, 0]);
-
-        // Create an axis component with d3.axisBottom
-        svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
-            .call(d3.axisBottom(x)); 
-        
-        // Create an axis component with d3.axisLeft       
-        svg.append("g")
-            .attr("class", "y axis")
-            .attr("transform", "translate(" + (margin.left) + ", " + margin.top + ")")
-            .call(d3.axisLeft(y)); 
-
-        // Create first chart
-        const data = props.data.map((item) => { 
-            return { x:item.x, y:item.y[0] }  
-        })
-        createBarChart(svg, data, x, y);
-
-        // Create second chart
-        const data2 = props.data.map((item) => { 
-            return { x:item.x, y:item.y[1] }  
-        })
-        createLineChart(svg, data2, xLine, y2);
-    }, [])
 
     return (
         <div> 

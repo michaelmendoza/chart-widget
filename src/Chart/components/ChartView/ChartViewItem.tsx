@@ -7,6 +7,7 @@ import { ChartTypes } from '../../models/ChartTypes';
 import { ChartViewItemControls } from "./ChartViewItemControls";
 import LoadingSpinner from '../Loading/LoadingSpinner';
 import ScatterPlot from '../Charts/ScatterPlot.jsx';
+import BarComparsionChart from '../Charts/BarComparsionChart.jsx';
 
 interface Props {
     item?: any,
@@ -46,7 +47,10 @@ export const ChartViewItem: React.FC<Props> = (props) => {
             case ChartTypes.Number:
                 return <div> Number </div>
             case ChartTypes.Bar:
-                return <BarChart width={500} height={500} data={data} />;
+                if(props.item.attributes.length == 1) // Simple Bar Chart
+                    return <BarChart width={500} height={500} data={data} />;
+                else // Muliple Bar Chart 
+                    return <BarComparsionChart width={500} height={500} data={data}/>
             case ChartTypes.Pie:
                 return <PieChart width={500} height={500} data={data} />;
             case ChartTypes.LineArea:
@@ -63,7 +67,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
     return (
         <li className='chart-view-item'>
             <div> {props.item.name} </div>
-            <ChartViewItemControls index={props.index}></ChartViewItemControls>
+            <ChartViewItemControls index={props.index} item={props.item}></ChartViewItemControls>
             {renderChartByChartType()}
         </li>
     );

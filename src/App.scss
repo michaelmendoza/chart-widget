@@ -144,6 +144,13 @@ label {
   flex-direction: row;
 }
 
+.layout-row-top-align {
+  display: flex;
+  align-items:flex-start;
+  justify-content: center;
+  flex-direction: row;
+}
+
 .layout-center {
   display: flex;
   align-items: center;
@@ -290,8 +297,14 @@ $percents: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90
   border-bottom: 1px solid #e8e8e8;
 }
 
-.chart-item-controls {
+.chart-view-item-controls {
   text-align: right;
+}
+
+.chart-view-item-attribute-controls {
+  width: 50%;
+  text-align: left;
+  font-size: 0.5em;
 }
 
 .chart-state-debugger {

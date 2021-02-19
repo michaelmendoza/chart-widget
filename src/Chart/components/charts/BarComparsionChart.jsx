@@ -2,17 +2,17 @@ import * as d3 from 'd3';
 import React, { useEffect, useRef } from 'react';
 
 /**
- * Plots a svg bar chart using d3. Data is input as a point array. 
+ * Plots a svg bar chart using d3. Data is input as a point array supports y values for a 2 elemnt array. 
  * 
  * example: 
- * <BarChart width={500} height={500} data={[{x:'One',y:1},{x:'Two',y:2},{x:"Three",y:3}]}></BarChart>
+ * <BarComparsionChart width={500} height={500} data={[{x:'One',y:1},{x:'Two',y:2},{x:"Three",y:3}]}></BarComparsionChart>
  * @param {{width, height, data}} props { width, height, data } 
  */
-const BarChart = (props) => {
+const BarComparsionChart = (props) => {
     
     const d3Container = useRef(null);
     const margin = { top: 40, right: 40, bottom: 40, left: 50 };
-    const fillColor = "#69b3a2";
+    const fillColors = ["#69b3a2", '#5482B0'];
 
     // Get margin adjusted width and height
     const width = props.width - margin.left - margin.right;
@@ -25,7 +25,9 @@ const BarChart = (props) => {
 
 		// Min and Max Values
 		var ymin = 0;
-		var ymax = d3.max(props.data, function(d) { return d.y; });
+		var ymax1 = d3.max(props.data, function(d) { return d.y[0]; });
+        var ymax2 = d3.max(props.data, function(d) { return d.y[1]; });
+        var ymax = Math.max(ymax1, ymax2);
 
         // Get x scale
 		var x = d3.scaleBand()
@@ -50,22 +52,30 @@ const BarChart = (props) => {
             .attr("transform", "translate(" + (margin.left) + ", " + margin.top + ")")
             .call(d3.axisLeft(y)); 
 
-        drawBars(svg, props.data, x, y);
+        const data = props.data.map((d) => { 
+            return { x:d.x, y:d.y[0] }  
+        })
+        const data2 = props.data.map((d) => { 
+            return { x:d.x, y:d.y[1] }  
+        })
+
+        drawBars(svg, data, x, y, fillColors[0], 0);
+        drawBars(svg, data2, x, y, fillColors[1], 1);
 
     }, [])
 
-    const drawBars = (svg, data, x, y) => {
+    const drawBars = (svg, data, x, y, fillColor, index) => {
 
         // Bars
         var g = svg.append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            .attr("transform", "translate(" + (margin.left + index * x.bandwidth() / 2) + "," + margin.top + ")");
         
         g.selectAll("mybar")
         .data(data)
         .enter()
         .append("rect")
             .attr("x", function(d) { return x(d.x); })
-            .attr("width", x.bandwidth())
+            .attr("width", x.bandwidth() / 2)
             .attr("fill", fillColor)
             // no bar at the beginning thus:
             .attr("height", function(d) { return height - y(0); }) // always equal to 0
@@ -88,4 +98,4 @@ const BarChart = (props) => {
     )
 }
 
-export default BarChart;
+export default BarComparsionChart;

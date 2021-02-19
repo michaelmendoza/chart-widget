@@ -22,3 +22,10 @@ export enum DataTypes {
     EntityData = 'EntityData',
     EntityDataByAttribute = 'EntityDataByAttribute'
 }
+
+export enum DataMetrics {
+    Sum = 'Sum', 
+    Mean = 'Mean', 
+    StdDev = 'StdDev', 
+    Median = 'Median'
+}

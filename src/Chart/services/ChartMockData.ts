@@ -1,5 +1,5 @@
 import Utils from '../modules/utils';
-import { DataArrayToBinnedXYArray } from '../modules/Histogram';
+import { GroupDataArrayByValue } from './DataAggregator';
 
 var entityData: any[] = [];
 const layerNames = ['Lightning', 'Hospitals', 'Traffic', 'Population'];
@@ -89,7 +89,7 @@ const ChartMockData = {
         })
         
         // Transform rawData to binned histogram data
-        feedData.data = DataArrayToBinnedXYArray(feedData.rawdata);
+        feedData.data = GroupDataArrayByValue(feedData.rawdata);
 
         return feedData.data;
     },

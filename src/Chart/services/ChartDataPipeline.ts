@@ -1,6 +1,6 @@
 
-import { ChartTypes } from '../models/ChartTypes';
-import { DataArrayToBinnedXYArray } from '../modules/Histogram';
+import { ChartTypes, DataMetrics } from '../models/ChartTypes';
+import { EntityDataToDataArray, EntityDataToDataMatrix, EntityDataToTimeSeriesData, GroupDataArrayByValue, GroupDataMatrixByValue, GroupEntityDataByDate } from './DataAggregator';
 import ChartDataService from './ChartDataService';
 import Utils from '../modules/utils';
 
@@ -18,13 +18,6 @@ export enum DataGroupByTypes {
     GroupByTime, // X: Time, Y: Value - Metric (Sum, Avg, StdDev, Median)
     XvsY, // ScatterPlot: (Comparision) X:Attr1 Values, Y:Attr2 Values
     TvsY // ScatterPlot: X: Time, Y: Value 
-}
-
-export enum DataMetrics {
-    Sum, 
-    Avg, 
-    StdDev, 
-    Median
 }
 
 export class DataSource {
@@ -46,6 +39,12 @@ export class DataSource {
     fetch() {
         switch(this.type) {
             case ChartTypes.Bar:
+                let outType = this.attributes.length == 1 ? DataIOTypes.XYPointArray : DataIOTypes.XMultiYPointArray;
+                return ChartDataService.fetchEntityDataByFeed(this.feedName).then((res) => {
+                    const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, outType);
+                    this.cache = pipeline.processData();
+                    return this.cache;
+                })
             case ChartTypes.Pie:
             case ChartTypes.LineArea:
                 return ChartDataService.fetchChartData(this.feedName, this.attributes[0]).then((res : any) => {
@@ -79,6 +78,7 @@ export class DataPipeline {
     filters: string[] = [];
     inputType : DataIOTypes;
     outputType : DataIOTypes;
+    dataMetric : DataMetrics;
 
     constructor(inputData: any, attributes: string[], type: ChartTypes, inputType: DataIOTypes, outputType: DataIOTypes) {
         this.inputData = inputData;
@@ -86,6 +86,7 @@ export class DataPipeline {
         this.type = type;
         this.inputType = inputType;
         this.outputType = outputType;
+        this.dataMetric = DataMetrics.Mean;
     }
 
     processData() {
@@ -98,44 +99,25 @@ export class DataPipeline {
     }
 
     transformEntity() {
+        let data = new Array();
         switch(this.outputType) {
             case DataIOTypes.XYPointArray:
                 // Transform EntityData array to an array of attibute values 
-                const data = new Array();
-                this.inputData.forEach((item : any)=> {  
-                    data.push(item.attr[this.attributes[0]]);
-                })
-                
-                // Transform rawData to binned histogram data
-                return DataArrayToBinnedXYArray(data);
+                data = EntityDataToDataArray(this.inputData, this.attributes[0]);
+                // Transform and group array data into to binned data
+                return GroupDataArrayByValue(data);
+
+            case DataIOTypes.XMultiYPointArray: 
+                // Transform EntityData array to an matrix (array of array) of attibute values 
+                data = EntityDataToDataMatrix(this.inputData, this.attributes);
+                // Transform and group matrix data into to binned data
+                return GroupDataMatrixByValue(data);    
+
             case DataIOTypes.XtYPointArray:
-                return this.inputData.map((item : any) => {
-                    return { x:item.time, y:item.attr[this.attributes[0]]}
-                })
+                return EntityDataToTimeSeriesData(this.inputData, this.attributes[0]);
+                
             case DataIOTypes.XtMultiPointArray:
-                const timeSeriesData = this.inputData.map((item : any) => {
-                    return { x:item.time, y:[item.attr[this.attributes[0]], item.attr[this.attributes[1]]] }
-                })
-
-                const historyLength = 30;
-                const milliSecondsInDay = 1000 * 60 * 60 * 24;
-                const endTime = (new Date()).getTime();
-                const startTime =  endTime - historyLength * milliSecondsInDay;
-
-                const times = Utils.range(1, historyLength + 1);
-                const bins : number[][] = times.map(() => []);
-                timeSeriesData.forEach((item : any) => {
-                    var index = Math.floor(historyLength * (item.x.getTime() - startTime) / (endTime - startTime))
-                    bins[index].push(item.y);
-                })
-                const values =  bins.map((bin, index) => {
-                    const sum = [0,0]
-                    bin.forEach((item : any) => { sum[0] += item[0]; sum[1] += item[1];})
-                    return { x: index, y:sum } 
-                    //return { x: startTime + (endTime - startTime) / historyLength * index, y:sum } // Sum
-                    //return { x: startTime + (endTime - startTime) / historyLength * index, y:[bin.length] } // Count 
-                })
-                return values;
+               return GroupEntityDataByDate(this.inputData, this.attributes, this.dataMetric);
         }
     }
 }

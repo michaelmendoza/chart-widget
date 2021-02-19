@@ -22,7 +22,7 @@ export interface IDataPoint {
 export interface IEntityDataPoint { 
     id: string | number,            // Enity ID
     name: string,                   // Enity Name
-    geo: { x:number, y:number }[],  // Geo coordinates
+    geo?: { x:number, y:number }[],  // Geo coordinates
     attr: { }                       // Attribute value for entity 
 }
 
