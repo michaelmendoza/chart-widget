@@ -126,15 +126,15 @@ export const GroupEntityDataByDate = (data : IEntityDataPoint[],
     // Groups data into "bins" of binSize width.
     timeSeriesData.forEach((item : any) => {
         var dateBucketIndex = Math.floor(historyLength * (item.x.getTime() - startTime) / (endTime - startTime))
-        //bins[dateBucketIndex].push(item.y);
         bins[dateBucketIndex][0].push(item.y[0]);
         bins[dateBucketIndex][1].push(item.y[1]);
     })
 
     // Aggregate data for specified metric 
     const values =  bins.map((dateBucket, index) => {
-        const x = index; // startTime + (endTime - startTime) / historyLength * index
-
+        //const x = index; // startTime + (endTime - startTime) / historyLength * index
+        const x = new Date(startTime + (endTime - startTime) / historyLength * index);
+        
         switch(metric) {
             case DataMetrics.Count:
                 return { x:x, y:[dateBucket[0].length, dateBucket[1].length]} 

@@ -52,11 +52,28 @@ const DualChart = (props) => {
             .range([height, 0]);
 
         // Create an axis component with d3.axisBottom
-        svg.append("g")
-            .attr("class", "x axis")
-            .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
-            .call(d3.axisBottom(x)); 
-        
+        const xDataisTypeDate = props.data[0].x instanceof Date;
+        if(!xDataisTypeDate) {
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
+                .call(d3.axisBottom(x)); 
+        }
+        else { 
+            const skip = Math.ceil(props.data.length / 30.0 ); // Add skip to enforce max 30 points 
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
+                .call(d3.axisBottom(x)
+                    .tickFormat(d3.timeFormat("%m-%d"))
+                    .tickValues(x.domain().filter(function(d,i){ return !(i % skip)})))
+                .selectAll("text")	
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", ".15em")
+                    .attr("transform", "rotate(-65)");
+        }
+
         // Create an axis component with d3.axisLeft       
         svg.append("g")
             .attr("class", "y axis")

@@ -44,10 +44,25 @@ const ScatterPlot = (props) => {
 			.range([height, 0]);
 
         // Create an axis component with d3.axisBottom
-        svg.append("g")
+        const xDataisTypeDate = props.data[0].x instanceof Date;
+        if(!xDataisTypeDate) {
+            svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
             .call(d3.axisBottom(x)); 
+        }
+        else {
+            svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
+                .call(d3.axisBottom(x)
+                    .tickFormat(d3.timeFormat("%m-%d")))
+                .selectAll("text")	
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", ".15em")
+                    .attr("transform", "rotate(-65)");
+        }
         
         // Create an axis component with d3.axisLeft       
         svg.append("g")
