@@ -19,13 +19,17 @@ function App() {
     setAppMode(appMode);
   }
 
+  const navClass = (mode : AppModes) => {
+    return mode === appMode ? 'active' : '';
+  }
+
   return (
     <div className="app">
       <ChartState.ChartStateProvider>
           <header className="nav">
             <div className="nav-title"> Chart Playground </div>
-            <button onClick={()=>handleNavClick(AppModes.WidgetScreen)}>Widget</button>
-            <button onClick={()=>handleNavClick(AppModes.PlaygroundScreen)}>Playground</button>
+            <button className={navClass(AppModes.WidgetScreen)} onClick={()=>handleNavClick(AppModes.WidgetScreen)}>Widget</button>
+            <button className={navClass(AppModes.PlaygroundScreen)} onClick={()=>handleNavClick(AppModes.PlaygroundScreen)}>Playground</button>
           </header>
           <section className="viewport">
             { appMode === AppModes.PlaygroundScreen ? <Playground/> : null }

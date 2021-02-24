@@ -1,15 +1,17 @@
 
 import { ChartTypes, DataMetrics } from '../models/ChartTypes';
-import { EntityDataToDataArray, EntityDataToDataMatrix, EntityDataToTimeSeriesData, GroupDataArrayByValue, GroupDataMatrixByValue, GroupEntityDataByDate } from './DataAggregator';
+import { EntityDataToDataArray, EntityDataToDataMatrix, EntityDataToTimeSeriesData, GroupDataArrayByValue, GroupDataMatrixByValue, GroupEntityDataByDate, ReduceDataArrayToMetric, ReduceDataArrayToStats } from './DataAggregator';
 import ChartDataService from './ChartDataService';
 
 export enum DataIOTypes {
-    Entity,  
-    AttributeArray,
-    XYPointArray, 
-    XMultiYPointArray,
-    XtYPointArray,
-    XtMultiPointArray
+    Entity = 'Entity',  
+    AttributeArray = 'AttributeArray',
+    XYPointArray = 'XYPointArray', 
+    XMultiYPointArray = 'XMultiYPointArray',
+    XtYPointArray = 'XtYPointArray',
+    XtMultiPointArray = 'XtMultiPointArray',
+    Number = 'Number',
+    Stats = 'Stats'
 }
 
 export enum DataGroupByTypes {
@@ -20,53 +22,51 @@ export enum DataGroupByTypes {
 }
 
 export class DataSource {
-    feedName: string;
-    attributes: string[];
-    type: ChartTypes;
     cache: any = null;
-
-    constructor(feedName:string, attributes:string[] = [], type : ChartTypes) {
-        this.feedName = feedName;
-        this.attributes = attributes;
-        this.type = type;
-    }
-
-    toString() : string {
-        return 'DataSource: feedName: ' + this.feedName + ', attribute: ' + this.attributes[0];
-    }
     
-    fetch(dataMetric : DataMetrics, historyLength: number) {
-        switch(this.type) {
+    fetch(feedName:string, attributes:string[] = [], type : ChartTypes, dataMetric : DataMetrics, historyLength: number) {
+        console.log('Fetching Data from Data Source - feedName: ' + feedName + ', attribute: ' + attributes[0]);
+
+        switch(type) {
+            case ChartTypes.Number:
+                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.Number, dataMetric);
+                    this.cache = pipeline.processData();
+                    return this.cache;
+                })   
+            case ChartTypes.Stats:
+                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.Stats, dataMetric);
+                    this.cache = pipeline.processData();
+                    return this.cache;
+                })             
             case ChartTypes.Bar:
-                let outType = this.attributes.length === 1 ? DataIOTypes.XYPointArray : DataIOTypes.XMultiYPointArray;
-                return ChartDataService.fetchEntityDataByFeed(this.feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, outType, dataMetric);
+                let outType = attributes.length === 1 ? DataIOTypes.XYPointArray : DataIOTypes.XMultiYPointArray;
+                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, outType, dataMetric);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })
             case ChartTypes.Pie:
             case ChartTypes.LineArea:
-                return ChartDataService.fetchChartData(this.feedName, this.attributes[0]).then((res : any) => {
+                return ChartDataService.fetchChartData(feedName, attributes[0]).then((res : any) => {
                     this.cache = res;
                     return this.cache;
                 })
             case ChartTypes.ScatterPlot:
-                return ChartDataService.fetchEntityDataByFeed(this.feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, DataIOTypes.XtYPointArray, dataMetric);
+                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.XtYPointArray, dataMetric);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })
             case ChartTypes.TimeSeries:
-                return ChartDataService.fetchEntityDataByFeed(this.feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, this.attributes, this.type, DataIOTypes.Entity, DataIOTypes.XtMultiPointArray, dataMetric, historyLength);
+                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.XtMultiPointArray, dataMetric, historyLength);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })
-        }
-           
+        }      
     }
-
-
 }
 
 /** DataPipeline for single feed */
@@ -102,6 +102,18 @@ export class DataPipeline {
     transformEntity() {
         let data = [];
         switch(this.outputType) {
+            case DataIOTypes.Number:
+                // Transform EntityData array to an array of attibute values 
+                data = EntityDataToDataArray(this.inputData, this.attributes[0]);
+                // Calculate relevant statistic
+                return ReduceDataArrayToMetric(data, this.dataMetric);
+                
+            case DataIOTypes.Stats:
+                // Transform EntityData array to an array of attibute values 
+                data = EntityDataToDataArray(this.inputData, this.attributes[0]);
+                // Calculate relevant statistic
+                return ReduceDataArrayToStats(data, this.dataMetric);
+
             case DataIOTypes.XYPointArray:
                 // Transform EntityData array to an array of attibute values 
                 data = EntityDataToDataArray(this.inputData, this.attributes[0]);

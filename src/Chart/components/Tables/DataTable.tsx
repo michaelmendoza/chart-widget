@@ -24,8 +24,8 @@ const DataTable: React.FC<Props> = (props) => {
         <div className="data-table"> 
             <DataTableHeaders columns={props.columns}></DataTableHeaders>
            {
-                props.data.map((row : any)=> {
-                    return <DataTableRow row={row} columns={props.columns}></DataTableRow>
+                props.data.map((row : any, index)=> {
+                    return <DataTableRow row={row} columns={props.columns} key={index}></DataTableRow>
                 }) 
            } 
             

@@ -9,6 +9,7 @@ import Utils from '../modules/utils';
 /**
  *  Takes an array of values and groups data into "bins" of equal width. 
  *  Place top bin value in x, and count of elements in bins in y. 
+ * @returns [{x, y}]
  */
 export const GroupDataArrayByValue = (data : number[], binCount : number = 5) => {
 
@@ -35,6 +36,10 @@ export const GroupDataArrayByValue = (data : number[], binCount : number = 5) =>
     return values;
 }
 
+/**
+ * 
+ * @returns [{x, [y]}]
+ */
 export const GroupDataMatrixByValue = (data : any[], binCount : number = 5) => {
 
     // Calculation max value for all data values 
@@ -81,7 +86,7 @@ export const EntityDataToDataArray = (data : IEntityDataPoint[], attribute : str
 
 /**
  * Transforms entity data into data matrix M[attr][value] 
- * @param data Enityt data array
+ * @param data Entity data array
  * @param attributes attribute array 
  */
 export const EntityDataToDataMatrix = (data : IEntityDataPoint [], attributes : string []) => {
@@ -107,6 +112,15 @@ export const EntityDataToTimeSeriesData = (data : IEntityDataPoint[], attribute 
 }
 
 const milliSecondsInDay = 1000 * 60 * 60 * 24;
+/**
+ * 
+ * @param data 
+ * @param attributes 
+ * @param metric 
+ * @param historyLength 
+ * @param binSize 
+ * @returns [{x (time), [y]}]
+ */
 export const GroupEntityDataByDate = (data : IEntityDataPoint[], 
                                       attributes : string[], 
                                       metric : DataMetrics, 
@@ -153,6 +167,33 @@ export const GroupEntityDataByDate = (data : IEntityDataPoint[],
     })
 
     return values;
+}
+
+export const ReduceDataArrayToMetric = (data : number[], metric : DataMetrics) => {
+    switch(metric) {
+        case DataMetrics.Count:
+            return data.length;
+        case DataMetrics.Sum:
+            return Stats.sum(data);
+        case DataMetrics.Mean:
+            return Stats.mean(data);
+        case DataMetrics.Median:
+            return Stats.median(data);
+        case DataMetrics.StdDev:
+            return Stats.std(data);
+        default:
+            return 0;
+    }
+}
+
+export const ReduceDataArrayToStats = (data : number[], metric : DataMetrics) => {
+    return {
+        count: data.length,
+        sum: Stats.sum(data),
+        mean: Stats.mean(data),
+        median: Stats.median(data),
+        stddev: Stats.std(data)
+    }
 }
 
 export const createTestBinData = () => {

@@ -79,12 +79,16 @@ export class ChartItem {
         this.attributes = attributes;
         this.dataMetric = dataMetric;
         this.historyLength = historyLength;
-        this.dataSource = new DataSource(feedName, attributes, type);
+        this.dataSource = new DataSource();
         chartItemCount++;
     }
     
+    static copy(i : ChartItem) {
+        return new ChartItem(i.name, i.type, i.feedName, [...i.attributes], i.dataMetric, i.historyLength)
+    }
+
     fetchData = ()=> {
-        return this.dataSource.fetch(this.dataMetric, this.historyLength);
+        return this.dataSource.fetch(this.feedName, this.attributes, this.type, this.dataMetric, this.historyLength);
     };
 }
 

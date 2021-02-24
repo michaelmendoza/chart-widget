@@ -42,7 +42,7 @@ const ChartMockData = {
     getEntityDataByFeed: (feedName : string) => {
         // Create EntityData if not generated already
         if (entityData.length === 0) 
-            ChartMockData.createEntityData(400);
+            ChartMockData.createEntityData(4000);
         
         // Filter EntityData array by Feed
         return entityData.filter((item)=>item.name === feedName)

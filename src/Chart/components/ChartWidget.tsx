@@ -21,8 +21,8 @@ const ChartWidget = () => {
     return ( 
         <div className="chart-widget"> 
             <ChartHeader></ChartHeader>
-            { showCharts ? <ChartFilters></ChartFilters> : null } 
             { showCharts ? <ChartControls></ChartControls> :  null } 
+            { showCharts ? <ChartFilters></ChartFilters> : null } 
             { showChartEditor ? <ChartEditor></ChartEditor> : null }
             { showCharts ? <ChartView></ChartView> : null }
         </div>

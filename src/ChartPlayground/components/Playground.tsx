@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import BarChart from '../../Chart/components/Charts/BarChart';
 import DualChart from '../../Chart/components/Charts/DualChart';
 import LineAreaChart from '../../Chart/components/Charts/LineAreaChart';

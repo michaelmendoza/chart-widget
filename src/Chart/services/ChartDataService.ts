@@ -1,5 +1,7 @@
 import ChartMockData from "./ChartMockData"
 
+const mockDelay = 500;
+
 /**
  * Services for retrieving chart data from backend services or mock data service 
  */
@@ -9,7 +11,7 @@ const ChartDataService = {
             setTimeout(() =>  {
                 const data = this.getChartData(feedName, attributeKey)
                 resolve(data);
-            }, 1000)
+            }, mockDelay)
         })
         
         return fetch;
@@ -20,7 +22,7 @@ const ChartDataService = {
             setTimeout(() =>  {
                 const data = this.getEntityDataByFeed(feedName)
                 resolve(data);
-            }, 1000)
+            }, mockDelay)
         })
         
         return fetch;

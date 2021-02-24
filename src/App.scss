@@ -62,6 +62,18 @@ button {
   }
 }
 
+.button-icon {
+  border: none;
+  margin: 0;
+  padding: 1em 1.1em;
+
+  &:hover, &:focus, &:active {
+    border: none;
+    background-color: #efefef;
+    border-radius: 50%;
+  }
+}
+
 [type=color], [type=date], [type=datetime], [type=datetime-local], [type=email], [type=month], [type=number], [type=password], [type=search], [type=tel], [type=text], [type=url], [type=week], [type=time], select, textarea {
   display: block;
   border: 1px solid #dedede;
@@ -135,6 +147,10 @@ label {
   text-align: center;
 }
 
+.text-align-right {
+  text-align: right;
+}
+
 /** Layout with flex box */
 
 .layout-row {
@@ -182,10 +198,19 @@ $percents: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90
     margin: 0 1em;
     padding: 1em;
     border: none;
+    border-bottom: 2px solid rgba(0,0,0,0);
 
     &:hover, &:focus, &:active {
       color: #4e4e4e;
       background-color: #efefef;
+     
+    }   
+    
+    &.active {
+      border-radius: 0;
+      border: none;
+      border-bottom: 2px solid rgba(27, 112, 192, 1);
+      color: rgb(10, 96, 175);
     }
   }
 
@@ -226,12 +251,15 @@ $percents: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90
 
 .chart-filters {
   padding: 1em;
-  //border-bottom: 1px solid #e8e8e8;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .chart-controls {
-  padding: 1em;
-  border-bottom: 1px solid #e8e8e8;
+  padding: 1.25em;
+  text-align: right;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 .chart-editor {
@@ -254,29 +282,22 @@ $percents: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90
       background-color: #ffffff;
       margin: 0;
       border-radius: 0px;
-      border: 1px solid rgba(0,0,0,.12);
-      border-right: 0px;
+      border: 2px solid rgba(0,0,0,0);
+      border:none;
       
-      &:hover, &:focus, &:active, &.active {
-        color: #4e4e4e;
-        border-top: 1px solid rgba(0,0,0,.20);
-        border-bottom: 1px solid rgba(0,0,0,.20);
-        background: transparent;
-      }
-      
-      &.active {
+      &:hover {
         background-color: #f6f8fA;
       }
 
-      &:first-of-type {
-        border-top-left-radius: 8px;
-        border-bottom-left-radius: 8px;
-      }
+      &:focus, &:active, &.active {
 
-      &:last-of-type {
-        border-top-right-radius: 8px;
-        border-bottom-right-radius: 8px;
-        border-right: 1px solid rgba(0,0,0,.12);
+        color: #4e4e4e;
+        border-bottom: 2px solid rgba(27, 112, 192, 1);
+        background-color: #ffffff;
+      }
+      
+      &.active {
+        color: rgb(10, 96, 175);
       }
   }
 
@@ -297,14 +318,28 @@ $percents: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90
   border-bottom: 1px solid #e8e8e8;
 }
 
+.chart-view-item-no-data {
+  padding: 4em;
+}
+
 .chart-view-item-controls {
-  text-align: right;
+  margin: 1em;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left:0;
+
+  select { margin:0 0 0 1em; }
 }
 
 .chart-view-item-attribute-controls {
   width: 50%;
   text-align: left;
   font-size: 0.5em;
+}
+
+.chart-type-select {
+  
 }
 
 .chart-state-debugger {

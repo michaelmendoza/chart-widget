@@ -48,7 +48,7 @@ export type Actions = ChartListActions |
     ChartConfigActions;
 
 export const ChartReducer = (state: IChartState , action: Actions) => {
-    console.log("Chart Action: " + action.type + ' ' + action);
+    console.log("Chart Action: " + action.type + ' ' + JSON.stringify(action));
     
     let updatedState = { 
         chartList: ChartListReducer(state.chartList, action), 

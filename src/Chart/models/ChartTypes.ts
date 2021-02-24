@@ -1,6 +1,7 @@
 /**  List of Available Chart Types */
 export enum ChartTypes { 
     Number = 'Number', 
+    Stats = 'Stats',
     Bar = 'Bar', 
     LineArea = 'LineArea', 
     Pie = 'Pie', 

@@ -19,33 +19,45 @@ interface Props {
  */
 export const ChartViewItem: React.FC<Props> = (props) => {
     
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<any>([]);
     useEffect(()=> {
 
         const fetchData = async () => {
+            //setData([]);
             const fetchPromise = props.item.fetchData();
             const result = await fetchPromise;
             setData(result);
-            console.log("Data Fetched with " + props.item.dataSource);
             console.log(result);
         }
         fetchData();
         
-    }, [])
+    }, [props.item])
 
     const renderChartByChartType = () => {
         
-        if(data.length === 0)
+        let data = props.item.dataSource.cache; 
+
+        //if(data.length == 0)
+        if(!data) {
             return <div className='layout-center' style={{width:'500px', height:'500px'}}> 
                 <div> 
                     <LoadingSpinner></LoadingSpinner>
                     <div>Loading</div>
                 </div>
             </div>
+        }
 
         switch (props.item.type) {
             case ChartTypes.Number:
-                return <div> Number </div>
+                return <div> { data } </div>
+            case ChartTypes.Stats:
+                return <div>
+                    <div>{data.count}</div>
+                    <div>{data.mean}</div>
+                    <div>{data.median}</div>
+                    <div>{data.sum}</div>
+                    <div>{data.stddev}</div>
+                </div>
             case ChartTypes.Bar:
                 if(props.item.attributes.length === 1) // Simple Bar Chart
                     return <BarChart width={500} height={500} data={data} />;
@@ -77,5 +89,5 @@ export const ChartViewItem: React.FC<Props> = (props) => {
  * 
  */
 export const NoDataChartItem = () => {
-    return <div> Please add chart </div>;
+    return <div className="chart-view-item-no-data"> Please Add Chart </div>;
 };

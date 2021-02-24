@@ -17,7 +17,7 @@ const ChartView = () => {
             
             {
                 state.chartList.map((item : any, index : number) => {
-                    return <ChartViewItem item={item} index={index}></ChartViewItem>
+                    return <ChartViewItem item={item} index={index} key={index}></ChartViewItem>
                 })
             }
         </div>

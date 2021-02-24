@@ -25,6 +25,8 @@ const ChartEditor = () => {
     
     useEffect(()=> {
         const chart = manager.getChartToEdit();
+        if(!chart) return;
+        
         const showEditor = state.chartConfig.mode === ChartModes.ShowChartEditor;
         const isTimeSeries = chart.type;
         if(showEditor) { 
@@ -137,7 +139,7 @@ const ChartEditor = () => {
                 <select onChange={handleFeedChange} value={chartProperties.feedName}> 
                     <option value="Lightning">Lightning</option>
                     <option value="Hospitals">Hospitals</option>
-                    <option selected value="Traffic">Traffic</option>
+                    <option value="Traffic">Traffic</option>
                     <option value="Population">Population</option>
                 </select>
             </div>
