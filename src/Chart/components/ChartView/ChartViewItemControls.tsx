@@ -24,7 +24,7 @@ export const ChartViewItemControls: React.FC<Props> = (props) => {
     };
 
     return (
-        <div className='chart-view-item-controls layout-row layout-space-between'>
+        <div className='chart-view-item-controls layout-row-center layout-space-between'>
             <ChartTypeSelect item={props.item}></ChartTypeSelect>
 
             <div className="text-align-right flex-50"> 

@@ -28,28 +28,36 @@ const DataSourceTable: React.FC<Props> = (props) => {
 
 const ChartStateDebugger = () => {
 
+    const [show, setShow] = useState(false);
     const { state } = useContext(ChartState.ChartContext);
 
-    return (
-        <div className='chart-state-debugger'> 
+    const handleShowToggle = () => {
+        setShow(!show);
+    }
 
-            <header> Chart State Debugger </header>
-            <label> ChartConfig </label>
-            <div> { JSON.stringify(state.chartConfig) } </div>
-            <label> ChartFilters </label>
-            <div> { JSON.stringify(state.chartFilters) } </div>
-            <label> ChartList </label>
-            <ol> 
-                { 
-                    state.chartList.map((item, index)=> { 
-                        const { id,name,type,feedName,attributes,dataMetric,historyLength } = item;
-                        return <li key={index}> 
-                            <div> { JSON.stringify({ id,name,type,feedName,attributes,dataMetric,historyLength }, null, 1) }  </div>
-                            <DataSourceTable item={item}></DataSourceTable>
-                        </li>
-                    })
-                } 
-             </ol>
+    return (
+        <div className='chart-state-debugger' >  
+            <button onClick={handleShowToggle}> Debug </button>
+            <section className={show?'':'hidden'}>
+                <header> Chart State Debugger </header>
+                <label> ChartConfig </label>
+                <div> { JSON.stringify(state.chartConfig) } </div>
+                <label> ChartFilters </label>
+                <div> { JSON.stringify(state.chartFilters) } </div>
+                <label> ChartList </label>
+                <ol> 
+                    { 
+                        state.chartList.map((item, index)=> { 
+                            const { id,name,type,feedName,attributes,dataMetric,historyLength } = item;
+                            return <li key={index}> 
+                                <div> { JSON.stringify({ id,name,type,feedName,attributes,dataMetric,historyLength }, null, 1) }  </div>
+                                <DataSourceTable item={item}></DataSourceTable>
+                            </li>
+                        })
+                    } 
+                </ol>
+            </section>
+            
         </div>
     )
 }

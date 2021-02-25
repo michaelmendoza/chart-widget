@@ -9,7 +9,7 @@ interface Props {
 const DataTableRow: React.FC<Props> = (props) => {
 
     return (
-        <div className="data-table-row layout-row"> 
+        <div className="data-table-row layout-row-center"> 
             {
                 props.columns.map((column : string, index : number)=> {
                     var key = column;

@@ -11,7 +11,7 @@ const DataTableHeaders: React.FC<Props> = (props) => {
     const handleSortDown = () => { }
 
     return (
-        <div className="data-table-headers layout-row"> 
+        <div className="data-table-headers layout-row-center"> 
         {
             props.columns.map(function(header) {
 

@@ -7,6 +7,8 @@ import ChartState from './Chart/states/ChartState';
 import ChartStateDebugger from './Chart/states/ChartStateDebuger';
 import Playground from './ChartPlayground/components/Playground';
 
+import DataMap from './DataMap/components/DataMap';
+
 enum AppModes {
   StartScreen, WidgetScreen, PlaygroundScreen
 }
@@ -35,7 +37,10 @@ function App() {
             { appMode === AppModes.PlaygroundScreen ? <Playground/> : null }
             { appMode === AppModes.WidgetScreen ? 
               <div>
-                <ChartWidget></ChartWidget>
+                <div className="layout-row"> 
+                  <ChartWidget></ChartWidget>
+                  <DataMap width={500} height={500}></DataMap>
+                </div>
                 <ChartStateDebugger></ChartStateDebugger>
               </div> : null
             }

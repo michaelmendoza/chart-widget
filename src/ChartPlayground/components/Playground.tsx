@@ -14,12 +14,12 @@ const Playground = () => {
 
     return ( 
         <div>
-            <div className="layout-row"> 
+            <div className="layout-row-center"> 
                 <BarChart width={200} height={200} data={data}/>
                 <PieChart width={200} height={200} data={data}/>
                 <LineAreaChart width={200} height={200} data={data}/>
             </div>
-            <div className="layout-row">
+            <div className="layout-row-center">
                 <DualChart width={200} height={200} data={data2}/>
                 <ScatterPlot width={200} height={200} data={data}/> 
             </div>
