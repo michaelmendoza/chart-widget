@@ -2,6 +2,7 @@ import Utils from '../modules/utils';
 import { GroupDataArrayByValue } from './DataAggregator';
 
 var entityData: any[] = [];
+const entityCount = 10000;
 const layerNames = ['Lightning', 'Hospitals', 'Traffic', 'Population'];
 
 const ChartMockData = {
@@ -12,29 +13,30 @@ const ChartMockData = {
      * Entity data is of form: { id, name, geo: {x, y}, attr: { a, b, c, d }, time }
      * @param count Size of entity data array
      */
-    createEntityData: (count : number) => {
+    createEntityData: () => {
         // Date Ranges for Uniformly Distrubuted Dates between startTime and endTime 
+        const daysInTimeWindow = 30;
         const milliSecondsInDay = 1000 * 60 * 60 * 24;
         const endTime = (new Date()).getTime();
-        const startTime =  endTime - 30 * milliSecondsInDay;
+        const startTime =  endTime - daysInTimeWindow * milliSecondsInDay;
 
         // Create Entity DataPoints 
-        const ids = Utils.range(0, count);
-        const data = ids.map((id) => {
-            const name = layerNames[Utils.randomInt(0,3)];
-            const geo = { x:Utils.random(-1,1), y:Utils.random(-1,1) }
-            const attr = { a:Utils.random(0, 123), b:Utils.random(0, 50), c:Utils.random(0, 1000), d:Utils.random(0, 250)}
+        const ids = Utils.range(0, entityCount);
+        const data = ids.map((id, index) => {
+            const name = layerNames[index % layerNames.length];
+            const geo = Utils.randomCircle([15, 5], 40);
+            const attr = { a:Utils.randomNormal(50, 20), b:Utils.random(0, 50), c:Utils.random(0, 1000), d:Utils.random(0, 250)}
             const time = new Date(Utils.random(startTime, endTime))
             return { id:id, name:name, geo:geo, attr:attr, time:time }
         })
-
+        
         entityData = data;
     },
 
     getEntityData: () => {
         // Create EntityData if not generated already
         if (entityData.length === 0) 
-            ChartMockData.createEntityData(400);
+            ChartMockData.createEntityData();
             
         return entityData;
     },
@@ -42,7 +44,7 @@ const ChartMockData = {
     getEntityDataByFeed: (feedName : string) => {
         // Create EntityData if not generated already
         if (entityData.length === 0) 
-            ChartMockData.createEntityData(4000);
+            ChartMockData.createEntityData();
         
         // Filter EntityData array by Feed
         return entityData.filter((item)=>item.name === feedName)
@@ -51,7 +53,7 @@ const ChartMockData = {
     getAttributeDataByFeed: (feedName :string) => {
         // Create EntityData if not generated already
         if (entityData.length === 0) 
-            ChartMockData.createEntityData(400);
+            ChartMockData.createEntityData();
          
         // Filter EntityData array by Feed
         let entityDataByFeed = entityData.filter((item)=>item.name === feedName)
@@ -77,7 +79,7 @@ const ChartMockData = {
     getChartData: (feedName :string, attributeKey : string) => {
         // Create EntityData if not generated already
         if (entityData.length === 0) 
-            ChartMockData.createEntityData(400);
+            ChartMockData.createEntityData();
         
         // Filter EntityData array by Feed
         const entityDataByFeed = entityData.filter((item)=>item.name === feedName)

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
-import { ChartItem } from '../models/ChartModels';
-import { ChartTypes } from '../models/ChartTypes';
-import { ActionTypes } from '../reducers/ChartActionsTypes';
-import ChartState from '../states/ChartState';
+import { ChartItem } from '../../models/ChartModels';
+import { ChartTypes } from '../../models/ChartTypes';
+import { ActionTypes } from '../../reducers/ChartActionsTypes';
+import ChartState from '../../states/ChartState';
 
 interface Props {
     item: ChartItem

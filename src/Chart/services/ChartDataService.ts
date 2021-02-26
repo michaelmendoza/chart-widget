@@ -1,6 +1,6 @@
 import ChartMockData from "./ChartMockData"
 
-const mockDelay = 500;
+const mockDelay = 250; // Delay in milliseconds 
 
 /**
  * Services for retrieving chart data from backend services or mock data service 

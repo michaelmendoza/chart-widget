@@ -8,6 +8,7 @@ import ChartStateDebugger from './Chart/states/ChartStateDebuger';
 import Playground from './ChartPlayground/components/Playground';
 
 import DataMap from './DataMap/components/DataMap';
+import ChartDataService from './Chart/services/ChartDataService';
 
 enum AppModes {
   StartScreen, WidgetScreen, PlaygroundScreen
@@ -39,7 +40,7 @@ function App() {
               <div>
                 <div className="layout-row"> 
                   <ChartWidget></ChartWidget>
-                  <DataMap width={500} height={500}></DataMap>
+                  <DataMap entityData={ChartDataService.getEntityDataByFeed('Lightning')} width={500} height={500}></DataMap>
                 </div>
                 <ChartStateDebugger></ChartStateDebugger>
               </div> : null

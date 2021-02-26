@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import ChartState from '../../states/ChartState';
 import { ChartModes } from '../../models/ChartTypes';
 import { ActionTypes } from '../../reducers/ChartActionsTypes';
-import ChartTypeSelect from '../ChartTypeSelect';
+import ChartTypeSelect from './ChartTypeSelect';
 
 interface Props {
     item?: any,

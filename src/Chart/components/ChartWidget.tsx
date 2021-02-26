@@ -15,7 +15,8 @@ const ChartWidget = () => {
 
     const { state } = useContext(ChartState.ChartContext);
 
-    const showChartEditor = state.chartConfig.mode === ChartModes.ShowChartEditor || state.chartConfig.mode === ChartModes.ShowChartCreator;
+    const showChartEditor = state.chartConfig.mode === ChartModes.ShowChartEditor 
+                            || state.chartConfig.mode === ChartModes.ShowChartCreator;
     const showCharts = state.chartConfig.mode === ChartModes.ShowCharts;
 
     return ( 
