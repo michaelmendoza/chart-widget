@@ -70,6 +70,12 @@ export class DataSource {
                     this.cache = res;
                     return this.cache;
                 })
+            case ChartTypes.Table:
+                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.AttributeArray, dataMetric);
+                    this.cache = pipeline.processData();
+                    return this.cache;
+                })
         }      
     }
 }
@@ -136,6 +142,11 @@ export class DataPipeline {
                 
             case DataIOTypes.XtMultiPointArray:
                return GroupEntityDataByDate(this.inputData, this.attributes, this.dataMetric, this.historyLength);
+
+            case DataIOTypes.AttributeArray:
+                return this.inputData.map((item : any)=>{
+                    return { id:item.id, name:item.name, x:item.geo[0], y:item.geo[1], ...item.attr, time:item.time }
+                })
         }
     }
 }

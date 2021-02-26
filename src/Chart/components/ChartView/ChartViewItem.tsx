@@ -68,7 +68,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
             case ChartTypes.HeatMap:
                 return <DataMap width={500} height={500} data={data}></DataMap>
             case ChartTypes.Table:
-                return <DataTable data={data} columns={['x','y']}></DataTable> 
+                return <DataTable data={data} columns={['id','name','x','y','a','b','c','d','time']}></DataTable> 
             default:
                 return null;
         }

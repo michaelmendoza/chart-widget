@@ -28,8 +28,6 @@ const DataTableHeaders: React.FC<Props> = (props) => {
             
             return <div className={'data-table-header ' + header + ' flex'} key={header}>
                 {header}
-                {buttonUp}
-                {buttonDown}
             </div>	
             })
         }
