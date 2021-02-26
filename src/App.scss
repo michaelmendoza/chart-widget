@@ -262,6 +262,24 @@ $percents: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90
   @extend .card;
 }
 
+.charts-tooltip {	
+  margin: auto;
+  position: absolute;			
+  text-align: center;								
+  height: 2em;					
+  padding: 2em;			
+  font: 10px sans-serif;	
+  background: rgb(48, 50, 53);	
+  color: white;
+  border: 0px;		
+  border-radius: 8px;			
+  pointer-events: none;			
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .chart-header { 
   padding: 2em;
   border-bottom: 1px solid #e8e8e8;

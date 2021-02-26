@@ -47,22 +47,26 @@ const LineAreaChart = (props) => {
 		var line = d3.line()
 			.x(function(d) { return x(d.x); })
 			.y(function(d) { return y(d.y); })
+			.curve(d3.curveMonotoneX)
 
         // Line for start of animation 
 		var lineStart = d3.line() 
 			.x(function(d) { return x(d.x); })
 			.y(0)
+			.curve(d3.curveMonotoneX)
 
 		var area = d3.area()
 			.x(function(d) { return x(d.x); })
 			.y0(height)
 			.y1(function(d) { return y(d.y); })
+			.curve(d3.curveMonotoneX)
 
         // Area for start of animation 
 		var areaStart = d3.area() 
 			.x(function(d) { return x(d.x); })
 			.y0(height)
 			.y1(height)
+			.curve(d3.curveMonotoneX)
 
         // Create an axis component with d3.axisBottom
         svg.append("g")

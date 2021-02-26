@@ -13,7 +13,7 @@ const PieChart = (props) => {
     
     const d3Container = useRef(null);
     const margin = { top: 50, right: 50, bottom: 50, left: 50 };
-    const colors = ['#FE3701', '#FFB600', '#7DCC00'];
+    const colors = ['#41718C', '#7AB98C', '#C1D773', '#C5895E', '#BE5C5B', '#845ACE', '#5FA1C8']; //['#FE3701', '#FFB600', '#7DCC00'];
 
     useEffect(() => {
 		var data = props.data ? Points.toXYArray(props.data).y : props.data_values;
@@ -35,11 +35,32 @@ const PieChart = (props) => {
 			.innerRadius(0)
 			.outerRadius(height/2);
         
+        // Define tooltip
+        var tooltip = d3.select("body")
+        .append("div")	
+        .attr("class", "charts-tooltip")				
+        .style("opacity", 0)
+        .text("");
+
         g.selectAll("path")
 			.data(pie(data))
 			.enter()
 			.append("path")
-			.attr("fill", function(d,i) { return colors[i%3]; })
+			.attr("fill", function(d,i) { return colors[i%colors.length]; })
+			.on("mouseover",function(e, d) {                
+                tooltip
+                .style("left", (e.pageX) + "px")		
+                .style("top", (e.pageY - 28) + "px")
+                .transition()		
+                .duration(100)		
+                .style("opacity", .8)		
+                tooltip.text(d.data);	
+            }) 
+            .on("mouseout",function(d){
+                tooltip.transition()		
+                .duration(100)		
+                .style("opacity", 0); 
+            })
 			.transition()
 			.delay(function(d, i) { return i * 200 + delay; })
 			.duration(200)

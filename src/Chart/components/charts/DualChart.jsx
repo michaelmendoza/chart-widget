@@ -136,7 +136,7 @@ const DualChart = (props) => {
         // Line for start of animation 
 		var lineStart = d3.line() 
 			.x(function(d) { return x(d.x); })
-            .y(0)
+            .y(height)
             .curve(d3.curveMonotoneX)
 
 		// Create line chart
@@ -146,24 +146,26 @@ const DualChart = (props) => {
 			.attr("stroke", lineColor)
 			.attr('stroke-width', 2)
 			.attr("fill", 'none')				    
-			.attr("opacity", "0.8")
-			.attr("d", lineStart)
+			.attr("opacity", "0")
+			.attr("d", line)
 			.transition()
 			.duration(delayPeriod)
-            .attr("d", line)
-
+            .attr("opacity", "0.8")
+            //.attr("d", line)
+            .delay(function(d,i){ return(delayPeriod)})
+        
         g.selectAll(".dot")
             .data(data)
             .enter().append("circle") // Uses the enter().append() method
             .attr("class", "dot") // Assign a class for styling
             .attr("fill", lineColor)	
             .attr("cx", function(d, i) { return x(d.x) })
-            .attr("cy", function(d) { return 0 })
+            .attr("cy", function(d) { return height })
             .attr("r", 4)
             .transition()
             .duration(delayPeriod)
             .attr("cy", function(d) { return y(d.y) })
-            
+            .delay(function(d,i){ return(i * delayPeriod / props.data.length)})
    
     }
 

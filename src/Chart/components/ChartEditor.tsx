@@ -47,7 +47,7 @@ const ChartEditor = () => {
     const handleSave = () => {
         // Get attributes from editor 
         let attributes;
-        if(chartType === ChartTypes.TimeSeries || chartType === ChartTypes.Bar)
+        if(chartType === ChartTypes.TimeSeries || (chartType === ChartTypes.Bar && options.attribute != null))
             attributes = options.attribute === '' ? attributes = [chartProperties.attribute] : [chartProperties.attribute, options.attribute];
         else
             attributes = [chartProperties.attribute]

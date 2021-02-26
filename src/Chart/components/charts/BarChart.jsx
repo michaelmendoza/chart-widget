@@ -13,6 +13,7 @@ const BarChart = (props) => {
     const d3Container = useRef(null);
     const margin = { top: 40, right: 40, bottom: 40, left: 50 };
     const fillColor = "#69b3a2";
+    const hoverColor = "#6797A9";
 
     // Get margin adjusted width and height
     const width = props.width - margin.left - margin.right;
@@ -56,6 +57,13 @@ const BarChart = (props) => {
 
     const drawBars = (svg, data, x, y) => {
 
+        // Define tooltip
+        var tooltip = d3.select("body")
+        .append("div")	
+        .attr("class", "charts-tooltip")				
+        .style("opacity", 0)
+        .text("");
+
         // Bars
         var g = svg.append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -70,6 +78,25 @@ const BarChart = (props) => {
             // no bar at the beginning thus:
             .attr("height", function(d) { return height - y(0); }) // always equal to 0
             .attr("y", function(d) { return y(0); })
+            .on("mouseover",function(e, d) {
+                d3.select(this).style("fill", hoverColor)
+                
+                tooltip
+                .style("left", (e.pageX) + "px")		
+                .style("top", (e.pageY - 28) + "px")
+                .transition()		
+                .duration(200)		
+                .style("opacity", .9)		
+
+                tooltip.text(d.x);	
+            }) 
+            .on("mouseout",function(d){
+                d3.select(this).style("fill", fillColor);
+
+                tooltip.transition()		
+                .duration(500)		
+                .style("opacity", 0); 
+            })
 
         // Animation
         svg.selectAll("rect")
