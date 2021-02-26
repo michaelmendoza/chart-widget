@@ -103,12 +103,14 @@ export interface IChartFilter {
 /** Interface for chart config */
 export interface IChartConfig {
     index: number,
-    mode: ChartModes
+    mode: ChartModes,
+    mock: any
 }
 
 export class ChartConfig {
     index: number = 0;
     mode: ChartModes = ChartModes.ShowCharts;
+    mock: any = { entityCount: 10000 };
 }
 
 /** Interface for Chart State */

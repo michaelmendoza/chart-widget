@@ -7,7 +7,9 @@ export enum ChartTypes {
     Pie = 'Pie', 
     Histogram = 'Histogram', 
     ScatterPlot = 'ScatterPlot',
-    TimeSeries = 'TimeSeries'
+    TimeSeries = 'TimeSeries',
+    Table = 'Table',
+    HeatMap = 'HeatMap'
 }
 
 /** List of mode designations for showing Charts vs ChartEditor */

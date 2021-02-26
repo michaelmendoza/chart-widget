@@ -6,9 +6,9 @@ import ChartWidget from './Chart/components/ChartWidget';
 import ChartState from './Chart/states/ChartState';
 import ChartStateDebugger from './Chart/states/ChartStateDebuger';
 import Playground from './ChartPlayground/components/Playground';
-
-import DataMap from './DataMap/components/DataMap';
 import ChartDataService from './Chart/services/ChartDataService';
+import PointMap from './DataMap/components/PointMap';
+import { MockConfig } from './Chart/services/ChartMockData';
 
 enum AppModes {
   StartScreen, WidgetScreen, PlaygroundScreen
@@ -20,6 +20,10 @@ function App() {
 
   const handleNavClick = (appMode : AppModes) => {
     setAppMode(appMode);
+  }
+
+  const handleEntityCountChange = () => {
+    
   }
 
   const navClass = (mode : AppModes) => {
@@ -38,9 +42,18 @@ function App() {
             { appMode === AppModes.PlaygroundScreen ? <Playground/> : null }
             { appMode === AppModes.WidgetScreen ? 
               <div>
-                <div className="layout-row"> 
+                <div className="layout-row layout-space-between"> 
                   <ChartWidget></ChartWidget>
-                  <DataMap entityData={ChartDataService.getEntityDataByFeed('Lightning')} width={500} height={500}></DataMap>
+                  <div style={{margin:'2em'}}>
+
+                    <label>Entity Events</label>
+                    <div className='entity-controls'>
+                      <label>Entity Event Count</label>
+                      <input type="text" name="entitycount" value={MockConfig.entityCount} onChange={handleEntityCountChange} />
+                    </div>
+
+                    <PointMap entityData={ChartDataService.getEntityDataByFeed('Lightning')} max={2000} width={500} height={500}></PointMap>
+                  </div>
                 </div>
                 <ChartStateDebugger></ChartStateDebugger>
               </div> : null

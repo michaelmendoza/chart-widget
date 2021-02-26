@@ -33,6 +33,8 @@ const ChartTypeSelect : React.FC<Props> = (props) => {
                 <option value={ChartTypes.LineArea}>Line</option>
                 <option value={ChartTypes.ScatterPlot}>ScatterPlot</option>
                 <option value={ChartTypes.TimeSeries}>Time Series</option>
+                <option value={ChartTypes.HeatMap}>HeatMap</option>
+                <option value={ChartTypes.Table}>Table</option>
             </select>
         </div>
     )

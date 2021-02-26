@@ -243,7 +243,14 @@ $percents: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90
 }
 
 .viewport {
-  
+  .entity-controls {
+      margin: 0 2em;
+
+      label {
+        text-align: left;
+        font-size: 0.8em;
+    }
+  }
 }
 
 .chart {
@@ -274,7 +281,7 @@ $percents: 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90
   border: 0px;		
   border-radius: 8px;			
   pointer-events: none;			
-  
+
   display: flex;
   align-items: center;
   justify-content: center;

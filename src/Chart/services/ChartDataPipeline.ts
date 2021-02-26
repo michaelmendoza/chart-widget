@@ -65,6 +65,11 @@ export class DataSource {
                     this.cache = pipeline.processData();
                     return this.cache;
                 })
+            case ChartTypes.HeatMap:
+                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
+                    this.cache = res;
+                    return this.cache;
+                })
         }      
     }
 }

@@ -4,6 +4,7 @@ import { GroupDataArrayByValue } from './DataAggregator';
 var entityData: any[] = [];
 const entityCount = 10000;
 const layerNames = ['Lightning', 'Hospitals', 'Traffic', 'Population'];
+export const MockConfig = { entityData, entityCount, layerNames }
 
 const ChartMockData = {
         

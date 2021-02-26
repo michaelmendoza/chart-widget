@@ -8,6 +8,8 @@ import { ChartViewItemControls } from "./ChartViewItemControls";
 import LoadingSpinner from '../Loading/LoadingSpinner';
 import ScatterPlot from '../Charts/ScatterPlot.jsx';
 import BarComparsionChart from '../Charts/BarComparsionChart.jsx';
+import DataMap from '../../../DataMap/components/DataMap.jsx';
+import DataTable from '../Tables/DataTable';
 
 interface Props {
     item?: any,
@@ -63,6 +65,10 @@ export const ChartViewItem: React.FC<Props> = (props) => {
                 return <ScatterPlot width={500} height={500} data={data}/>
             case ChartTypes.TimeSeries:
                 return <DualChart width={500} height={500} data={data} />;
+            case ChartTypes.HeatMap:
+                return <DataMap width={500} height={500} data={data}></DataMap>
+            case ChartTypes.Table:
+                return <DataTable data={data} columns={['x','y']}></DataTable> 
             default:
                 return null;
         }
