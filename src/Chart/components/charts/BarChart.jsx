@@ -60,7 +60,7 @@ const BarChart = (props) => {
         // Define tooltip
         var tooltip = d3.select("body")
         .append("div")	
-        .attr("class", "charts-tooltip")				
+        .attr("class", "charts-d3-tooltip")				
         .style("opacity", 0)
         .text("");
 

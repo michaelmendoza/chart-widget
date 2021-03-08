@@ -1,0 +1,18 @@
+
+.charts-d3-tooltip {
+  margin: auto;
+  position: absolute;
+  text-align: center;
+  height: 2em;
+  padding: 2em;
+  font: 10px sans-serif;
+  background: rgb(48, 50, 53);
+  color: white;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

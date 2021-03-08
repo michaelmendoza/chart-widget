@@ -44,7 +44,11 @@ const Stats = {
 		}
 		covariance = covariance / x.length;
 		return covariance;
-	}
+	},
+
+	//movingAverage(x: number[], windowLength: number): {
+	//	
+	//}
 
 }
 

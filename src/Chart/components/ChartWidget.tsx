@@ -6,6 +6,7 @@ import ChartHeader from './ChartHeader';
 import ChartState from '../states/ChartState';
 import { ChartModes } from '../models/ChartTypes';
 import ChartControls from './ChartControls';
+import '../styles/chart-widget.scss';
 
 /**
  * Container component for ChartHeader, ChartFilters, ChartControls and ChartView.
