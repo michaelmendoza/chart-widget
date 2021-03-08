@@ -1,4 +1,4 @@
-import Utils from '../modules/utils';
+import Utils from '../services/Utils';
 import { GroupDataArrayByValue } from './DataAggregator';
 
 var entityData: any[] = [];

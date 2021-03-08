@@ -1,6 +1,6 @@
  import React, { useContext } from 'react';
 import ChartState from '../../states/ChartState';
-import { NoDataChartItem, ChartViewItem } from './ChartViewItem';
+import { ChartViewItemNoData, ChartViewItem } from './ChartViewItem';
 
 /**
  * Contains a list of chart items to actively view. Chart properties and data are populated 
@@ -13,7 +13,7 @@ const ChartView = () => {
     return (
         <div className='chart-view'> 
 
-            { state.chartList.length === 0 ? <NoDataChartItem></NoDataChartItem> : null }
+            { state.chartList.length === 0 ? <ChartViewItemNoData></ChartViewItemNoData> : null }
             
             {
                 state.chartList.map((item : any, index : number) => {

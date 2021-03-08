@@ -1,4 +1,4 @@
-import Stats from './stats';
+import * as Stats from './Stats';
 
 const Fit = {
 

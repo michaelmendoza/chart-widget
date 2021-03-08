@@ -12,6 +12,7 @@ import ScatterPlot from '../D3Charts/ScatterPlot.jsx';
 
 import DataMap from '../../../DataMap/components/DataMap.jsx';
 import DataTable from '../Tables/DataTable';
+import { MapOptions } from '../../../DataMap/components/MapSelect';
 
 interface Props {
     item?: any,
@@ -68,7 +69,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
             case ChartTypes.TimeSeries:
                 return <DualChart width={500} height={500} data={data} />;
             case ChartTypes.HeatMap:
-                return <DataMap width={500} height={500} data={data}></DataMap>
+                return <DataMap map={MapOptions.Africa} width={500} height={500} data={data}></DataMap>
             case ChartTypes.Table:
                 return <DataTable data={data} columns={['id', 'name', 'x', 'y', 'a', 'b', 'c', 'd', 'time']}></DataTable>
             default:

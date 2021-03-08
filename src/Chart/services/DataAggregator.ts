@@ -2,9 +2,9 @@
 import * as d3 from 'd3';
 import { IEntityDataPoint } from '../models/ChartModels';
 import { DataMetrics } from '../models/ChartTypes';
-import Points from '../modules/points';
-import Stats from '../modules/stats';
-import Utils from '../modules/utils';
+import Points from './Points';
+import * as Stats from './Stats';
+import Utils from '../services/Utils';
 
 /**
  *  Takes an array of values and groups data into "bins" of equal width. 

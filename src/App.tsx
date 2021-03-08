@@ -9,6 +9,7 @@ import Playground from './ChartPlayground/components/Playground';
 import ChartDataService from './Chart/services/ChartDataService';
 import PointMap from './DataMap/components/PointMap';
 import { MockConfig } from './Chart/services/ChartMockData';
+import { MapOptions } from './DataMap/components/MapSelect';
 
 enum AppModes {
   StartScreen, WidgetScreen, PlaygroundScreen
@@ -52,7 +53,7 @@ function App() {
                       <input type="text" name="entitycount" value={MockConfig.entityCount} onChange={handleEntityCountChange} />
                     </div>
 
-                    <PointMap entityData={ChartDataService.getEntityDataByFeed('Lightning')} max={2000} width={500} height={500}></PointMap>
+                    <PointMap map={MapOptions.Africa} entityData={ChartDataService.getEntityDataByFeed('Lightning')} max={2000} width={500} height={500}></PointMap>
                   </div>
                 </div>
                 <ChartStateDebugger></ChartStateDebugger>
