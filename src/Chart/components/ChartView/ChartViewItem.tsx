@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import PieChart from '../Charts/PieChart.jsx';
-import BarChart from '../Charts/BarChart.jsx';
-import LineAreaChart from '../Charts/LineAreaChart';
-import DualChart from '../Charts/DualChart';
 import { ChartTypes } from '../../models/ChartTypes';
 import { ChartViewItemControls } from "./ChartViewItemControls";
 import LoadingSpinner from '../Loading/LoadingSpinner';
-import ScatterPlot from '../Charts/ScatterPlot.jsx';
-import BarComparsionChart from '../Charts/BarComparsionChart.jsx';
+
+import BarChart from '../D3Charts/BarChart.jsx';
+import BarComparsionChart from '../D3Charts/BarComparsionChart.jsx';
+import DualChart from '../D3Charts/DualChart';
+import LineAreaChart from '../D3Charts/LineAreaChart';
+import PieChart from '../D3Charts/PieChart.jsx';
+import ScatterPlot from '../D3Charts/ScatterPlot.jsx';
+
 import DataMap from '../../../DataMap/components/DataMap.jsx';
 import DataTable from '../Tables/DataTable';
 

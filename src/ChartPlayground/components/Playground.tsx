@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import BarChart from '../../Chart/components/Charts/BarChart';
-import DualChart from '../../Chart/components/Charts/DualChart';
-import LineAreaChart from '../../Chart/components/Charts/LineAreaChart';
-import PieChart from '../../Chart/components/Charts/PieChart';
-import ScatterPlot from '../../Chart/components/Charts/ScatterPlot';
+import BarChart from '../../Chart/components/D3Charts/BarChart';
+import DualChart from '../../Chart/components/D3Charts/DualChart';
+import LineAreaChart from '../../Chart/components/D3Charts/LineAreaChart';
+import PieChart from '../../Chart/components/D3Charts/PieChart';
+import ScatterPlot from '../../Chart/components/D3Charts/ScatterPlot';
 import DataTable, { getMockTableData } from '../../Chart/components/Tables/DataTable';
 
 const Playground = () => {
