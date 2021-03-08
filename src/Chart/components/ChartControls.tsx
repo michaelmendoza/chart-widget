@@ -11,14 +11,15 @@ const ChartControls = () => {
     const { dispatch } = useContext(ChartState.ChartContext);
 
     const handleAdd = () => {
-        dispatch({type:ActionTypes.UPDATE_CHART_MODE, mode:ChartModes.ShowChartCreator});    }
-    
+        dispatch({ type: ActionTypes.UPDATE_CHART_MODE, mode: ChartModes.ShowChartCreator });
+    }
+
     const handleClear = () => {
-        dispatch({ type:ActionTypes.CLEAR_ALL_CHARTS })
+        dispatch({ type: ActionTypes.CLEAR_ALL_CHARTS })
     }
 
     return (
-        <div className='chart-controls'> 
+        <div className='chart-controls'>
             <button className='button-icon' onClick={handleAdd}> <i className="fas fa-plus"></i> </button>
             <button className='button-icon' onClick={handleClear}> <i className="fas fa-trash"></i> </button>
         </div>

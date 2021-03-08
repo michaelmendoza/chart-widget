@@ -6,11 +6,11 @@ import ChartState from '../states/ChartState';
  */
 const ChartHeader = () => {
 
-    const { state } = useContext(ChartState.ChartContext); 
+    const { state } = useContext(ChartState.ChartContext);
 
     return (
-        <div className="chart-header"> 
-            <div> {state.chartConfig.mode} </div> 
+        <div className="chart-header">
+            <div> {state.chartConfig.mode} </div>
         </div>
     )
 }

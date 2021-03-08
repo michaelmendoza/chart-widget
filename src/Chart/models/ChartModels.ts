@@ -1,18 +1,6 @@
 import { DataSource } from "../services/ChartDataPipeline";
 import { ChartModes, ChartTypes, DataMetrics, DataTypes } from "./ChartTypes";
 
-/*
-Note: There are three kinds of data:
-ChartData - ie. IDataPoints -> { x, y }
-EntityData - [{  id:id,  name:name,  geo:geo, attr:attr }]
-EntityDataByAttribute - i.e. { id, name, attributeKey, attributeValues:[]}
-
-DataSet {
-    datatype: ChartData | EntityData | EntityDataByAttribute,
-    data: IDataPoint[] | IEntityItem[] | IEntityDataByAttribute[]
-}
-*/
-
 /** Interface for data point to be used by Chart */
 export interface IDataPoint { 
     x: string | number,

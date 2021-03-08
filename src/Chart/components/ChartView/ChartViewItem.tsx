@@ -22,9 +22,9 @@ interface Props {
  * Contain a single chart and it's associated controls, for use with ChartView
  */
 export const ChartViewItem: React.FC<Props> = (props) => {
-    
+
     const [data, setData] = useState<any>([]);
-    useEffect(()=> {
+    useEffect(() => {
 
         const fetchData = async () => {
             const fetchPromise = props.item.fetchData();
@@ -33,16 +33,16 @@ export const ChartViewItem: React.FC<Props> = (props) => {
             console.log(result);
         }
         fetchData();
-        
+
     }, [props.item])
 
     const renderChartByChartType = () => {
-        
-        let data = props.item.dataSource.cache; 
 
-        if(!data) {
-            return <div className='layout-center' style={{width:'500px', height:'500px'}}> 
-                <div> 
+        let data = props.item.dataSource.cache;
+
+        if (!data) {
+            return <div className='layout-center' style={{ width: '500px', height: '500px' }}>
+                <div>
                     <LoadingSpinner></LoadingSpinner>
                     <div>Loading</div>
                 </div>
@@ -55,22 +55,22 @@ export const ChartViewItem: React.FC<Props> = (props) => {
             case ChartTypes.Stats:
                 return <StatsChartItem data={data}></StatsChartItem>
             case ChartTypes.Bar:
-                if(props.item.attributes.length === 1) // Simple Bar Chart
+                if (props.item.attributes.length === 1) // Simple Bar Chart
                     return <BarChart width={500} height={500} data={data} />;
                 else // Muliple Bar Chart 
-                    return <BarComparsionChart width={500} height={500} data={data}/>
+                    return <BarComparsionChart width={500} height={500} data={data} />
             case ChartTypes.Pie:
                 return <PieChart width={500} height={500} data={data} />;
             case ChartTypes.LineArea:
                 return <LineAreaChart width={500} height={500} data={data} />;
             case ChartTypes.ScatterPlot:
-                return <ScatterPlot width={500} height={500} data={data}/>
+                return <ScatterPlot width={500} height={500} data={data} />
             case ChartTypes.TimeSeries:
                 return <DualChart width={500} height={500} data={data} />;
             case ChartTypes.HeatMap:
                 return <DataMap width={500} height={500} data={data}></DataMap>
             case ChartTypes.Table:
-                return <DataTable data={data} columns={['id','name','x','y','a','b','c','d','time']}></DataTable> 
+                return <DataTable data={data} columns={['id', 'name', 'x', 'y', 'a', 'b', 'c', 'd', 'time']}></DataTable>
             default:
                 return null;
         }
@@ -86,43 +86,49 @@ export const ChartViewItem: React.FC<Props> = (props) => {
 };
 
 /**
- * 
+ * No Data - Chart View Item
  */
-export const NoDataChartItem = () => {
+export const ChartViewItemNoData = () => {
     return <div className="chart-view-item-no-data"> Please Add Chart </div>;
 };
 
-export const NumberChartItem = ({data} : any) => {
+/**
+ * Number Chart - Chart View Item
+ */
+export const NumberChartItem = ({ data }: any) => {
     return (
-        <div className='number-chart-item layout-center' style={{width:'500px', height:'500px'}}> 
-            <div className="flex-50"> 
-                <label>Count:</label> 
-                <div className='stats-item'>{data}</div> 
+        <div className='number-chart-item layout-center' style={{ width: '500px', height: '500px' }}>
+            <div className="flex-50">
+                <label>Count:</label>
+                <div className='stats-item'>{data}</div>
             </div>
         </div>
     );
 }
 
-export const StatsChartItem = ({data} : any) => {
+/**
+ * Stats Chart - Chart View Item
+ */
+export const StatsChartItem = ({ data }: any) => {
     return (
-        <div className='stats-chart-item layout-row-center flex-wrap' style={{width:'500px', height:'500px'}}>
-            <div className="flex-50"> 
+        <div className='stats-chart-item layout-row-center flex-wrap' style={{ width: '500px', height: '500px' }}>
+            <div className="flex-50">
                 <label>Count:</label>
                 <div className='stats-item'>{data.count} </div>
             </div>
-            <div className="flex-50"> 
+            <div className="flex-50">
                 <label>Mean:</label>
                 <div className='stats-item'>{data.mean.toFixed(4)}</div>
             </div>
-            <div className="flex-50"> 
+            <div className="flex-50">
                 <label>Median:</label>
                 <div className='stats-item'>{data.median.toFixed(4)}</div>
             </div>
-            <div className="flex-50"> 
+            <div className="flex-50">
                 <label>Sum:</label>
                 <div className='stats-item'>{data.sum.toFixed(4)}</div>
             </div>
-            <div className="flex-50"> 
+            <div className="flex-50">
                 <label>Std Dev:</label>
                 <div className='stats-item'>{data.stddev.toFixed(4)}</div>
             </div>

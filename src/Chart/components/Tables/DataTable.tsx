@@ -4,31 +4,38 @@ import DataTableHeaders from './DataTableHeaders';
 import DataTableRow from './DataTableRow';
 import './data-table.scss';
 
-export const getMockTableData = () =>{ 
+/**
+ * Mock Data for DataTable
+ * @returns Mock data
+ */
+export const getMockTableData = () => {
     const data = [];
-    for(var i = 0; i < 10; i++) {
-        data.push({ x: Utils.random(0,100), y:Utils.random(0,100) });
+    for (var i = 0; i < 10; i++) {
+        data.push({ x: Utils.random(0, 100), y: Utils.random(0, 100) });
     }
-    const keys = ['x','y'];
-    return { data:data, keys:keys }
+    const keys = ['x', 'y'];
+    return { data: data, keys: keys }
 }
 
 interface Props {
-    data: any [],
-    columns: string []
+    data: any[],
+    columns: string[]
 }
 
+/**
+ * Data Table Component 
+ */
 const DataTable: React.FC<Props> = (props) => {
 
     return (
-        <div className="data-table"> 
+        <div className="data-table">
             <DataTableHeaders columns={props.columns}></DataTableHeaders>
-           {
-                props.data.map((row : any, index)=> {
+            {
+                props.data.map((row: any, index) => {
                     return <DataTableRow row={row} columns={props.columns} key={index}></DataTableRow>
-                }) 
-           } 
-            
+                })
+            }
+
         </div>
     )
 }
