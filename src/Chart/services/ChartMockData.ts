@@ -1,3 +1,4 @@
+import * as Random from '../services/Random';
 import Utils from '../services/Utils';
 import { GroupDataArrayByValue } from './DataAggregator';
 
@@ -25,9 +26,9 @@ const ChartMockData = {
         const ids = Utils.range(0, entityCount);
         const data = ids.map((id, index) => {
             const name = layerNames[index % layerNames.length];
-            const geo = Utils.randomCircle([15, 5], 40);
-            const attr = { a:Utils.randomNormal(50, 20), b:Utils.random(0, 50), c:Utils.random(0, 1000), d:Utils.random(0, 250)}
-            const time = new Date(Utils.random(startTime, endTime))
+            const geo = Random.randomCircle([15, 5], 40);
+            const attr = { a:Random.randomNormal(50, 20), b:Random.random(0, 50), c:Random.random(0, 1000), d:Random.random(0, 250)}
+            const time = new Date(Random.random(startTime, endTime))
             return { id:id, name:name, geo:geo, attr:attr, time:time }
         })
         

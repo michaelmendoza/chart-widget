@@ -1,5 +1,5 @@
 import React, { } from 'react';
-import Utils from '../../services/Utils';
+import * as Random from '../../services/Random';
 import DataTableHeaders from './DataTableHeaders';
 import DataTableRow from './DataTableRow';
 import './data-table.scss';
@@ -11,7 +11,7 @@ import './data-table.scss';
 export const getMockTableData = () => {
     const data = [];
     for (var i = 0; i < 10; i++) {
-        data.push({ x: Utils.random(0, 100), y: Utils.random(0, 100) });
+        data.push({ x: Random.random(0, 100), y: Random.random(0, 100) });
     }
     const keys = ['x', 'y'];
     return { data: data, keys: keys }

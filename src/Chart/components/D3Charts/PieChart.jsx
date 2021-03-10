@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import React, { useEffect, useRef } from 'react';
-import Points from '../../modules/points';
+import * as Points from '../../services/Points';
 
 /**
  * Plots a svg pie chart using d3. Data can be input as a point array {data} or simple array {data_values}
