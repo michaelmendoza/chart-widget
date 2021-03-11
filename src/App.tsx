@@ -7,9 +7,9 @@ import ChartState from './Chart/states/ChartState';
 import ChartStateDebugger from './Chart/states/ChartStateDebuger';
 import Playground from './ChartPlayground/components/Playground';
 import ChartDataService from './Chart/services/ChartDataService';
-import PointMap from './DataMap/components/PointMap';
 import { MockConfig } from './Chart/services/ChartMockData';
 import { MapOptions } from './DataMap/components/MapSelect';
+import PointMap from './DataMap/components/PointMap';
 
 enum AppModes {
   StartScreen, WidgetScreen, PlaygroundScreen

@@ -2,4 +2,25 @@
 .chart-filters {
   padding: 1em;
   border-bottom: 1px solid #e8e8e8;
+
+  .chart-filters-item {
+    margin: 0;
+    text-align: left;
+
+    label {
+      text-align: left;
+      margin-bottom: 0.25em;
+      font-size: 0.75em;
+    }
+    input {
+      width: 100%;
+    }
+    select {
+      width: 100%;
+    }
+    span {
+      display: block;
+      margin: 1em 0;
+    }
+  }
 }
