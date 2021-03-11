@@ -1,5 +1,5 @@
 import React, { createContext, useReducer } from 'react';
-import { ChartConfig, IChartState, ChartItem, IChartItem } from '../models/ChartModels';
+import { ChartConfig, IChartState, ChartItem, IChartItem, ChartFilter } from '../models/ChartModels';
 import { Actions, ChartReducer } from '../reducers/ChartReducers';
 import { ChartTypes } from '../models/ChartTypes';
 
@@ -13,7 +13,7 @@ const initialState : IChartState = {
         'Population', 
         ['a'])
     ], 
-    chartFilters: {},
+    chartFilters: new ChartFilter(),
     chartConfig: new ChartConfig() 
 }
 

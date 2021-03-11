@@ -1,29 +1,26 @@
-import React, { useState } from 'react';
-import { MockFilterData } from '../../DataMap/services/MockFilterData';
-
-export enum FilterTypes {
-    None = 'None',
-    Circle = 'Circle',
-    Shapes = 'Shapes',
-    BBox = 'BBox'
-}
+import React, { useState, useContext } from 'react';
+import { FilterTypes } from '../models/ChartTypes';
+import { ActionTypes } from '../reducers/ChartActionsTypes';
+import ChartState from '../states/ChartState';
 
 /**
  * Component contains filter controls for filtering chart data by radius and 
  * shapes. All charts in the chart view are filtered by the status of this component. 
  */
 const ChartFilters = () => {
-    const geoJson = MockFilterData().geoJson;
-    const [state, setState] = useState({ filterType:FilterTypes.None, circle:{center:[-111.8408203125, 40.74725696280421], radius:100}, shapes: geoJson });
-    const features = state.shapes.features[0].geometry.coordinates[0];
+    const { state, dispatch } = useContext(ChartState.ChartContext);
 
-    const handleFilterTypeChange = (type: FilterTypes) => {
-        (type == state.filterType) ? setState({ ...state, filterType:FilterTypes.None }) : setState({ ...state, filterType:type })
+    const handleFilterTypeChange = (filterType: FilterTypes) => {
+        const type = (filterType == filterState.filterType) ? FilterTypes.None : filterType;
+        dispatch({ type:ActionTypes.UPDATE_FILTER_TYPE, filterType: type });
     }
-
+    
     const handleRadiusChange = (event : any) => {
-        setState({ ...state, circle:{ center:state.circle.center, radius: event.target.value} })
+        dispatch({ type:ActionTypes.UPDATE_FILTER_CIRCLE, circle:{ center:state.chartFilters.circle.center, radius: event.target.value } })
     }
+    
+    const filterState = state.chartFilters;
+    const features = filterState.shapes.features[0].geometry.coordinates[0];
 
     return (
         <div className="chart-filters">
@@ -35,19 +32,19 @@ const ChartFilters = () => {
                 </span>
             </div>
                 {
-                    state.filterType === FilterTypes.Circle ? <div className="layout-row">
+                    filterState.filterType === FilterTypes.Circle ? <div className="layout-row">
                         <div className='chart-filters-item' style={{ width: "50%"}}>
                             <label> Center: </label>
-                            <span> { "[" + state.circle.center[0] + ", " + state.circle.center[1] + "]" }  </span>
+                            <span> { "[" + filterState.circle.center[0] + ", " + filterState.circle.center[1] + "]" }  </span>
                         </div>
                         <div className='chart-filters-item' style={{ width: "50%"}}>
                             <label>Radius</label>
-                            <input type="text" name="radius" value={state.circle.radius} onChange={handleRadiusChange}/>
+                            <input type="text" name="radius" value={filterState.circle.radius} onChange={handleRadiusChange}/>
                         </div>
                     </div> : null
                 }
                 {
-                    state.filterType === FilterTypes.Shapes ? <div className="layout-row">
+                    filterState.filterType === FilterTypes.Shapes ? <div className="layout-row">
                         <div className='chart-filters-item'>
                             <label> GeoJson Features: </label>
                             <div> { JSON.stringify(features) } </div>

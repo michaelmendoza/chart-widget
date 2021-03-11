@@ -1,6 +1,6 @@
 import { IChartItem, IChartState } from '../models/ChartModels';
 import { ActionTypes } from './ChartActionsTypes';
-import { ChartModes } from '../models/ChartTypes';
+import { ChartModes, FilterTypes } from '../models/ChartTypes';
 
 export type ChartListActions = 
 { type: ActionTypes.ADD_CHART; item: any; } |
@@ -23,10 +23,19 @@ export const ChartListReducer = (state: IChartItem[], action: Actions) => {
     }
 }
 
-export type ChartFilterActions = { type: ActionTypes.FILTER_ALL_CHARTS; filter: any; };
+export type ChartFilterActions = 
+    { type: ActionTypes.UPDATE_FILTER_TYPE; filterType: FilterTypes; } | 
+    { type: ActionTypes.UPDATE_FILTER_CIRCLE; circle: any } |
+    { type: ActionTypes.UPDATE_FILTER_SHAPES; shapes: any }
 
 export const ChartFilterReducer = (state: any, action: Actions) => {
     switch(action.type) { 
+        case ActionTypes.UPDATE_FILTER_TYPE:
+            return { ...state, filterType: action.filterType }
+        case ActionTypes.UPDATE_FILTER_CIRCLE:
+            return { ...state, circle:action.circle }
+        case ActionTypes.UPDATE_FILTER_SHAPES:
+            return { ...state, shapes:action.shapes }
         default:
             return state;
     }

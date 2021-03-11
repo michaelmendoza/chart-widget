@@ -33,3 +33,10 @@ export enum DataMetrics {
     StdDev = 'StdDev', 
     Median = 'Median'
 }
+
+export enum FilterTypes {
+    None = 'None',
+    Circle = 'Circle',
+    Shapes = 'Shapes',
+    BBox = 'BBox'
+}

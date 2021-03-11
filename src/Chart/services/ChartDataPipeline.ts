@@ -1,7 +1,9 @@
 
-import { ChartTypes, DataMetrics } from '../models/ChartTypes';
+import { ChartTypes, DataMetrics, FilterTypes } from '../models/ChartTypes';
 import { EntityDataToDataArray, EntityDataToDataMatrix, EntityDataToTimeSeriesData, GroupDataArrayByValue, GroupDataMatrixByValue, GroupEntityDataByDate, ReduceDataArrayToMetric, ReduceDataArrayToStats } from './DataAggregator';
 import ChartDataService from './ChartDataService';
+import { IChartFilter } from '../models/ChartModels';
+import { geoFilter } from '../../DataMap/services/GeoFilter';
 
 export enum DataIOTypes {
     Entity = 'Entity',  
@@ -17,26 +19,26 @@ export enum DataIOTypes {
 export class DataSource {
     cache: any = null;
     
-    fetch(feedName:string, attributes:string[] = [], type : ChartTypes, dataMetric : DataMetrics, historyLength: number) {
+    fetch(feedName:string, attributes:string[] = [], type : ChartTypes, dataMetric : DataMetrics, historyLength: number, filter: IChartFilter) {
         console.log('Fetching Data from Data Source - feedName: ' + feedName + ', attribute: ' + attributes[0]);
 
         switch(type) {
             case ChartTypes.Number:
                 return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.Number, dataMetric);
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.Number, dataMetric, historyLength, filter);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })   
             case ChartTypes.Stats:
                 return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.Stats, dataMetric);
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.Stats, dataMetric, historyLength, filter);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })             
             case ChartTypes.Bar:
                 let outType = attributes.length === 1 ? DataIOTypes.XYPointArray : DataIOTypes.XMultiYPointArray;
                 return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, outType, dataMetric);
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, outType, dataMetric, historyLength, filter);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })
@@ -48,13 +50,13 @@ export class DataSource {
                 })
             case ChartTypes.ScatterPlot:
                 return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.XtYPointArray, dataMetric);
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.XtYPointArray, dataMetric, historyLength, filter);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })
             case ChartTypes.TimeSeries:
                 return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.XtMultiPointArray, dataMetric, historyLength);
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.XtMultiPointArray, dataMetric, historyLength, filter);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })
@@ -65,7 +67,7 @@ export class DataSource {
                 })
             case ChartTypes.Table:
                 return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.AttributeArray, dataMetric);
+                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.AttributeArray, dataMetric, historyLength, filter);
                     this.cache = pipeline.processData();
                     return this.cache;
                 })
@@ -78,16 +80,17 @@ export class DataPipeline {
     inputData: any;
     attributes: string[];
     type: ChartTypes;
-    filters: string[] = [];
+    filter: any;
     inputType : DataIOTypes;
     outputType : DataIOTypes;
     dataMetric : DataMetrics;
     historyLength: number;
 
-    constructor(inputData: any, attributes: string[], type: ChartTypes, inputType: DataIOTypes, outputType: DataIOTypes, dataMetric: DataMetrics, historyLength: number = 30) {
+    constructor(inputData: any, attributes: string[], type: ChartTypes, inputType: DataIOTypes, outputType: DataIOTypes, dataMetric: DataMetrics, historyLength: number = 30, filter: IChartFilter) {
         this.inputData = inputData;
         this.attributes = attributes;
         this.type = type;
+        this.filter = filter;
         this.inputType = inputType;
         this.outputType = outputType;
         this.dataMetric = dataMetric;
@@ -99,8 +102,23 @@ export class DataPipeline {
 
         switch(this.inputType) {
             case DataIOTypes.Entity:
+                this.filterEntity();
                 return this.transformEntity();
         }
+    }
+
+    filterEntity() {
+        let filter;
+        switch(this.filter.filterType) {
+            case FilterTypes.Circle:
+                filter = { circle: this.filter.circle }
+                break;
+            case FilterTypes.Shapes:
+                filter = { geoJson: this.filter.shapes }
+                break;
+        }
+
+        this.inputData = geoFilter(this.inputData, filter);
     }
 
     transformEntity() {

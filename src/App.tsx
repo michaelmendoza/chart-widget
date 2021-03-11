@@ -53,7 +53,7 @@ function App() {
                       <input type="text" name="entitycount" value={MockConfig.entityCount} onChange={handleEntityCountChange} />
                     </div>
 
-                    <PointMap map={MapOptions.Africa} entityData={ChartDataService.getEntityDataByFeed('Lightning')} max={2000} width={500} height={500}></PointMap>
+                    <PointMap map={MapOptions.USAStates} entityData={ChartDataService.getEntityDataByFeed('Lightning')} max={2000} width={500} height={500}></PointMap>
                   </div>
                 </div>
                 <ChartStateDebugger></ChartStateDebugger>

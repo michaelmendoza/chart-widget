@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import ChartState from '../../states/ChartState';
 import { ChartTypes } from '../../models/ChartTypes';
 import { ChartViewItemControls } from "./ChartViewItemControls";
 import LoadingSpinner from '../Loading/LoadingSpinner';
@@ -24,11 +25,13 @@ interface Props {
  */
 export const ChartViewItem: React.FC<Props> = (props) => {
 
-    const [data, setData] = useState<any>([]);
+    const { state } = useContext(ChartState.ChartContext);
+    const [ data, setData ] = useState<any>([]);
+
     useEffect(() => {
 
         const fetchData = async () => {
-            const fetchPromise = props.item.fetchData();
+            const fetchPromise = props.item.fetchData(state.chartFilters);
             const result = await fetchPromise;
             setData(result);
             console.log(result);

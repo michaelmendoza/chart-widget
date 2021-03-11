@@ -1,5 +1,6 @@
 import { DataSource } from "../services/ChartDataPipeline";
-import { ChartModes, ChartTypes, DataMetrics, DataTypes } from "./ChartTypes";
+import { ChartModes, ChartTypes, DataMetrics, DataTypes, FilterTypes } from "./ChartTypes";
+import { MockFilterData } from '../../DataMap/services/MockFilterData';
 
 /** Interface for data point to be used by Chart */
 export interface IDataPoint { 
@@ -49,7 +50,6 @@ export class ChartItem {
     dataMetric: DataMetrics;
     historyLength: number;
     properties: any = {};
-    filters: any[] = [];
     dataSource: DataSource;
 
     constructor(name: string, 
@@ -75,17 +75,21 @@ export class ChartItem {
         return new ChartItem(i.name, i.type, i.feedName, [...i.attributes], i.dataMetric, i.historyLength)
     }
 
-    fetchData = ()=> {
-        return this.dataSource.fetch(this.feedName, this.attributes, this.type, this.dataMetric, this.historyLength);
+    fetchData = (filter : IChartFilter)=> {
+        return this.dataSource.fetch(this.feedName, this.attributes, this.type, this.dataMetric, this.historyLength, filter);
     };
 }
 
-export class ChartList {
-
+export class ChartFilter {
+    filterType: FilterTypes = FilterTypes.None;
+    circle: any = MockFilterData().circle;
+    shapes: any = MockFilterData().geoJson;
 }
 
 export interface IChartFilter {
-
+    filterType: FilterTypes,
+    circle: any,
+    shapes: any
 }
 
 /** Interface for chart config */

@@ -1,6 +1,8 @@
 import * as Random from '../services/Random';
 import Utils from '../services/Utils';
 import { GroupDataArrayByValue } from './DataAggregator';
+import { MapOptions } from '../../DataMap/components/MapSelect';
+import { MapConstants } from '../../DataMap/components/MapConstants';
 
 var entityData: any[] = [];
 const entityCount = 10000;
@@ -16,6 +18,10 @@ const ChartMockData = {
      * @param count Size of entity data array
      */
     createEntityData: () => {
+        const mapConstant = MapConstants['USA States'];
+        const geoCenter = mapConstant.center; 
+        const radius = mapConstant.radius; 
+
         // Date Ranges for Uniformly Distrubuted Dates between startTime and endTime 
         const daysInTimeWindow = 30;
         const milliSecondsInDay = 1000 * 60 * 60 * 24;
@@ -26,7 +32,7 @@ const ChartMockData = {
         const ids = Utils.range(0, entityCount);
         const data = ids.map((id, index) => {
             const name = layerNames[index % layerNames.length];
-            const geo = Random.randomCircle([15, 5], 40);
+            const geo = Random.randomCircle(geoCenter, radius);
             const attr = { a:Random.randomNormal(50, 20), b:Random.random(0, 50), c:Random.random(0, 1000), d:Random.random(0, 250)}
             const time = new Date(Random.random(startTime, endTime))
             return { id:id, name:name, geo:geo, attr:attr, time:time }

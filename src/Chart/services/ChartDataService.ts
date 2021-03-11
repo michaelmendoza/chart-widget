@@ -1,5 +1,7 @@
 import ChartMockData from "./ChartMockData"
 
+// TODO: ADD cache for Backend data call 
+
 const mockDelay = 250; // Delay in milliseconds 
 
 /**
