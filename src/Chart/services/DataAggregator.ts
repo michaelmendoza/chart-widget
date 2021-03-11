@@ -6,6 +6,8 @@ import * as Points from './Points';
 import * as Stats from './Stats';
 import Utils from '../services/Utils';
 
+const milliSecondsInDay = 1000 * 60 * 60 * 24;
+
 /**
  *  Takes an array of values and groups data into "bins" of equal width. 
  *  Place top bin value in x, and count of elements in bins in y. 
@@ -111,7 +113,6 @@ export const EntityDataToTimeSeriesData = (data : IEntityDataPoint[], attribute 
     })    
 }
 
-const milliSecondsInDay = 1000 * 60 * 60 * 24;
 /**
  * 
  * @param data 

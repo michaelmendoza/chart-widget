@@ -14,13 +14,6 @@ export enum DataIOTypes {
     Stats = 'Stats'
 }
 
-export enum DataGroupByTypes {
-    GroupByValue, // X: Bins, Y: Value Count 
-    GroupByTime, // X: Time, Y: Value - Metric (Sum, Avg, StdDev, Median)
-    XvsY, // ScatterPlot: (Comparision) X:Attr1 Values, Y:Attr2 Values
-    TvsY // ScatterPlot: X: Time, Y: Value 
-}
-
 export class DataSource {
     cache: any = null;
     
