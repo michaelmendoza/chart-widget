@@ -42,7 +42,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
     }, [props.item, state.chartFilters])
 
     const renderChartByChartType = () => {
-
+        
         let data = props.item.dataSource.cache;
         let labels = { y: props.item.attributes[0], x: props.item.dataMetric }
 

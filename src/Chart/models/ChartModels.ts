@@ -1,4 +1,4 @@
-import { DataSource } from "../services/ChartDataPipeline";
+import { DataSource } from "../services/DataSource";
 import { ChartModes, ChartTypes, DataMetrics, DataTypes, FilterTypes } from "./ChartTypes";
 import { MockFilterData } from '../../DataMap/services/MockFilterData';
 
