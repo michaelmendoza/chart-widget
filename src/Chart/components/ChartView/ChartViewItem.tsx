@@ -14,9 +14,10 @@ import ScatterPlot from '../D3Charts/ScatterPlot.jsx';
 import DataMap from '../../../DataMap/components/DataMap.jsx';
 import DataTable from '../Tables/DataTable';
 import { MapOptions } from '../../../DataMap/components/MapSelect';
+import { ChartItem } from '../../models/ChartModels';
 
 interface Props {
-    item?: any,
+    item: ChartItem,
     index: number
 }
 
@@ -29,7 +30,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
     const [ data, setData ] = useState<any>([]);
 
     useEffect(() => {
-        
+
         const fetchData = async () => {
             const fetchPromise = props.item.fetchData(state.chartFilters);
             const result = await fetchPromise;
@@ -43,6 +44,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
     const renderChartByChartType = () => {
 
         let data = props.item.dataSource.cache;
+        let labels = { y: props.item.attributes[0], x: props.item.dataMetric }
 
         if (!data) {
             return <div className='layout-center' style={{ width: '500px', height: '500px' }}>
@@ -60,7 +62,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
                 return <StatsChartItem data={data}></StatsChartItem>
             case ChartTypes.Bar:
                 if (props.item.attributes.length === 1) // Simple Bar Chart
-                    return <BarChart width={500} height={500} data={data} />;
+                    return <BarChart width={500} height={500} data={data} labels={labels}/>;
                 else // Muliple Bar Chart 
                     return <BarComparsionChart width={500} height={500} data={data} />
             case ChartTypes.Pie:

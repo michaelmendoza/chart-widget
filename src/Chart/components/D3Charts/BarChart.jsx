@@ -6,7 +6,7 @@ import React, { useEffect, useRef } from 'react';
  * 
  * example: 
  * <BarChart width={500} height={500} data={[{x:'One',y:1},{x:'Two',y:2},{x:"Three",y:3}]}></BarChart>
- * @param {{width, height, data}} props { width, height, data } 
+ * @param {{width, height, data, labels? }} props { width, height, data, labels } 
  */
 const BarChart = (props) => {
     
@@ -65,21 +65,24 @@ const BarChart = (props) => {
             .call(d3.axisLeft(y)); 
 
         // xAxis Labels
+        var xLabelText = props.labels?.x ? props.labels.x : "";
         xAxis.append("text")
             .attr("class", "axis-title")
-            .attr("transform", "translate(" + width + ", 0)")
-            .attr("y", -6)
-            .attr("text-anchor", "end")
+            .attr("transform", "translate(" + ( width / 2 ) + ", 0)")
+            .attr("y", (margin.bottom - 5))
+            .attr("text-anchor", "middle")
             .style("fill", "#444444")
-            .text("Attribute A")
+            .text(xLabelText)
 
         // yAxis Labels
+        var yLabelText = props.labels?.y ? props.labels.y : "";
         yAxis.append("text")
             .attr("class", "axis-title")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 16)
+            .attr("transform", "rotate(-90)translate(" + ( -width / 2 ) + ", 0)")
+            .attr("y", - (margin.left - 10))
+            .attr("text-anchor", "middle")
             .style("fill", "#444444")
-            .text("Count");
+            .text(yLabelText);
 
         // Define tooltip
         var tooltip = d3.select("body")
@@ -106,7 +109,7 @@ const BarChart = (props) => {
         // Update x,y axis
         xAxis.transition().duration(800).call(d3.axisBottom(x))
         yAxis.transition().duration(800).call(d3.axisLeft(y))
-        
+
         // Draw bars
         g.selectAll("rect")
         .data(data)
