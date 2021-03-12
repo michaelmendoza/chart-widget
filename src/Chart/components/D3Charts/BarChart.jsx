@@ -110,6 +110,36 @@ const BarChart = (props) => {
         xAxis.transition().duration(800).call(d3.axisBottom(x))
         yAxis.transition().duration(800).call(d3.axisLeft(y))
 
+        // Update and Draw Bars 
+        var bars  = g.selectAll("rect").data(data);
+        bars.exit()                                                     // Update bars that are removed
+            .transition().duration(750)
+            .attr("height", function(d) { return height - y(0); }) 
+            .attr("y", function(d) { return y(0); })
+            .attr("fill-opacity", 1)
+            .remove()
+        bars.transition().duration(750)                                 // Update bars that aren't removed 
+            .attr("y", function(d) { return y(d.y); })
+            .attr("height", function(d) { return height - y(d.y); })  
+            .attr("x", function(d) { return x(d.x); })
+            .attr("width", x.bandwidth())
+            .delay(function(d,i){ return(i * 50)})
+        bars.enter().append("rect")                                     // Initialize new bars
+            .attr("height", function(d) { return height - y(0); }) 
+            .attr("y", function(d) { return y(0); })
+            .attr("x", function(d) { return x(d.x); })
+            .attr("width", x.bandwidth())
+            .attr("fill", fillColor)
+            .attr("fill-opacity", 1)        
+        .transition().duration(750)                                     // Update new bars
+            .attr("y", function(d) { return y(d.y); })
+            .attr("height", function(d) { return height - y(d.y); })
+            .attr("x", function(d) { return x(d.x); })
+            .attr("width", x.bandwidth())
+            .attr("fill-opacity", 1)
+            .delay(function(d,i){ return(i * 50)})
+
+        /*
         // Draw bars
         g.selectAll("rect")
         .data(data)
@@ -129,6 +159,7 @@ const BarChart = (props) => {
         .attr("y", function(d) { return y(d.y); })
         .attr("height", function(d) { return height - y(d.y); })
         .delay(function(d,i){ return(i * 100)})
+        */
     }
 
     const updateTooltip = (data) => {
