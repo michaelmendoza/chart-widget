@@ -23,8 +23,8 @@ export const GroupDataArrayByValue = (data : number[], binCount : number = 5) =>
         .domain([0, xmax])
     var ticks = x.ticks(binCount - 1)
     var bin = d3.bin()
-        .domain([0, xmax])
-        .thresholds(ticks)
+        //.domain([0, xmax])
+        //.thresholds(ticks)
     
     var bins = bin(data);
 

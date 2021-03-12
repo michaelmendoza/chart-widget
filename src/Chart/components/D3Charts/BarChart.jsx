@@ -10,6 +10,7 @@ import React, { useEffect, useRef } from 'react';
  */
 const BarChart = (props) => {
     
+    const self = useRef({ svg: null }); 
     const d3Container = useRef(null);
     const margin = { top: 40, right: 40, bottom: 40, left: 50 };
     const fillColor = "#69b3a2";
@@ -18,11 +19,23 @@ const BarChart = (props) => {
     // Get margin adjusted width and height
     const width = props.width - margin.left - margin.right;
     const height = props.height - margin.top - margin.bottom;
-    
-    useEffect(() => {
         
+    useEffect(() => {
+        initChart();
+        updateChart(props.data);
+        updateTooltip(props.data);
+    }, [props.data])
+
+    const initChart = () => {
+        if(self.current.svg) return;
+
         // Add margins to graph    
         var svg = d3.select(d3Container.current);
+
+        // Bars Group
+        var g = svg.append("g")
+            .attr("class", "barchart")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 		// Min and Max Values
 		var ymin = 0;
@@ -40,71 +53,105 @@ const BarChart = (props) => {
 			.range([height, 0]);
 
         // Create an axis component with d3.axisBottom
-        svg.append("g")
-            .attr("class", "x axis")
+        var xAxis = svg.append("g")
+            .attr("class", "xaxis")
             .attr("transform", "translate(" + margin.left + "," + (height + margin.top) + ")")
             .call(d3.axisBottom(x)); 
         
         // Create an axis component with d3.axisLeft       
-        svg.append("g")
-            .attr("class", "y axis")
+        var yAxis = svg.append("g")
+            .attr("class", "yaxis")
             .attr("transform", "translate(" + (margin.left) + ", " + margin.top + ")")
             .call(d3.axisLeft(y)); 
 
-        drawBars(svg, props.data, x, y);
+        // xAxis Labels
+        xAxis.append("text")
+            .attr("class", "axis-title")
+            .attr("transform", "translate(" + width + ", 0)")
+            .attr("y", -6)
+            .attr("text-anchor", "end")
+            .style("fill", "#444444")
+            .text("Attribute A")
 
-    }, [])
-
-    const drawBars = (svg, data, x, y) => {
+        // yAxis Labels
+        yAxis.append("text")
+            .attr("class", "axis-title")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 16)
+            .style("fill", "#444444")
+            .text("Count");
 
         // Define tooltip
         var tooltip = d3.select("body")
-        .append("div")	
-        .attr("class", "charts-d3-tooltip")				
-        .style("opacity", 0)
-        .text("");
+            .append("div")	
+            .attr("class", "charts-d3-tooltip")				
+            .style("opacity", 0)
+            .text("");
 
-        // Bars
-        var g = svg.append("g")
-            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        self.current = { svg, g, x, y, xAxis, yAxis, tooltip }
+    }
+    
+    const updateChart = (data) => {
+
+        const { svg, g, x, y, xAxis, yAxis } = self.current
+
+		// Min and Max Values
+		var ymin = 0;
+		var ymax = d3.max(props.data, function(d) { return d.y; });
+
+        // Update x, y scale
+		x.domain(props.data.map((d) => d.x))
+		y.domain([ymin , ymax])
+
+        // Update x,y axis
+        xAxis.transition().duration(800).call(d3.axisBottom(x))
+        yAxis.transition().duration(800).call(d3.axisLeft(y))
         
-        g.selectAll("mybar")
+        // Draw bars
+        g.selectAll("rect")
         .data(data)
-        .enter()
-        .append("rect")
+        .join("rect")
             .attr("x", function(d) { return x(d.x); })
             .attr("width", x.bandwidth())
             .attr("fill", fillColor)
             // no bar at the beginning thus:
             .attr("height", function(d) { return height - y(0); }) // always equal to 0
             .attr("y", function(d) { return y(0); })
-            .on("mouseover",function(e, d) {
-                d3.select(this).style("fill", hoverColor)
-                
-                tooltip
-                .style("left", (e.pageX) + "px")		
-                .style("top", (e.pageY - 28) + "px")
-                .transition()		
-                .duration(200)		
-                .style("opacity", .9)		
-
-                tooltip.text(d.x);	
-            }) 
-            .on("mouseout",function(d){
-                d3.select(this).style("fill", fillColor);
-
-                tooltip.transition()		
-                .duration(500)		
-                .style("opacity", 0); 
-            })
 
         // Animation
         svg.selectAll("rect")
+        .data(data)
         .transition()
         .duration(800)
         .attr("y", function(d) { return y(d.y); })
         .attr("height", function(d) { return height - y(d.y); })
         .delay(function(d,i){ return(i * 100)})
+    }
+
+    const updateTooltip = (data) => {
+
+        const { svg, tooltip } = self.current
+
+        svg.selectAll("rect")
+            .data(data)
+            .on("mouseover",function(e, d) {
+                d3.select(this).style("fill", hoverColor)
+                
+                tooltip.style("left", (e.pageX) + "px")		
+                    .style("top", (e.pageY - 28) + "px")
+                    .transition()		
+                    .duration(200)		
+                    .style("opacity", .9)		
+
+                tooltip.text(d.x);	
+            }) 
+            .on("mouseout",function(d){
+                d3.select(this).style("fill", fillColor);
+                
+                tooltip.transition()		
+                    .duration(200)		
+                    .style("opacity", 0); 
+            })
     }
 
     return (

@@ -29,7 +29,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
     const [ data, setData ] = useState<any>([]);
 
     useEffect(() => {
-
+        
         const fetchData = async () => {
             const fetchPromise = props.item.fetchData(state.chartFilters);
             const result = await fetchPromise;
@@ -38,7 +38,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
         }
         fetchData();
 
-    }, [props.item])
+    }, [props.item, state.chartFilters])
 
     const renderChartByChartType = () => {
 
