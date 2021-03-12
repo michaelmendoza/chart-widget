@@ -22,56 +22,41 @@ export class DataSource {
     fetch(feedName:string, attributes:string[] = [], type : ChartTypes, dataMetric : DataMetrics, historyLength: number, filter: IChartFilter) {
         console.log('Fetching Data from Data Source - feedName: ' + feedName + ', attribute: ' + attributes[0]);
 
-        switch(type) {
-            case ChartTypes.Number:
-                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.Number, dataMetric, historyLength, filter);
-                    this.cache = pipeline.processData();
-                    return this.cache;
-                })   
-            case ChartTypes.Stats:
-                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.Stats, dataMetric, historyLength, filter);
-                    this.cache = pipeline.processData();
-                    return this.cache;
-                })             
-            case ChartTypes.Bar:
-                let outType = attributes.length === 1 ? DataIOTypes.XYPointArray : DataIOTypes.XMultiYPointArray;
-                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, outType, dataMetric, historyLength, filter);
-                    this.cache = pipeline.processData();
-                    return this.cache;
-                })
-            case ChartTypes.Pie:
-            case ChartTypes.LineArea:
-                return ChartDataService.fetchChartData(feedName, attributes[0]).then((res : any) => {
-                    this.cache = res;
-                    return this.cache;
-                })
-            case ChartTypes.ScatterPlot:
-                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.XtYPointArray, dataMetric, historyLength, filter);
-                    this.cache = pipeline.processData();
-                    return this.cache;
-                })
-            case ChartTypes.TimeSeries:
-                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.XtMultiPointArray, dataMetric, historyLength, filter);
-                    this.cache = pipeline.processData();
-                    return this.cache;
-                })
-            case ChartTypes.HeatMap:
-                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    this.cache = res;
-                    return this.cache;
-                })
-            case ChartTypes.Table:
-                return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
-                    const pipeline = new DataPipeline(res, attributes, type, DataIOTypes.Entity, DataIOTypes.AttributeArray, dataMetric, historyLength, filter);
-                    this.cache = pipeline.processData();
-                    return this.cache;
-                })
-        }      
+        return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
+            let args = { inputData: res, attributes, type, inputType: DataIOTypes.Entity, outputType: DataIOTypes.Entity, dataMetric, historyLength, filter }
+
+            switch(type) {
+                case ChartTypes.Number:
+                    args.outputType = DataIOTypes.Number;
+                    break;
+                case ChartTypes.Stats:
+                    args.outputType = DataIOTypes.Stats;
+                    break;
+                case ChartTypes.Bar:
+                    args.outputType = attributes.length === 1 ? DataIOTypes.XYPointArray : DataIOTypes.XMultiYPointArray;
+                    break;
+                case ChartTypes.Pie:
+                case ChartTypes.LineArea:
+                    args.outputType = DataIOTypes.XYPointArray
+                    break;
+                case ChartTypes.ScatterPlot:
+                    args.outputType = DataIOTypes.XtYPointArray;
+                    break;
+                case ChartTypes.TimeSeries:
+                    args.outputType =  DataIOTypes.XtMultiPointArray;
+                    break;
+                case ChartTypes.HeatMap:
+                    args.outputType = DataIOTypes.Entity;
+                    break;
+                case ChartTypes.Table:
+                    args.outputType = DataIOTypes.AttributeArray;
+                    break;
+            }
+
+            const pipline = new DataPipeline( args )
+            this.cache = pipline.processData();
+            return this.cache;
+        })    
     }
 }
 
@@ -85,8 +70,11 @@ export class DataPipeline {
     outputType : DataIOTypes;
     dataMetric : DataMetrics;
     historyLength: number;
+    a: any;
+    b: any;
 
-    constructor(inputData: any, attributes: string[], type: ChartTypes, inputType: DataIOTypes, outputType: DataIOTypes, dataMetric: DataMetrics, historyLength: number = 30, filter: IChartFilter) {
+    //constructor(inputData: any, attributes: string[], type: ChartTypes, inputType: DataIOTypes, outputType: DataIOTypes, dataMetric: DataMetrics, historyLength: number = 30, filter: IChartFilter) {
+    constructor({ inputData, attributes, type, inputType, outputType, dataMetric, historyLength, filter } : any) {
         this.inputData = inputData;
         this.attributes = attributes;
         this.type = type;
@@ -124,6 +112,14 @@ export class DataPipeline {
     transformEntity() {
         let data = [];
         switch(this.outputType) {
+            case DataIOTypes.Entity:
+                return this.inputData;
+
+            case DataIOTypes.AttributeArray:
+                return this.inputData.map((item : any)=>{
+                    return { id:item.id, name:item.name, x:item.geo[0], y:item.geo[1], ...item.attr, time:item.time }
+                })
+
             case DataIOTypes.Number:
                 // Transform EntityData array to an array of attibute values 
                 data = EntityDataToDataArray(this.inputData, this.attributes[0]);
@@ -153,11 +149,6 @@ export class DataPipeline {
                 
             case DataIOTypes.XtMultiPointArray:
                return GroupEntityDataByDate(this.inputData, this.attributes, this.dataMetric, this.historyLength);
-
-            case DataIOTypes.AttributeArray:
-                return this.inputData.map((item : any)=>{
-                    return { id:item.id, name:item.name, x:item.geo[0], y:item.geo[1], ...item.attr, time:item.time }
-                })
         }
     }
 }
