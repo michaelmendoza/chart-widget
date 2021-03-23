@@ -27,7 +27,7 @@ const ChartMockData = {
         const milliSecondsInDay = 1000 * 60 * 60 * 24;
         const endTime = (new Date()).getTime();
         const startTime =  endTime - daysInTimeWindow * milliSecondsInDay;
-
+        
         // Create Entity DataPoints 
         const ids = Utils.range(0, entityCount);
         const data = ids.map((id, index) => {

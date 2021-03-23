@@ -11,7 +11,8 @@ export enum ActionTypes {
     UPDATE_FILTER_TYPE,
     UPDATE_FILTER_CIRCLE,
     UPDATE_FILTER_SHAPES,
-
+    
     // ChartConfig Actions
     UPDATE_CHART_MODE,    
+    UPDATE_CHART_EDITOR
 }

@@ -23,6 +23,9 @@ export class DataSource {
 
         return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
             let args = { inputData: res, attributes, type, inputType: DataIOTypes.Entity, outputType: DataIOTypes.Entity, dataMetric, historyLength, filters }
+            
+            // Remove attributes that are empty or null
+            args.attributes = args.attributes.filter(item => item !== "");
 
             switch(type) {
                 case ChartTypes.Number:
@@ -32,7 +35,7 @@ export class DataSource {
                     args.outputType = DataIOTypes.Stats;
                     break;
                 case ChartTypes.Bar:
-                    args.outputType = attributes.length === 1 ? DataIOTypes.XYPointArray : DataIOTypes.XMultiYPointArray;
+                    args.outputType = args.attributes.length === 1 ? DataIOTypes.XYPointArray : DataIOTypes.XMultiYPointArray;
                     break;
                 case ChartTypes.Pie:
                 case ChartTypes.LineArea:

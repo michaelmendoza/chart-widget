@@ -2,6 +2,8 @@
 
 # Other modules
 /src/DataMap 
+/docs
+/out
 
 # dependencies
 /node_modules

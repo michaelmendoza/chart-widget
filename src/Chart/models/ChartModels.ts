@@ -20,11 +20,6 @@ export interface IAttributeDataArray {
     values: number[]     // Attribute values
 }
 
-export interface ChartDataSet {
-    type: DataTypes,
-    data: IDataPoint[] | IEntityDataPoint[] | IAttributeDataArray[]
-}
-
 /** Interface for data to be feed into ChartViewItem */
 export interface IChartItem {
     id: string,
@@ -96,13 +91,33 @@ export interface IChartFilter {
 export interface IChartConfig {
     index: number,
     mode: ChartModes,
-    mock: any
+    mock: any,
+    editor: {
+        chartType: ChartTypes,
+        name: string,
+        feedName: string,
+        attributes: string[],
+        metric: DataMetrics,
+        history: number,
+        multiChartTypes: ChartTypes[],
+        availableFeeds: any[]
+    }
 }
 
 export class ChartConfig {
     index: number = 0;
     mode: ChartModes = ChartModes.ShowCharts;
     mock: any = { entityCount: 10000 };
+    editor: any = {
+        chartType: ChartTypes.Bar,
+        name: 'New Chart',
+        feedName: 'Population',
+        attributes: ['a', ''],
+        metric: DataMetrics.Count,
+        history: 30,
+        multiChartTypes: [ChartTypes.Bar, ChartTypes.LineArea],
+        availableFeeds: [{name:'Population', attr:['a','b','c','d']}, {name:'Lightning', attr:['a','b']}]
+    }
 }
 
 /** Interface for Chart State */

@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import ChartFilters from './ChartFilters';
 import ChartView from './ChartView/ChartView';
-import ChartEditor from './ChartEditor';
+import ChartEditor from './ChartEditor/ChartEditor';
 import ChartHeader from './ChartHeader';
 import ChartState from '../states/ChartState';
 import { ChartModes } from '../models/ChartTypes';

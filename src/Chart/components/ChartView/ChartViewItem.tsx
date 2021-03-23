@@ -45,6 +45,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
         
         let data = props.item.dataSource.cache;
         let labels = { y: props.item.attributes[0], x: props.item.dataMetric }
+        let attributes = props.item.attributes.filter(item => item !== "");
 
         if (!data) {
             return <div className='layout-center' style={{ width: '500px', height: '500px' }}>
@@ -61,7 +62,7 @@ export const ChartViewItem: React.FC<Props> = (props) => {
             case ChartTypes.Stats:
                 return <StatsChartItem data={data}></StatsChartItem>
             case ChartTypes.Bar:
-                if (props.item.attributes.length === 1) // Simple Bar Chart
+                if (attributes.length === 1) // Simple Bar Chart
                     return <BarChart width={500} height={500} data={data} labels={labels}/>;
                 else // Muliple Bar Chart 
                     return <BarComparsionChart width={500} height={500} data={data} />

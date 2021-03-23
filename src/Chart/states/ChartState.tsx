@@ -7,12 +7,7 @@ import { ChartTypes } from '../models/ChartTypes';
  * Inital state for ChartState (implements IChartState)
  */
 const initialState : IChartState = { 
-    chartList:[ 
-        new ChartItem('Chart 1', 
-        ChartTypes.Bar, 
-        'Population', 
-        ['a'])
-    ], 
+    chartList:[], 
     chartFilters: new ChartFilter(),
     chartConfig: new ChartConfig() 
 }
