@@ -15,6 +15,8 @@ const BarChart = (props) => {
     const margin = { top: 40, right: 40, bottom: 40, left: 50 };
     const fillColor = "#69b3a2";
     const hoverColor = "#6797A9";
+    const duration = 500;
+    const delay = 100;
 
     // Get margin adjusted width and height
     const width = props.width - margin.left - margin.right;
@@ -113,12 +115,12 @@ const BarChart = (props) => {
         // Update and Draw Bars 
         var bars  = g.selectAll("rect").data(data);
         bars.exit()                                                     // Update bars that are removed
-            .transition().duration(750)
+            .transition().duration(duration)
             .attr("height", function(d) { return height - y(0); }) 
             .attr("y", function(d) { return y(0); })
             .attr("fill-opacity", 1)
             .remove()
-        bars.transition().duration(750)                                 // Update bars that aren't removed 
+        bars.transition().duration(duration)                                 // Update bars that aren't removed 
             .attr("y", function(d) { return y(d.y); })
             .attr("height", function(d) { return height - y(d.y); })  
             .attr("x", function(d) { return x(d.x); })
@@ -131,13 +133,13 @@ const BarChart = (props) => {
             .attr("width", x.bandwidth())
             .attr("fill", fillColor)
             .attr("fill-opacity", 1)        
-        .transition().duration(750)                                     // Update new bars
+        .transition().duration(duration)                                     // Update new bars
             .attr("y", function(d) { return y(d.y); })
             .attr("height", function(d) { return height - y(d.y); })
             .attr("x", function(d) { return x(d.x); })
             .attr("width", x.bandwidth())
             .attr("fill-opacity", 1)
-            .delay(function(d,i){ return(i * 50)})
+            .delay(function(d,i){ return(i * delay / data.length)})
 
         /*
         // Draw bars
