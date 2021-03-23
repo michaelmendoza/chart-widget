@@ -6,15 +6,19 @@ enum DataTypes { 'Mock', 'API' };
 let dataType = DataTypes.API;
 const dataUrl = 'http://localhost:3001/';
 const mockDelay = 250; // Delay in milliseconds 
-const cache : any = {}
+const cache : any = {
+    entity: {},
+    feeds: {}
+}
 
 const fetchEntityDataByFeed = (feedName:string) => {
-    const url = dataUrl + 'entityEvents/findAndAggregate';
+    const id = cache.feeds.find((item:any) => item.name === feedName).id;
+    const url = dataUrl + 'entityEvents/findAndAggregate/' + id;
     const req = fetch(url);
     return req.then(res => { 
         return res.json()
     }).then(data => { 
-        cache[feedName] = data.data;
+        cache.entity[feedName] = data.data;
         console.log(data); 
         return data.data;
     });
@@ -26,6 +30,7 @@ const fetchAvailableCharts = () => {
     return req.then(res => { 
         return res.json()
     }).then(data => { 
+        cache.feeds = data.data;
         console.log(data); 
         return data.data;
     });
@@ -46,7 +51,7 @@ const fetchMockChartData = (feedName:string, attributeKey:string) => {
     let fetch = new Promise((resolve, reject) => {
         setTimeout(() =>  {
             const data = ChartMockData.getChartData(feedName, attributeKey)
-            cache[feedName] = data;
+            cache.entity[feedName] = data;
             resolve(data);
         }, mockDelay)
     })
@@ -62,9 +67,9 @@ const ChartDataService = {
     async fetchEntityDataByFeed(feedName:string) {
         let fetch;
 
-        // Check for entity data in data cache
-        if(cache[feedName]) {
-            fetch = Promise.resolve(cache[feedName])
+        // Check for entity data in data cache.entity
+        if(cache.entity[feedName]) {
+            fetch = Promise.resolve(cache.entity[feedName])
             return fetch;
         }
         else {
