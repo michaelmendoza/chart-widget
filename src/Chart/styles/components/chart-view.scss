@@ -10,6 +10,10 @@
   margin-bottom: 1em;
   border-bottom: 1px solid #e8e8e8;
 
+  .chart-view-item-title {
+    margin: 1em 0 0 0;
+  }
+
   .data-table {
     margin-top: 5em;
     font-size: 0.5em;
@@ -38,11 +42,7 @@
 }
 
 .chart-view-item-controls {
-  margin: 1em;
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
+  margin: 0em;
 
   select {
     margin: 0 0 0 1em;
@@ -53,7 +53,9 @@
   width: 50%;
   text-align: left;
   font-size: 0.5em;
+  margin: 0 0 0 1em;
 }
 
 .chart-type-select {
+
 }

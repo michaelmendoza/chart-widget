@@ -85,8 +85,8 @@ export const ChartViewItem: React.FC<Props> = (props) => {
 
     return (
         <li className='chart-view-item'>
-            <div> {props.item.name} </div>
             <ChartViewItemControls index={props.index} item={props.item}></ChartViewItemControls>
+            <div className='chart-view-item-title'> {props.item.name} </div>
             {renderChartByChartType()}
         </li>
     );

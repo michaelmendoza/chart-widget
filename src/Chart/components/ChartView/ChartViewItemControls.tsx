@@ -3,6 +3,7 @@ import ChartState from '../../states/ChartState';
 import { ChartModes } from '../../models/ChartTypes';
 import { ActionTypes } from '../../reducers/ChartActionsTypes';
 import ChartTypeSelect from './ChartTypeSelect';
+import { ChartViewItemAttributeControls } from './ChartViewItemAttributeControls';
 
 interface Props {
     item?: any,
@@ -26,6 +27,7 @@ export const ChartViewItemControls: React.FC<Props> = (props) => {
     return (
         <div className='chart-view-item-controls layout-row-center layout-space-between'>
             <ChartTypeSelect item={props.item}></ChartTypeSelect>
+            <ChartViewItemAttributeControls item={props.item}></ChartViewItemAttributeControls>
 
             <div className="text-align-right flex-50"> 
                 <button className="button-icon" onClick={handleEdit}> <i className="fas fa-pen"></i> </button>

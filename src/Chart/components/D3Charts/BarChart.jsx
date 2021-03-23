@@ -177,7 +177,7 @@ const BarChart = (props) => {
                     .duration(200)		
                     .style("opacity", .9)		
 
-                tooltip.text(d.x);	
+                tooltip.text(d.y);	
             }) 
             .on("mouseout",function(d){
                 d3.select(this).style("fill", fillColor);
