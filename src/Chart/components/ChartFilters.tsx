@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { FilterTypes } from '../models/ChartTypes';
 import { ActionTypes } from '../reducers/ChartActionsTypes';
 import ChartState from '../states/ChartState';
@@ -11,7 +11,7 @@ const ChartFilters = () => {
     const { state, dispatch } = useContext(ChartState.ChartContext);
 
     const handleFilterTypeChange = (filterType: FilterTypes) => {
-        const type = (filterType == filterState.filterType) ? FilterTypes.None : filterType;
+        const type = (filterType === filterState.filterType) ? FilterTypes.None : filterType;
         dispatch({ type:ActionTypes.UPDATE_FILTER_TYPE, filterType: type });
     }
     

@@ -7,7 +7,6 @@ import ChartState from './Chart/states/ChartState';
 import ChartStateDebugger from './Chart/states/ChartStateDebuger';
 import Playground from './ChartPlayground/components/Playground';
 import ChartDataService from './Chart/services/ChartDataService';
-import { MockConfig } from './Chart/services/ChartMockData';
 import { MapOptions } from './DataMap/components/MapSelect';
 import PointMap from './DataMap/components/PointMap';
 import Loading from './Chart/components/Loading/Loading';
@@ -19,7 +18,7 @@ enum AppModes {
 
 const EntityPointMap = () => {
 
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(true);
   const [feedName, setFeedName] = useState('');
   const [availableFeeds, setAvailableFeeds] = useState([]);
   const [entityData, setEntityData] = useState([]);
@@ -38,16 +37,19 @@ const EntityPointMap = () => {
   }
   
   const updateMap = (feedName : string) => {
-    if(!feedName) return;
 
     const fetch = async () => {
-      let entityData = await ChartDataService.fetchEntityDataByFeed(feedName);
-      entityData = GeoAdapter(entityData); 
-      //const entityData: any = ChartDataService.getEntityDataByFeed('Lightning');
+      let entityData: any = []
+      if(feedName) {
+        entityData = await ChartDataService.fetchEntityDataByFeed(feedName);
+        entityData = GeoAdapter(entityData); 
+        //const entityData: any = ChartDataService.getEntityDataByFeed('Lightning');
+      }
       
       setReady(true);
       setEntityData(entityData);
-    }
+    } 
+    setReady(false);
     fetch();
   }
 

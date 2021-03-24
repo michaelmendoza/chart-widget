@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import BarChart from '../../Chart/components/D3Charts/BarChart';
 import DualChart from '../../Chart/components/D3Charts/DualChart';
 import LineAreaChart from '../../Chart/components/D3Charts/LineAreaChart';

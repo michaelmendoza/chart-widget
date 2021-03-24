@@ -13,7 +13,7 @@ interface Props {
 export const ChartViewItemAttributeControls : React.FC<Props> = (props) => {
     const { state, dispatch } = useContext(ChartState.ChartContext);
     const editor = state.chartConfig.editor;
-    const currentFeed = editor.availableFeeds.find(item=>item.name == props.item.feedName);
+    const currentFeed = editor.availableFeeds.find(item=>item.name === props.item.feedName);
     const attributeOptions = currentFeed.attr;
 
     const handleAttributeChange = (event : any) => {

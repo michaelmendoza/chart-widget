@@ -40,7 +40,7 @@ const ChartEditorOptions = () => {
         return editor.chartType === type ? 'chart-editor-button active' : 'chart-editor-button' 
     } 
 
-    const currentFeed = editor.availableFeeds.find(item=>item.name == editor.feedName);
+    const currentFeed = editor.availableFeeds.find(item=>item.name === editor.feedName);
     const attributeOptions = currentFeed.attr;
     
     return (
