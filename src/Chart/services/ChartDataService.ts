@@ -12,7 +12,8 @@ const cache : any = {
 }
 
 const fetchEntityDataByFeed = (feedName:string) => {
-    const id = cache.feeds.find((item:any) => item.name === feedName).id;
+    const feed = cache.feeds.find((item:any) => item.name === feedName);
+    const id = feed.id;
     const url = dataUrl + 'entityEvents/findAndAggregate/' + id;
     const req = fetch(url);
     return req.then(res => { 
