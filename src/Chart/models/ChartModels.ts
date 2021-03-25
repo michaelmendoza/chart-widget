@@ -1,6 +1,7 @@
 import { DataSource } from "../services/DataSource";
 import { ChartModes, ChartTypes, DataMetrics, DataTypes, FilterTypes } from "./ChartTypes";
 import { MockFilterData } from '../../DataMap/services/MockFilterData';
+import ChartDataService from "../services/ChartDataService";
 
 /** Interface for data point to be used by Chart */
 export interface IDataPoint { 
@@ -38,17 +39,16 @@ export class ChartItem {
     type: ChartTypes;
     feedId: string = '';
     feedName: string;
-    dateCreated: Date;
-    dateUpdated: Date;
-    dateHistoryLength: number = 30;
+    createAt: Date;
+    updatedAt: Date;
     attributes: string[];
     dataMetric: DataMetrics;
     historyLength: number;
-    properties: any = {};
     dataSource: DataSource;
 
     constructor(name: string, 
                 type: ChartTypes, 
+                feedId: string,
                 feedName: string, 
                 attributes: string[],
                 dataMetric: DataMetrics = DataMetrics.Count,
@@ -56,9 +56,10 @@ export class ChartItem {
         this.id = chartItemCount.toString();
         this.name = name;
         this.type = type;
+        this.feedId = feedId;
         this.feedName = feedName;
-        this.dateCreated = new Date();
-        this.dateUpdated = new Date();
+        this.createAt = new Date();
+        this.updatedAt = new Date();
         this.attributes = attributes;
         this.dataMetric = dataMetric;
         this.historyLength = historyLength;
@@ -67,10 +68,16 @@ export class ChartItem {
     }
     
     static copy(i : ChartItem) {
-        return new ChartItem(i.name, i.type, i.feedName, [...i.attributes], i.dataMetric, i.historyLength)
+        return new ChartItem(i.name, i.type, i.feedId, i.feedName, [...i.attributes], i.dataMetric, i.historyLength)
+    }
+
+    static toJsonString(i : ChartItem) {
+        const json = { name:i.name, type:i.type, feedId:i.feedId, feedName:i.feedName, attributes:i.attributes, dataMetric:i.dataMetric, historyLength:i.historyLength }
+        return JSON.stringify(json);
     }
 
     fetchData = (filter : IChartFilter)=> {
+        ChartDataService.createChart(this);
         return this.dataSource.fetch(this.feedName, this.attributes, this.type, this.dataMetric, this.historyLength, filter);
     };
 }
@@ -95,6 +102,7 @@ export interface IChartConfig {
     editor: {
         chartType: ChartTypes,
         name: string,
+        feedId: string, 
         feedName: string,
         attributes: string[],
         metric: DataMetrics,
@@ -111,6 +119,7 @@ export class ChartConfig {
     editor: any = {
         chartType: ChartTypes.Bar,
         name: 'New Chart',
+        feedId:'',
         feedName: 'Population',
         attributes: ['a', ''],
         metric: DataMetrics.Count,

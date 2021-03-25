@@ -23,7 +23,7 @@ const ChartEditor = () => {
             const fetch = async () => {
                 const availableCharts = await ChartDataService.fetchAvailableCharts();
                 dispatch({ type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, 
-                    availableFeeds: availableCharts, feedName:availableCharts[0].name}});
+                    availableFeeds: availableCharts, feedId:availableCharts[0].id, feedName:availableCharts[0].name}});
             }
             fetch();
         }
@@ -46,6 +46,7 @@ const ChartEditor = () => {
         // Create ChartItem based on editor properties
         let chartItem = new ChartItem(editor.name, 
             editor.chartType, 
+            editor.feedId,
             editor.feedName, 
             editor.attributes,
             editor.metric,

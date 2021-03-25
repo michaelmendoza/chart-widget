@@ -1,3 +1,4 @@
+import { ChartItem } from "../models/ChartModels";
 import ChartMockData from "./ChartMockData"
 
 // TODO: ADD cache for Backend data call 
@@ -60,6 +61,26 @@ const fetchMockChartData = (feedName:string, attributeKey:string) => {
     return fetch;
 }
 
+const createChart = (item:ChartItem ) => {
+    const url = dataUrl + 'charts/create';
+    const options = { 
+        method: 'POST', 
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json;charset=UTF-8'
+      },
+      body:ChartItem.toJsonString(item) 
+    }
+    const req = fetch(url, options)
+    return req.then(res => { 
+        return res.json()
+    }).then(data => { 
+        console.log('Saved Chart');
+        console.log(data); 
+        return data;
+    });
+}
+
 /**
  * Services for retrieving chart data from backend services or mock data service 
  */
@@ -81,6 +102,8 @@ const ChartDataService = {
     },
 
     fetchAvailableCharts: fetchAvailableCharts,
+
+    createChart:createChart,
 
     getEntityData: () => {
         return ChartMockData.getEntityData();

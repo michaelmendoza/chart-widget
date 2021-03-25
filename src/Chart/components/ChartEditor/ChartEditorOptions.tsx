@@ -23,9 +23,11 @@ const ChartEditorOptions = () => {
     }
 
     const handleFeedChange = (event : any) => {
-        dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, feedName: event.target.value}});
+        const feedName = event.target.value;
+        const feed = editor.availableFeeds.find(item=>item.name === feedName);
+        dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, feedId: feed.id, feedName: feed.name }});
     }
-
+    
     const handleMetricChange = (event : any) => {
         dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, metric: event.target.value}});
     }
