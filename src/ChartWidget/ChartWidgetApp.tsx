@@ -1,4 +1,6 @@
 import ChartWidget from './components/ChartWidget';
+import ChartState from './states/ChartState';
+import ChartStateDebugger from './states/ChartStateDebuger';
 import React from 'react';
 
 /**
@@ -7,7 +9,11 @@ import React from 'react';
 const ChartWidgetApp = () => {
     
     return ( 
-        <ChartWidget></ChartWidget>
+        <ChartState.ChartStateProvider>
+            <ChartWidget></ChartWidget>
+            <ChartStateDebugger></ChartStateDebugger>
+        </ChartState.ChartStateProvider>
+        
     )
 }
 

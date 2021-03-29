@@ -1,10 +1,10 @@
 import React from 'react';
-import BarChart from '../../Chart/components/D3Charts/BarChart';
-import DualChart from '../../Chart/components/D3Charts/DualChart';
-import LineAreaChart from '../../Chart/components/D3Charts/LineAreaChart';
-import PieChart from '../../Chart/components/D3Charts/PieChart';
-import ScatterPlot from '../../Chart/components/D3Charts/ScatterPlot';
-import DataTable, { getMockTableData } from '../../Chart/components/Tables/DataTable';
+import BarChart from '../../ChartWidget/components/D3Charts/BarChart';
+import DualChart from '../../ChartWidget/components/D3Charts/DualChart';
+import LineAreaChart from '../../ChartWidget/components/D3Charts/LineAreaChart';
+import PieChart from '../../ChartWidget/components/D3Charts/PieChart';
+import ScatterPlot from '../../ChartWidget/components/D3Charts/ScatterPlot';
+import DataTable, { getMockTableData } from '../../ChartWidget/components/Tables/DataTable';
 
 const Playground = () => {
 

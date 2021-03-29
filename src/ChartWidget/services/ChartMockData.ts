@@ -1,5 +1,5 @@
-import * as Random from '../services/Random';
-import Utils from '../services/Utils';
+import * as Random from './Random';
+import Utils from './Utils';
 import { GroupDataArrayByValue } from './DataAggregator';
 import { MapOptions } from '../../DataMap/components/MapSelect';
 import { MapConstants } from '../../DataMap/components/MapConstants';

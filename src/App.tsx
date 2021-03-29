@@ -2,15 +2,13 @@ import React, {useEffect, useState} from 'react';
 import 'normalize.css';
 import './App.scss';
 import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
-import ChartWidget from './Chart/components/ChartWidget';
-import ChartState from './Chart/states/ChartState';
-import ChartStateDebugger from './Chart/states/ChartStateDebuger';
+import ChartWidgetApp from './ChartWidget/ChartWidgetApp';
 import Playground from './ChartPlayground/components/Playground';
-import ChartDataService from './Chart/services/ChartDataService';
+import ChartDataService from './ChartWidget/services/ChartDataService';
 import { MapOptions } from './DataMap/components/MapSelect';
 import PointMap from './DataMap/components/PointMap';
-import Loading from './Chart/components/Loading/Loading';
-import { GeoAdapter } from './Chart/services/DataAdapter';
+import Loading from './ChartWidget/components/Loading/Loading';
+import { GeoAdapter } from './ChartWidget/services/DataAdapter';
 
 enum AppModes {
   StartScreen, WidgetScreen, PlaygroundScreen
@@ -106,7 +104,6 @@ function App() {
   
   return (
     <div className="app">
-      <ChartState.ChartStateProvider>
           <header className="nav">
             <div className="nav-title"> Chart Playground </div>
             <button className={navClass(AppModes.WidgetScreen)} onClick={()=>handleNavClick(AppModes.WidgetScreen)}>Widget</button>
@@ -117,14 +114,13 @@ function App() {
             { appMode === AppModes.WidgetScreen ? 
               <div>
                 <div className="layout-row layout-space-between"> 
-                  <ChartWidget></ChartWidget>
+                  <ChartWidgetApp></ChartWidgetApp>
                   <EntityPointMap></EntityPointMap>
                 </div>
-                <ChartStateDebugger></ChartStateDebugger>
+                
               </div> : null
             }
           </section>
-      </ChartState.ChartStateProvider>
     </div>
   );
 }

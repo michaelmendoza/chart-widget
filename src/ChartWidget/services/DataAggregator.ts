@@ -4,7 +4,7 @@ import { IEntityDataPoint } from '../models/ChartModels';
 import { DataMetrics } from '../models/ChartTypes';
 import * as Points from './Points';
 import * as Stats from './Stats';
-import Utils from '../services/Utils';
+import Utils from './Utils';
 
 const milliSecondsInDay = 1000 * 60 * 60 * 24;
 
