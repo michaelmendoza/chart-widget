@@ -6,13 +6,14 @@ import ChartHeader from './ChartHeader';
 import ChartState from '../states/ChartState';
 import { ChartModes } from '../models/ChartTypes';
 import ChartControls from './ChartControls';
+import ChartStateDebugger from '../states/ChartStateDebuger';
 import '../styles/chart-widget.scss';
 
 /**
  * Container component for ChartHeader, ChartFilters, ChartControls and ChartView.
  * Depends on chartView.mode to switch modes from showing chart and chart editor. 
  */
-const ChartWidget = () => {
+const ChartWidgetComponent = () => {
 
     const { state } = useContext(ChartState.ChartContext);
 
@@ -28,6 +29,18 @@ const ChartWidget = () => {
             { showChartEditor ? <ChartEditor></ChartEditor> : null }
             { showCharts ? <ChartView></ChartView> : null }
         </div>
+    )
+}
+
+/**
+ * Top Chart Widget Component. Connects ChartState to ChartWidget component. 
+ */
+const ChartWidget = () => {
+    return (
+        <ChartState.ChartStateProvider>
+            <ChartWidgetComponent></ChartWidgetComponent>
+            <ChartStateDebugger></ChartStateDebugger>
+        </ChartState.ChartStateProvider>
     )
 }
 

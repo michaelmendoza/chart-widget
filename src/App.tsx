@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import 'normalize.css';
 import './App.scss';
 import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
-import ChartWidgetApp from './ChartWidget/ChartWidgetApp';
+import { ChartWidget } from './ChartWidget';
 import Playground from './ChartPlayground/components/Playground';
 import ChartDataService from './ChartWidget/services/ChartDataService';
 import { MapOptions } from './DataMap/components/MapSelect';
@@ -114,7 +114,7 @@ function App() {
             { appMode === AppModes.WidgetScreen ? 
               <div>
                 <div className="layout-row layout-space-between"> 
-                  <ChartWidgetApp></ChartWidgetApp>
+                  <ChartWidget></ChartWidget>
                   <EntityPointMap></EntityPointMap>
                 </div>
                 
