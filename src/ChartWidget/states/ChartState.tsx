@@ -1,7 +1,6 @@
 import React, { createContext, useReducer } from 'react';
-import { ChartConfig, IChartState, ChartItem, IChartItem, ChartFilter } from '../models/ChartModels';
+import { ChartConfig, IChartState, IChartItem, ChartFilter } from '../models/ChartModels';
 import { Actions, ChartReducer } from '../reducers/ChartReducers';
-import { ChartTypes } from '../models/ChartTypes';
 
 /**
  * Inital state for ChartState (implements IChartState)

@@ -1,7 +1,7 @@
 
 import { FilterTypes } from '../models/ChartTypes';
 import { EntityDataToDataArray, EntityDataToDataMatrix, EntityDataToTimeSeriesData, GroupDataArrayByValue, GroupDataMatrixByValue, GroupEntityDataByDate, ReduceDataArrayToMetric, ReduceDataArrayToStats } from './DataAggregator';
-import { geoFilter } from '../../DataMap/services/GeoFilter';
+import { geoFilter } from '../services/GeoFilter'; 
 import { DataIOTypes } from './DataSource';
 import { GeoAdapter } from './DataAdapter';
 

@@ -5,8 +5,8 @@ import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import { ChartWidget } from './ChartWidget';
 import Playground from './ChartPlayground/components/Playground';
 import ChartDataService from './ChartWidget/services/ChartDataService';
-import { MapOptions } from './DataMap/components/MapSelect';
-import PointMap from './DataMap/components/PointMap';
+import { MapOptions } from './ChartWidget/models/MapConstants';
+import PointMap from './ChartWidget/components/D3Charts/Map/PointMap';
 import Loading from './ChartWidget/components/Loading/Loading';
 import { GeoAdapter } from './ChartWidget/services/DataAdapter';
 

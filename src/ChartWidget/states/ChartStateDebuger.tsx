@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import DataTable from '../components/Tables/DataTable';
 import ChartState from './ChartState';
-import { DataSource } from '../services/DataSource';
 
 interface Props {
     item: any

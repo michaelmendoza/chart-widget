@@ -96,7 +96,7 @@ const ChartDataService = {
         }
         else {
             // Fetch entity
-            fetch = (dataType == DataTypes.Mock) ? fetchMockEntityDataByFeed : fetchEntityDataByFeed;
+            fetch = (dataType === DataTypes.Mock) ? fetchMockEntityDataByFeed : fetchEntityDataByFeed;
             return fetch(feedName);
         }
     },

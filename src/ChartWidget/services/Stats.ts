@@ -1,3 +1,4 @@
+import { DataMetrics } from "../models/ChartTypes";
 
 /**
  * Computes the sum of numbers.
@@ -53,7 +54,6 @@ export const std = (x:number[]) : number => {
 	return Math.sqrt(variance(x));
 }
 
-
 /**
  * Computes the covariance of numbers. Covariance is a measure of the joint variability of two random variables.
  * @param x Input array of numbers
@@ -78,4 +78,24 @@ export const covariance = (x:number[], y:number[]) : number => {
  */
 export const movingAverage = (x: number[], windowLength: number): number => {
 	return 0;
+}
+
+/** 
+ * Computes metric calculation
+ */
+export const calculateMetric = (data:number[], metric: DataMetrics): number => {
+	switch(metric) {
+        case DataMetrics.Count:
+            return data.length;
+        case DataMetrics.Sum:
+            return sum(data);
+        case DataMetrics.Mean:
+            return mean(data);
+        case DataMetrics.Median:
+            return median(data);
+        case DataMetrics.StdDev:
+            return std(data);
+        default:
+            return 0;
+    }
 }

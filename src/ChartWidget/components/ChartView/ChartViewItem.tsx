@@ -11,9 +11,9 @@ import LineAreaChart from '../D3Charts/LineAreaChart';
 import PieChart from '../D3Charts/PieChart.jsx';
 import ScatterPlot from '../D3Charts/ScatterPlot.jsx';
 
-import DataMap from '../../../DataMap/components/DataMap.jsx';
+import DataMap from '../D3Charts/Map/DataMap';
 import DataTable from '../Tables/DataTable';
-import { MapOptions } from '../../../DataMap/components/MapSelect';
+import { MapOptions } from '../../models/MapConstants';
 import { ChartItem } from '../../models/ChartModels';
 
 interface Props {

@@ -1,8 +1,7 @@
 import * as Random from './Random';
 import Utils from './Utils';
 import { GroupDataArrayByValue } from './DataAggregator';
-import { MapOptions } from '../../DataMap/components/MapSelect';
-import { MapConstants } from '../../DataMap/components/MapConstants';
+import { MapConstants } from '../models/MapConstants';
 
 var entityData: any[] = [];
 const entityCount = 10000;

@@ -98,7 +98,7 @@ const BarChart = (props) => {
     
     const updateChart = (data) => {
 
-        const { svg, g, x, y, xAxis, yAxis } = self.current
+        const { g, x, y, xAxis, yAxis } = self.current
 
 		// Min and Max Values
 		var ymin = 0;

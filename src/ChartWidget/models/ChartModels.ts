@@ -1,6 +1,6 @@
 import { DataSource } from "../services/DataSource";
-import { ChartModes, ChartTypes, DataMetrics, DataTypes, FilterTypes } from "./ChartTypes";
-import { MockFilterData } from '../../DataMap/services/MockFilterData';
+import { ChartModes, ChartTypes, DataMetrics, FilterTypes } from "./ChartTypes";
+import { MockFilterData } from '../services/MockFilterData'; 
 import ChartDataService from "../services/ChartDataService";
 
 /** Interface for data point to be used by Chart */
@@ -13,7 +13,7 @@ export interface IEntityDataPoint {
     id: string | number,            // Enity ID
     name: string,                   // Enity Name
     geo?: { x:number, y:number }[],  // Geo coordinates
-    attr: { }                       // Attribute value for entity 
+    attr: { [key:string]: any }      // Attribute value for entity 
 }
 
 export interface IAttributeDataArray { 

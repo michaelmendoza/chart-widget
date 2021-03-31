@@ -1,5 +1,7 @@
 
 .charts-d3-tooltip {
+  white-space: pre-wrap;
+  
   margin: auto;
   position: absolute;
   text-align: center;
@@ -15,4 +17,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.data-map {
+  min-width: 500px;
+  margin: 0em;
+}
+
+.point-map {
+  min-width: 500px;
+  margin: 0em;
+  position: relative;
+}
+
+.metric-select {
+  margin: 1em 0;
 }

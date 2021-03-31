@@ -6,13 +6,13 @@ export const GeoAdapter = (data : any[]) => {
     if(!geo.type) return data;
     if(!geo.coordinates) return data;
 
-    if(geo.type == "Point") { 
+    if(geo.type === "Point") { 
         // Adapt Geo property 
         return data.map((item : any)=> {
             return { ...item, geo:item.geo.coordinates }
         })
     }
-    else if(geo.type == "MultiPoint"){
+    else if(geo.type === "MultiPoint"){
         if(!geo.coordinates[0]) return data;
 
         // Adapt Geo property 

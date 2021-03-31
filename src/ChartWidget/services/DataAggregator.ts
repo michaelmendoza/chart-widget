@@ -4,6 +4,8 @@ import { IEntityDataPoint } from '../models/ChartModels';
 import { DataMetrics } from '../models/ChartTypes';
 import * as Points from './Points';
 import * as Stats from './Stats';
+import * as StatsInPlace from './StatsInPlace';
+
 import Utils from './Utils';
 
 const milliSecondsInDay = 1000 * 60 * 60 * 24;
@@ -195,6 +197,42 @@ export const ReduceDataArrayToStats = (data : number[], metric : DataMetrics) =>
         median: Stats.median(data),
         stddev: Stats.std(data)
     }
+}
+
+/**
+ * Reduces a dictionary with entity arrays to a data metric 
+ * @param {*} dict 
+ * @param {string} attribute 
+ * @param {*} metric 
+ * @returns 
+ */
+ export const ReduceEntityDictToMetric = (dict:{[key:string]: IEntityDataPoint[]}, attribute:string, metric: DataMetrics) => {
+    const keys = Object.keys(dict);
+    let result:any = {}
+    keys.forEach((key)=> {
+        const entityDataArray = dict[key];
+        result[key] = Stats.calculateMetric(EntityDataToDataArray(entityDataArray, attribute), metric);
+    })
+    return result;
+}
+
+// 
+/**
+ * Reduces a dictionary with entity arrays to a data metric. Caluculations are done in place using Entity 
+ * object structure for attributes. Note: 1.457s to 1.212s (16.8% decrease) by calculating in place for N = 1000000
+ * @param {*} dict 
+ * @param {string} attribute 
+ * @param {*} metric 
+ * @returns 
+ */
+export const ReduceEntityDictToMetricInPlace = (dict:{[key:string]: IEntityDataPoint[]}, attribute:string, metric:DataMetrics) => {
+    const keys = Object.keys(dict);
+    let result:any = {}
+    keys.forEach((key)=> {
+        const entityDataArray = dict[key];
+        result[key] = StatsInPlace.calculateMetric(entityDataArray, attribute, metric);
+    })
+    return result;
 }
 
 export const createTestBinData = () => {
