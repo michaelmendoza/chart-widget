@@ -1,7 +1,7 @@
 import * as d3 from 'd3';
 import React, { useEffect, useRef, useState } from 'react';
 import LoadingSpinner from '../../Loading/LoadingSpinner';
-import { fetch } from '../../../services/GeoJson';
+import { fetchGeoJson } from '../../../services/GeoJson';
 import { MapConstants, MapOptions } from '../../../models/MapConstants';
 
 const FeatureMap = (props) => {
@@ -26,7 +26,7 @@ const FeatureMap = (props) => {
     
     const fetchMapData = async () => { 
         return new Promise((resolve, reject) => {
-            resolve({geoData:fetch(props.map)});
+            resolve({geoData:fetchGeoJson(props.map)});
         });
     };
 

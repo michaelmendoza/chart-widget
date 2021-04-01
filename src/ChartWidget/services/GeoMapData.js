@@ -1,4 +1,4 @@
-import { fetch } from './GeoJson';
+import { fetchGeoJson } from './GeoJson';
 import { geoFilter } from './GeoFilter';
 import { entityInPolygonSearch } from './GeoSearch';
 import { ReduceEntityDictToMetricInPlace } from './DataAggregator';
@@ -14,7 +14,7 @@ import { createEntityData } from './MockEntityData';
  * @returns 
  */
 export const createDataMapData = (entityCount, entityData, map, filter, metric) => {
-    let geoData = fetch(map);
+    let geoData = fetchGeoJson(map);
     let pointData = entityData ? entityData : createEntityData(entityCount, map);
     pointData = geoFilter(pointData, filter);
 
@@ -37,7 +37,7 @@ export const createDataMapData = (entityCount, entityData, map, filter, metric) 
  * @returns 
  */
 export const createPointMapData = (entityCount, entityData, map, filter, max) => {
-        let geoData = fetch(map);
+        let geoData = fetchGeoJson(map);
         let pointData = entityData ? entityData : createEntityData(entityCount, map);
         pointData = geoFilter(pointData, filter);
         pointData = max ? pointData.filter((point, index)=> index < max ) : pointData;

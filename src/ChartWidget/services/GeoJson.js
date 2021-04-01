@@ -1,9 +1,9 @@
 import countriesByContinent from '../json/country-by-continent.json';
-import worldTopoJson from '../json/countries-110m.json'; //https://github.com/topojson/world-atlas
-import usaGeoJson from '../json/world/counties-10m.json'; //https://github.com/topojson/us-atlas#us/10m.json
+import worldTopoJson from '../json/countries-110m.json'; //https://github.com/topojson/world-atlas //https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json
+import usaGeoJson from '../json/world/counties-10m.json'; //https://github.com/topojson/us-atlas#us/10m.json  //https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json
 import * as topojson from 'topojson';
 
-export function fetch(continent = "Africa") {    
+export function fetchGeoJson(continent = "Africa") {    
     if(continent === "USA Counties")
         return getUSACountiesGeoJson();
     if(continent === "USA States")
@@ -12,12 +12,22 @@ export function fetch(continent = "Africa") {
     return getCountriesGeoJson(continent);
 }
 
-const getUSACountiesGeoJson = () => {
+const getCounties_10m = async () => {
+    return fetch("https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json")
+        .then(response => response.json())
+}
+
+const getCountries_110m = async () => {
+    return fetch("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json")
+        .then(response => response.json())
+}
+
+const getUSACountiesGeoJson =  () => {
     const topology = usaGeoJson;
     return topojson.feature(topology, topology.objects.counties);
 }
 
-const getUSAStatesGeoJson = () => {
+const getUSAStatesGeoJson =  () => {
     const topology = usaGeoJson;
     return topojson.feature(topology, topology.objects.states);
 }
