@@ -28,14 +28,12 @@ const PointMap = (props) => {
             resolve(createPointMapData(100000, props.entityData, props.map, props.filter, props.max))
         });
     };
-
-    const { map, width, height} = props;
-
+    
     return (
         
         <div className='point-map'> 
             { 
-                svgReady ? <MapSVG data={mapData} map={map} width={width} height={height}></MapSVG> : <LoadingSpinner></LoadingSpinner>
+                svgReady ? <MapSVG {...props} data={mapData}></MapSVG> : <LoadingSpinner></LoadingSpinner>
             }
         </div>
     )

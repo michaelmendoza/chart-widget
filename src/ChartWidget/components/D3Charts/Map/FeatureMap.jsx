@@ -29,14 +29,12 @@ const FeatureMap = (props) => {
             resolve({geoData:fetchGeoJson(props.map)});
         });
     };
-
-    const { features, map, width, height} = props;
-
+    
     return (
         
         <div className='point-map'> 
             { 
-                svgReady ? <MapSVG data={mapData} features={features} map={map} width={width} height={height}></MapSVG> : <LoadingSpinner></LoadingSpinner>
+                svgReady ? <MapSVG {...props} data={mapData}></MapSVG> : <LoadingSpinner></LoadingSpinner>
             }
         </div>
     )

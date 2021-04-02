@@ -33,13 +33,11 @@ const DataMap = (props) => {
         });
     };
 
-    const { map, width, height} = props;
-
     return (
         <div className='data-map'> 
             <MetricSelect metric={metric} setMetric={setMetric}></MetricSelect> 
             { 
-                svgReady ? <MapSVG data={mapData} map={map} width={width} height={height}></MapSVG> : <LoadingSpinner></LoadingSpinner>
+                svgReady ? <MapSVG {...props} data={mapData}></MapSVG> : <LoadingSpinner></LoadingSpinner>
             }
         </div>
     )
