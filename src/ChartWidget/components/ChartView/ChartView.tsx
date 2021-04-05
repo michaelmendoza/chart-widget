@@ -1,6 +1,8 @@
- import React, { useContext } from 'react';
+import React, { useContext } from 'react';
 import ChartState from '../../states/ChartState';
 import { ChartViewItemNoData, ChartViewItem } from './ChartViewItem';
+import { ActionTypes } from '../../reducers/ChartActionsTypes';
+import SortableView from './SortableView';
 
 /**
  * Contains a list of chart items to actively view. Chart properties and data are populated 
@@ -8,18 +10,17 @@ import { ChartViewItemNoData, ChartViewItem } from './ChartViewItem';
  */
 const ChartView = () => {
 
-    const { state } = useContext(ChartState.ChartContext);
+    const { state, dispatch } = useContext(ChartState.ChartContext);
     
+    const update = (updatedCharts : any) => {
+        dispatch({type:ActionTypes.UPDATE_ALL_CHARTS, updatedCharts: updatedCharts})
+    } 
+
     return (
         <div className='chart-view'> 
-
             { state.chartList.length === 0 ? <ChartViewItemNoData></ChartViewItemNoData> : null }
-            
-            {
-                state.chartList.map((item : any, index : number) => {
-                    return <ChartViewItem item={item} index={index} key={index}></ChartViewItem>
-                })
-            }
+
+            { <SortableView items={state.chartList} update={update}></SortableView> }
         </div>
     )
 }

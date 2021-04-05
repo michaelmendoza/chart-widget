@@ -5,8 +5,9 @@ import { ChartModes, FilterTypes } from '../models/ChartTypes';
 export type ChartListActions = 
 { type: ActionTypes.ADD_CHART; item: any; } |
 { type: ActionTypes.DELETE_CHART; index: number; } |
+{ type: ActionTypes.UPDATE_CHART; id: string, updatedChart: any } |
 { type: ActionTypes.CLEAR_ALL_CHARTS; } |
-{ type: ActionTypes.UPDATE_CHART; id: string, updatedChart: any };
+{ type: ActionTypes.UPDATE_ALL_CHARTS; updatedCharts: IChartItem[] };
 
 export const ChartListReducer = (state: IChartItem[], action: Actions) => {
     switch(action.type) { 
@@ -18,6 +19,8 @@ export const ChartListReducer = (state: IChartItem[], action: Actions) => {
             return [];
         case ActionTypes.UPDATE_CHART:
             return state.map((chart) => (chart.id === action.id ? action.updatedChart : chart))
+        case ActionTypes.UPDATE_ALL_CHARTS:
+            return action.updatedCharts;
         default:
             return state;
     }

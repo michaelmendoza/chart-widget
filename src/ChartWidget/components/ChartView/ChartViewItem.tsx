@@ -21,6 +21,9 @@ interface Props {
     index: number
 }
 
+const width = 500;
+const height = 250;
+
 /**
  * Contain a single chart and it's associated controls, for use with ChartView
  */
@@ -63,19 +66,19 @@ export const ChartViewItem: React.FC<Props> = (props) => {
                 return <StatsChartItem data={data}></StatsChartItem>
             case ChartTypes.Bar:
                 if (attributes.length === 1) // Simple Bar Chart
-                    return <BarChart width={500} height={500} data={data} labels={labels}/>;
+                    return <BarChart width={width} height={height} data={data} labels={labels}/>;
                 else // Muliple Bar Chart 
-                    return <BarComparsionChart width={500} height={500} data={data} />
+                    return <BarComparsionChart width={width} height={height} data={data} />
             case ChartTypes.Pie:
-                return <PieChart width={500} height={500} data={data} />;
+                return <PieChart width={width} height={height} data={data} />;
             case ChartTypes.LineArea:
-                return <LineAreaChart width={500} height={500} data={data} />;
+                return <LineAreaChart width={width} height={height} data={data} />;
             case ChartTypes.ScatterPlot:
-                return <ScatterPlot width={500} height={500} data={data} />
+                return <ScatterPlot width={width} height={height} data={data} />
             case ChartTypes.TimeSeries:
-                return <DualChart width={500} height={500} data={data} />;
+                return <DualChart width={width} height={height} data={data} />;
             case ChartTypes.HeatMap:
-                return <DataMap map={MapOptions.USAStates} width={500} height={500} entityData={data}></DataMap>
+                return <DataMap map={MapOptions.USAStates} width={width} height={height} entityData={data}></DataMap>
             case ChartTypes.Table:
                 return <DataTable data={data} columns={['id', 'name', 'x', 'y', 'a', 'b', 'c', 'd', 'time']}></DataTable>
             default:

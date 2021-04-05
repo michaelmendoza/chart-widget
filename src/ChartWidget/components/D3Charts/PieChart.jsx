@@ -16,7 +16,7 @@ const PieChart = (props) => {
     const colors = ['#41718C', '#7AB98C', '#C1D773', '#C5895E', '#BE5C5B', '#845ACE', '#5FA1C8']; //['#FE3701', '#FFB600', '#7DCC00'];
     const padAngle = 0.001;
     const duration = 500;
-    const delay = 1000;
+    const delay = 100;
 
     useEffect(() => {
 		var data = props.data ? Points.toXYArray(props.data).y : props.data_values;
@@ -65,14 +65,18 @@ const PieChart = (props) => {
 			.transition()
 			.delay(function(d, i) { return i * delay / data.length; })
 			.duration(duration)
-			.attrTween('d', function(d) {
-				var i = d3.interpolate(d.startAngle, d.endAngle);
-				return function(t) {
-					d.endAngle = i(t);
-					return arc(d);
-				}
-			})
+			.attrTween('d', tween)
+        
+        function tween(d) {
+            var i = d3.interpolate(d.startAngle, d.endAngle);
+            return function(t) {
+                d.endAngle = i(t);
+                return arc(d);
+            }
+        }
     }, [])
+
+
 
     return (
         <div> 

@@ -2,12 +2,21 @@
 // Box Shadow
 $box-shadow: 0 0 0 1px rgba(8,9,10,0.1);
  
-// Colors
-$widget-color--light: #222222;
-$widget-color--dark: #FFFFFF;
+$chart-colors-light: (
+    'primary': #222222,
+    'secondary': #404040,
+    'accent': rgb(241, 196, 15),
+    'background':  #2D2D2D
+);
 
-$widget-background--light: #FEFEFE;
-$widget-background--dark: #FEFEFE;
+$chart-colors-dark: (
+    'primary': #FFFFFF,
+    'secondary': #FFFFFF,
+    'accent': rgb(241, 196, 15),
+    'background':  #2D2D2D
+);
 
-$chart-item-background--light: #FEFEFE;
-$chart-item-background--dark: #FEFEFE;
+@function chart-color($key: 'primary') {
+    @return map-get($chart-colors-dark, $key);
+}
+

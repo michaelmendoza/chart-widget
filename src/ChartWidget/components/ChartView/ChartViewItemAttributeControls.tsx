@@ -29,7 +29,7 @@ export const ChartViewItemAttributeControls : React.FC<Props> = (props) => {
     return (
         <div className='chart-view-item-attribute-controls'>
             <div className='chart-editor-item'>
-                <select onChange={handleAttributeChange} value={editor.attributes[0]}>
+                <select className='chart-select' onChange={handleAttributeChange} value={editor.attributes[0]}>
                 {
                     attributeOptions.map((item:any) => <option key={item} value={item}>{item}</option>)
                 }

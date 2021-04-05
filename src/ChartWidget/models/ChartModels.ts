@@ -52,7 +52,8 @@ export class ChartItem {
                 feedName: string, 
                 attributes: string[],
                 dataMetric: DataMetrics = DataMetrics.Count,
-                historyLength: number = 30) {
+                historyLength: number = 30,
+                dataSource = new DataSource()) {
         this.id = chartItemCount.toString();
         this.name = name;
         this.type = type;
@@ -63,12 +64,12 @@ export class ChartItem {
         this.attributes = attributes;
         this.dataMetric = dataMetric;
         this.historyLength = historyLength;
-        this.dataSource = new DataSource();
+        this.dataSource = dataSource
         chartItemCount++;
     }
     
     static copy(i : ChartItem) {
-        return new ChartItem(i.name, i.type, i.feedId, i.feedName, [...i.attributes], i.dataMetric, i.historyLength)
+        return new ChartItem(i.name, i.type, i.feedId, i.feedName, [...i.attributes], i.dataMetric, i.historyLength, i.dataSource);
     }
 
     static toJsonString(i : ChartItem) {

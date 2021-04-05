@@ -14,6 +14,7 @@ const Playground = () => {
 
     return ( 
         <div>
+
             <div className="layout-row-center"> 
                 <BarChart width={200} height={200} data={data}/>
                 <PieChart width={200} height={200} data={data}/>

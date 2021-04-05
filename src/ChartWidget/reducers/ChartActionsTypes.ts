@@ -3,9 +3,10 @@ export enum ActionTypes {
     // ChartList Actions
     ADD_CHART,
     DELETE_CHART,
-    CLEAR_ALL_CHARTS,
     UPDATE_CHART,
     FILTER_ALL_CHARTS,
+    CLEAR_ALL_CHARTS,
+    UPDATE_ALL_CHARTS,
 
     // ChartFilter Actions
     UPDATE_FILTER_TYPE,
