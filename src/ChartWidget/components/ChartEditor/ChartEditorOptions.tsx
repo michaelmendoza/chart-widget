@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import ChartState from '../../states/ChartState';
 import { ChartTypes, DataMetrics } from '../../models/ChartTypes'
 import { ActionTypes } from '../../reducers/ChartActionsTypes';
+import Select from 'react-select';
 
 const ChartEditorOptions = () => {
 
@@ -15,26 +16,26 @@ const ChartEditorOptions = () => {
     const handleNameChange = (event : any) => {
         dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, name: event.target.value}});
     }
-
+    
     const handleAttributeChange = (event : any) => {
         const attributes = [ ...editor.attributes ];
-        attributes[0] =  event.target.value;
+        attributes[0] =  event.value;
         dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, attributes:attributes}});
     }
 
     const handleFeedChange = (event : any) => {
-        const feedName = event.target.value;
+        const feedName = event.value;
         const feed = editor.availableFeeds.find(item=>item.name === feedName);
         dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, feedId: feed.id, feedName: feed.name }});
     }
     
     const handleMetricChange = (event : any) => {
-        dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, metric: event.target.value}});
+        dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, metric: event.value}});
     }
     
     const handle2ndAttributeChange = (event : any) => {
         const attributes = [ ...editor.attributes ];
-        attributes[1] =  event.target.value;
+        attributes[1] =  event.value;
         dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, attributes:attributes}});
     }
 
@@ -43,8 +44,19 @@ const ChartEditorOptions = () => {
     } 
 
     const currentFeed = editor.availableFeeds.find(item=>item.name === editor.feedName);
-    const attributeOptions = currentFeed.attr;
-    
+
+    // Select Options
+    const dataSourceOptions = editor.availableFeeds.map(item => { return { label: item.name, value: item.name }})
+    const aggregationOptions = [
+        { label:"Count", value:DataMetrics.Count},
+        { label:"Sum", value:DataMetrics.Sum},
+        { label:"Mean", value:DataMetrics.Mean},
+        { label:"Median", value:DataMetrics.Median},
+        { label:"Standard Devation", value:DataMetrics.StdDev}
+    ]
+    const attributeOptions = currentFeed.attr.map((item : any) => { return { label: item, value: item }})
+    const shapesOptions = [{ label:"US States", value:"US States"}]
+
     return (
         <div className='chart-editor-options'> 
             <div className='chart-editor-item'>
@@ -63,38 +75,22 @@ const ChartEditorOptions = () => {
 
             <div className='chart-editor-item'>
                 <label>Data Source</label>
-                <select onChange={handleFeedChange} value={editor.feedName}> 
-                {
-                    editor.availableFeeds.map(item => <option key={item.name} value={item.name}>{item.name}</option>)
-                }
-                </select>
+                <Select options={dataSourceOptions} onChange={handleFeedChange} value={{label:editor.feedName, value:editor.feedName}}></Select>
             </div>
 
             <div className='chart-editor-item'>
                 <label>Aggregation Method</label>
-                <select onChange={handleMetricChange} value={editor.metric}>
-                    <option value={DataMetrics.Count}>Count</option>
-                    <option value={DataMetrics.Sum}>Sum</option>
-                    <option value={DataMetrics.Mean}>Mean</option>
-                    <option value={DataMetrics.Median}>Median</option>
-                    <option value={DataMetrics.StdDev}>Standard Devation</option>
-                </select>
+                <Select options={aggregationOptions} onChange={handleMetricChange} value={{label:editor.metric.toString(), value:editor.metric}}></Select>
             </div>
 
             <div className='chart-editor-item'>
                 <label>Attribute to Plot</label>
-                <select onChange={handleAttributeChange} value={editor.attributes[0]}> 
-                {
-                    attributeOptions.map((item:any) => <option key={item} value={item}>{item}</option>)
-                }
-                </select>
+                <Select options={attributeOptions} onChange={handleAttributeChange} value={{label:editor.attributes[0], value:editor.attributes[0]}}></Select> 
             </div>
 
             <div className='chart-editor-item'>
                 <label>Layer Shape</label>
-                <select>
-                    <option value="grapefruit">US States</option>
-                </select>
+                <Select options={shapesOptions}></Select>
             </div>
 
             {
@@ -104,12 +100,7 @@ const ChartEditorOptions = () => {
                     <div> Advanced options </div>
                     <div className='chart-editor-item'>
                         <label>Secondary Attribute to Plot</label>
-                        <select onChange={handle2ndAttributeChange} value={editor.attributes[1]}>
-                            <option value="">--</option>
-                            {
-                                attributeOptions.map((item:any) => <option key={item} value={item}>{item}</option>)
-                            }
-                        </select>
+                        <Select options={attributeOptions} onChange={handle2ndAttributeChange} value={{label:editor.attributes[1], value:editor.attributes[1]}}></Select>
                     </div>
                     
                 </section> : null
