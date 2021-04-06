@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ChartFilters from './ChartFilters';
 import ChartView from './ChartView/ChartView';
 import ChartEditor from './ChartEditor/ChartEditor';
@@ -23,11 +23,45 @@ const ChartWidgetComponent = () => {
     
     return ( 
         <div className="chart-widget"> 
-            <ChartHeader></ChartHeader>
-            { showCharts ? <ChartControls></ChartControls> :  null } 
-            { showCharts ? <ChartFilters></ChartFilters> : null } 
-            { showChartEditor ? <ChartEditor></ChartEditor> : null }
-            { showCharts ? <ChartView></ChartView> : null }
+            <WidgetResizer>
+                <ChartHeader></ChartHeader>
+                { showCharts ? <ChartControls></ChartControls> :  null } 
+                { showCharts ? <ChartFilters></ChartFilters> : null } 
+                { showChartEditor ? <ChartEditor></ChartEditor> : null }
+                { showCharts ? <ChartView></ChartView> : null }
+            </WidgetResizer>
+        </div>
+    )
+}
+
+const WidgetResizer = (props : any) => {
+
+    const minWidth = 400;
+    const minHeight = 400;
+    const [size, setSize] = useState({ width:600, height:1200 });
+
+    const handleDrag = (event : any) => {
+        event.preventDefault();
+        const dx = event.pageX;
+        if(dx > minWidth) {
+            setSize({width:event.pageX, height:size.height})
+        }
+    }
+
+    const resizerStyle : any = { 
+        position:"absolute", 
+        width: 10, 
+        height: size.height, 
+        top:0, 
+        right: -5, 
+        opacity:0, 
+        cursor:"col-resize"}
+        
+    return ( 
+        <div style={{ width:size.width }} > 
+            {props.children}
+
+            <div draggable style={resizerStyle} onDrag={handleDrag}></div>
         </div>
     )
 }

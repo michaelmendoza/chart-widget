@@ -113,7 +113,7 @@ function App() {
             { appMode === AppModes.PlaygroundScreen ? <Playground/> : null }
             { appMode === AppModes.WidgetScreen ? 
               <div>
-                <div className="layout-row layout-space-between"> 
+                <div className="layout-row layout-space-between" style={{ margin: "2em" }}> 
                   <ChartWidget></ChartWidget>
                   <EntityPointMap></EntityPointMap>
                 </div>

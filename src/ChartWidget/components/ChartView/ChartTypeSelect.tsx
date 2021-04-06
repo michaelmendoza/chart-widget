@@ -3,6 +3,7 @@ import { ChartItem } from '../../models/ChartModels';
 import { ChartTypes } from '../../models/ChartTypes';
 import { ActionTypes } from '../../reducers/ChartActionsTypes';
 import ChartState from '../../states/ChartState';
+import Select from 'react-select';
 
 interface Props {
     item: ChartItem
@@ -17,25 +18,28 @@ const ChartTypeSelect : React.FC<Props> = (props) => {
     const [chartType, setChartType] = useState(props.item.type);
 
     const handleTypeChange = (event : any) => {
-        setChartType(event.target.value);
+        setChartType(event.value);
         let item = ChartItem.copy(props.item);
-        item.type = event.target.value;
+        item.clearData();
+        item.type = event.value;
         dispatch({type:ActionTypes.UPDATE_CHART, id:props.item.id, updatedChart:item})
     }
 
+    const options = [
+        {label:"Number", value:ChartTypes.Number},
+        {label:"Stats", value:ChartTypes.Stats},
+        {label:"Bar", value:ChartTypes.Bar},
+        {label:"Pie", value:ChartTypes.Pie},
+        {label:"Line", value:ChartTypes.LineArea},
+        {label:"ScatterPlot", value:ChartTypes.ScatterPlot},
+        {label:"TimeSeries", value:ChartTypes.TimeSeries},
+        {label:"HeatMap", value:ChartTypes.HeatMap},
+        {label:"Table", value:ChartTypes.Table}
+    ];
+
     return (
         <div className='chart-type-select flex-20'>
-            <select onChange={handleTypeChange} value={chartType}>
-                <option value={ChartTypes.Number}>Number</option>
-                <option value={ChartTypes.Stats}>Stats</option>
-                <option value={ChartTypes.Bar}>Bar</option>
-                <option value={ChartTypes.Pie}>Pie</option>
-                <option value={ChartTypes.LineArea}>Line</option>
-                <option value={ChartTypes.ScatterPlot}>ScatterPlot</option>
-                <option value={ChartTypes.TimeSeries}>Time Series</option>
-                <option value={ChartTypes.HeatMap}>HeatMap</option>
-                <option value={ChartTypes.Table}>Table</option>
-            </select>
+            <Select options={options} onChange={handleTypeChange} value={{label:chartType.toString(), value:chartType}}></Select>
         </div>
     )
 }

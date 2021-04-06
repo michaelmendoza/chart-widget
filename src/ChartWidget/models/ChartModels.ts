@@ -77,6 +77,10 @@ export class ChartItem {
         return JSON.stringify(json);
     }
 
+    clearData = () => {
+        this.dataSource = new DataSource();
+    }
+
     fetchData = (filter : IChartFilter)=> {
         ChartDataService.createChart(this);
         return this.dataSource.fetch(this.feedName, this.attributes, this.type, this.dataMetric, this.historyLength, filter);

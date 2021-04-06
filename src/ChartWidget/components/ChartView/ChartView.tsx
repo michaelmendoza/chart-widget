@@ -20,7 +20,16 @@ const ChartView = () => {
         <div className='chart-view'> 
             { state.chartList.length === 0 ? <ChartViewItemNoData></ChartViewItemNoData> : null }
 
-            { <SortableView items={state.chartList} update={update}></SortableView> }
+            {
+                /*
+            <SortableView items={state.chartList} update={update}></SortableView>
+                        */
+
+            
+            state.chartList.map((item : any, index : number) => {
+                return <ChartViewItem item={item} index={index} key={index}></ChartViewItem>
+            })
+            }
         </div>
     )
 }
