@@ -21,9 +21,6 @@ interface Props {
     index: number
 }
 
-const width = 500;
-const height = 250;
-
 /**
  * Contain a single chart and it's associated controls, for use with ChartView
  */
@@ -45,13 +42,16 @@ export const ChartViewItem: React.FC<Props> = (props) => {
     }, [props.item, state.chartFilters])
 
     const renderChartByChartType = () => {
-        
+        const paddingWidth = 28 * 2;
+        const width = state.chartConfig.size.width - paddingWidth;
+        const height = 250;
+
         let data = props.item.dataSource.cache;
         let labels = { y: props.item.attributes[0], x: props.item.dataMetric }
         let attributes = props.item.attributes.filter(item => item !== "");
 
         if (!data) {
-            return <div className='layout-center' style={{ width: '500px', height: '500px' }}>
+            return <div className='layout-center' style={{ width: width +'px', height: '500px' }}>
                 <div>
                     <LoadingSpinner></LoadingSpinner>
                     <div>Loading</div>

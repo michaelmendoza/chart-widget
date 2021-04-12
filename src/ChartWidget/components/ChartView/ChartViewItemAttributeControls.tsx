@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { ChartItem } from '../../models/ChartModels';
 import { ActionTypes } from '../../reducers/ChartActionsTypes';
 import ChartState from '../../states/ChartState';
-import Select from 'react-select';
+import Select from '../Selectors/Select';
 
 interface Props {
     item: ChartItem
@@ -28,7 +28,7 @@ export const ChartViewItemAttributeControls : React.FC<Props> = (props) => {
     }
 
     const options = attributeOptions.map((item:any) => { return { value:item, label:item }})
-    
+
     return (
         <div className='chart-view-item-attribute-controls'>
             <div className='chart-editor-item'>

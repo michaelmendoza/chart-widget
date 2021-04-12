@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import ChartState from '../../states/ChartState';
 import { ChartTypes, DataMetrics } from '../../models/ChartTypes'
 import { ActionTypes } from '../../reducers/ChartActionsTypes';
-import Select from 'react-select';
+import Select from '../Selectors/Select';
 
 const ChartEditorOptions = () => {
 
@@ -16,7 +16,7 @@ const ChartEditorOptions = () => {
     const handleNameChange = (event : any) => {
         dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, name: event.target.value}});
     }
-    
+
     const handleAttributeChange = (event : any) => {
         const attributes = [ ...editor.attributes ];
         attributes[0] =  event.value;

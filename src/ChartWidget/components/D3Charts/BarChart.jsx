@@ -17,22 +17,25 @@ const BarChart = (props) => {
     const hoverColor = "#6797A9";
     const duration = 500;
     const delay = 100;
-
+    
     // Get margin adjusted width and height
-    const width = props.width - margin.left - margin.right;
-    const height = props.height - margin.top - margin.bottom;
+    let width = props.width - margin.left - margin.right;
+    let height = props.height - margin.top - margin.bottom;
         
     useEffect(() => {
         initChart();
+        updateSize();
         updateChart(props.data);
         updateTooltip(props.data);
-    }, [props.data])
+    }, [props.data, props.width])
 
     const initChart = () => {
         if(self.current.svg) return;
 
         // Add margins to graph    
-        var svg = d3.select(d3Container.current);
+        var svg = d3.select(d3Container.current)
+            //.attr("preserveAspectRatio", "xMinYMin meet")
+            //.attr("viewBox", "0 0 500 250");
 
         // Bars Group
         var g = svg.append("g")
@@ -96,6 +99,23 @@ const BarChart = (props) => {
         self.current = { svg, g, x, y, xAxis, yAxis, tooltip }
     }
     
+    const updateSize = () => {
+
+        const { svg, g, x, y, xAxis, yAxis } = self.current;
+                
+        // Get x scale
+		x.range([0, props.width])
+
+        // Get y scale 
+		y.range([height, 0]);
+
+        // Create an axis component with d3.axisBottom
+        xAxis.call(d3.axisBottom(x)); 
+        
+        // Create an axis component with d3.axisLeft       
+        yAxis.call(d3.axisLeft(y)); 
+    }
+
     const updateChart = (data) => {
 
         const { svg, g, x, y, xAxis, yAxis } = self.current

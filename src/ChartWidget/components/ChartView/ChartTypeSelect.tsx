@@ -3,7 +3,7 @@ import { ChartItem } from '../../models/ChartModels';
 import { ChartTypes } from '../../models/ChartTypes';
 import { ActionTypes } from '../../reducers/ChartActionsTypes';
 import ChartState from '../../states/ChartState';
-import Select from 'react-select';
+import Select from '../Selectors/Select';
 
 interface Props {
     item: ChartItem

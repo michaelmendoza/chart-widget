@@ -33,7 +33,7 @@ export interface IChartItem {
 }
 
 let chartItemCount = 0;
-export class ChartItem {
+export class ChartItem implements IChartItem{
     id: string;
     name: string;
     type: ChartTypes;
@@ -87,16 +87,16 @@ export class ChartItem {
     };
 }
 
-export class ChartFilter {
-    filterType: FilterTypes = FilterTypes.None;
-    circle: any = MockFilterData().circle;
-    shapes: any = MockFilterData().geoJson;
-}
-
 export interface IChartFilter {
     filterType: FilterTypes,
     circle: any,
     shapes: any
+}
+
+export class ChartFilter implements IChartFilter{
+    filterType: FilterTypes = FilterTypes.None;
+    circle: any = MockFilterData().circle;
+    shapes: any = MockFilterData().geoJson;
 }
 
 /** Interface for chart config */
@@ -114,10 +114,14 @@ export interface IChartConfig {
         history: number,
         multiChartTypes: ChartTypes[],
         availableFeeds: any[]
+    },
+    size: {
+        width: number,
+        height: number
     }
 }
 
-export class ChartConfig {
+export class ChartConfig implements IChartConfig{
     index: number = 0;
     mode: ChartModes = ChartModes.ShowCharts;
     mock: any = { entityCount: 10000 };
@@ -131,7 +135,11 @@ export class ChartConfig {
         history: 30,
         multiChartTypes: [ChartTypes.Bar, ChartTypes.LineArea],
         availableFeeds: [{name:'Population', attr:['a','b','c','d']}, {name:'Lightning', attr:['a','b']}]
-    }
+    };
+    size = {
+        width: 500,
+        height: 1200
+    };
 }
 
 /** Interface for Chart State */

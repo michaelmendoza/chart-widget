@@ -45,7 +45,9 @@ export const ChartFilterReducer = (state: any, action: Actions) => {
 }
 
 export type ChartConfigActions = { type: ActionTypes.UPDATE_CHART_MODE; mode: ChartModes; } |
-    { type: ActionTypes.UPDATE_CHART_EDITOR; editor: any }
+    { type: ActionTypes.UPDATE_CHART_EDITOR; editor: any } |
+    { type: ActionTypes.UPDATE_CHART_SIZE; size: { width: number, height: number} }
+
 
 export const ChartConfigReducer = (state:any, action: Actions) => {
     switch(action.type) { 
@@ -53,6 +55,8 @@ export const ChartConfigReducer = (state:any, action: Actions) => {
             return {...state, mode:action.mode}
         case ActionTypes.UPDATE_CHART_EDITOR:
             return {...state, editor:action.editor}
+        case ActionTypes.UPDATE_CHART_SIZE:
+            return {...state, size:action.size}
         default:
             return state;
     }

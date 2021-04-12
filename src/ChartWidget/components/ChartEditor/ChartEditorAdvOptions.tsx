@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import ChartState from '../../states/ChartState';
 import { ChartTypes } from '../../models/ChartTypes'
 import { ActionTypes } from '../../reducers/ChartActionsTypes';
-import Select from 'react-select';
+import Select from '../Selectors/Select';
 
 const ChartEditorAdvOptions = () => {
 

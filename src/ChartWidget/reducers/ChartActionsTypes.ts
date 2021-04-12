@@ -15,5 +15,6 @@ export enum ActionTypes {
     
     // ChartConfig Actions
     UPDATE_CHART_MODE,    
-    UPDATE_CHART_EDITOR
+    UPDATE_CHART_EDITOR,
+    UPDATE_CHART_SIZE
 }

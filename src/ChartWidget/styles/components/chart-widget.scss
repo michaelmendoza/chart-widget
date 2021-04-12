@@ -1,8 +1,17 @@
 
 .chart-widget {
-  //margin: 2em;
-  //width: 600px;
-  background-color: #fefefe;
+  background-color: chart-color('background');
+  color: chart-color('primary');
   border-radius: 4px;
   box-shadow: $box-shadow;
+
+  button {
+    color: chart-color('primary');
+  }
+
+  input { 
+    color: chart-color('primary');
+    background: chart-color('input');
+  }
+
 }
