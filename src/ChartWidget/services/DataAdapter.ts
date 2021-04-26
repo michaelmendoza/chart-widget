@@ -1,4 +1,16 @@
 
+export const TimeAdapter = (data : any[]) => {
+    if(data[0].timekey) {
+        return data.map((item:any) => {
+            const newitem = { ...item, time:item.timekey };
+            return newitem;
+        })
+    }
+    else {
+        return data;
+    }
+}
+
 export const GeoAdapter = (data : any[]) => {
     // Validate Data for GeoAdapter
     const geo = data[0].geo;

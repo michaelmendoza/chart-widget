@@ -111,7 +111,7 @@ export const EntityDataToDataMatrix = (data : IEntityDataPoint [], attributes : 
 
 export const EntityDataToTimeSeriesData = (data : IEntityDataPoint[], attribute : string) => {
     return data.map((item : any) => {
-        return { x:item.time, y:item.attr[attribute] }
+        return { x:new Date(item.time), y:item.attr[attribute] }
     })    
 }
 
@@ -129,10 +129,10 @@ export const GroupEntityDataByDate = (data : IEntityDataPoint[],
                                       metric : DataMetrics, 
                                       historyLength : number = 30,
                                       binSize : number = milliSecondsInDay) => {
-
+                                    
     // Format data to { x, y[] }
     const timeSeriesData = data.map((item : any) => {
-        return { x:item.time, y:[item.attr[attributes[0]], item.attr[attributes[1]]] }
+        return { x:new Date(item.time), y:[item.attr[attributes[0]], item.attr[attributes[1]]] }
     })
 
     // Create bins of size binSize
@@ -144,10 +144,12 @@ export const GroupEntityDataByDate = (data : IEntityDataPoint[],
     // Groups data into "bins" of binSize width.
     timeSeriesData.forEach((item : any) => {
         var dateBucketIndex = Math.floor(historyLength * (item.x.getTime() - startTime) / (endTime - startTime))
-        bins[dateBucketIndex][0].push(item.y[0]);
-        bins[dateBucketIndex][1].push(item.y[1]);
+        if(0 <= dateBucketIndex && dateBucketIndex < bins.length ) {
+            bins[dateBucketIndex][0].push(item.y[0]);
+            bins[dateBucketIndex][1].push(item.y[1]);
+        }
     })
-
+    
     // Aggregate data for specified metric 
     const values =  bins.map((dateBucket, index) => {
         //const x = index; // startTime + (endTime - startTime) / historyLength * index

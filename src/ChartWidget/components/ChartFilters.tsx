@@ -13,10 +13,18 @@ const ChartFilters = () => {
     const handleFilterTypeChange = (filterType: FilterTypes) => {
         const type = (filterType === filterState.filterType) ? FilterTypes.None : filterType;
         dispatch({ type:ActionTypes.UPDATE_FILTER_TYPE, filterType: type });
+
+        if(type == FilterTypes.Circle) {
+            const defaultRadius = 100;
+            //const circle = new MapFilterCircleFeature();
+            //circle.setRadius(defaultRadius);
+            //circle.toggle();
+            //dispatch({ type:ActionTypes.UPDATE_FILTER_CIRCLE, circle:circle })
+        }
     }
     
     const handleRadiusChange = (event : any) => {
-        dispatch({ type:ActionTypes.UPDATE_FILTER_CIRCLE, circle:{ center:state.chartFilters.circle.center, radius: event.target.value } })
+        //dispatch({ type:ActionTypes.UPDATE_FILTER_CIRCLE, circle:{ center:state.chartFilters.circle.center, radius: event.target.value } })
     }
     
     const filterState = state.chartFilters;

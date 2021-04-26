@@ -27,11 +27,13 @@ interface Props {
  */
 const DataTable: React.FC<Props> = (props) => {
 
+    const data = props.data.filter( (item, index )=> { return index < 10; } )
+
     return (
         <div className="data-table">
             <DataTableHeaders columns={props.columns}></DataTableHeaders>
             {
-                props.data.map((row: any, index) => {
+                data.map((row: any, index) => {
                     return <DataTableRow row={row} columns={props.columns} key={index}></DataTableRow>
                 })
             }

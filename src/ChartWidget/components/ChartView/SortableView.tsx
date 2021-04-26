@@ -28,7 +28,7 @@ const SortableView = (props : any) => {
   };
 
   return (
-      <SortableContext onSortEnd={onSortEnd} pressDelay={100}>
+      <SortableContext onSortEnd={onSortEnd} pressDelay={200}>
         {items.map((value, index) => (
           <SortableItem key={`item-${value.id}`} index={index} value={value} />
         ))}

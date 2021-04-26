@@ -1,15 +1,21 @@
-import { ChartItem } from "../models/ChartModels";
-import ChartMockData from "./ChartMockData"
+import { ChartItem, IFeedProperties } from "../models/ChartModels";
+import ChartMockData from "./ChartMockData";
+import {getCachedEntityData} from './EntityDataService';
 
 // TODO: ADD cache for Backend data call 
 
-enum DataTypes { 'Mock', 'API' };
-let dataType = DataTypes.API;
+enum DataTypes { 'Mock', 'API', 'STREAM' };
+let dataType = DataTypes.STREAM;
 const dataUrl = 'http://localhost:3001/';
 const mockDelay = 250; // Delay in milliseconds 
 const cache : any = {
     entity: {},
     feeds: {}
+}
+
+export const fetchStreamedEntityDataByFeed = (feed: IFeedProperties) => {
+    const entities = getCachedEntityData(feed.id.toLowerCase(), feed.attr);
+    return entities;
 }
 
 const fetchEntityDataByFeed = (feedName:string) => {
@@ -86,18 +92,28 @@ const createChart = (item:ChartItem ) => {
  */
 const ChartDataService = {
 
-    async fetchEntityDataByFeed(feedName:string) {
+    async fetchEntityDataByFeed(feed: IFeedProperties) {
         let fetch;
 
         // Check for entity data in data cache.entity
-        if(cache.entity[feedName]) {
-            fetch = Promise.resolve(cache.entity[feedName])
+        if(cache.entity[feed.name]) {
+            fetch = Promise.resolve(cache.entity[feed.name])
             return fetch;
         }
         else {
             // Fetch entity
-            fetch = (dataType === DataTypes.Mock) ? fetchMockEntityDataByFeed : fetchEntityDataByFeed;
-            return fetch(feedName);
+            switch(dataType) {
+                case DataTypes.Mock:
+                    return fetchMockEntityDataByFeed(feed.name);
+                case DataTypes.API:
+                    return fetchEntityDataByFeed(feed.name);
+                case DataTypes.STREAM:
+                    fetch = Promise.resolve(fetchStreamedEntityDataByFeed(feed));
+                    return fetch;
+            };
+
+            //fetch = (dataType === DataTypes.Mock) ? fetchMockEntityDataByFeed : fetchEntityDataByFeed;
+            //return fetch(feedName);
         }
     },
 

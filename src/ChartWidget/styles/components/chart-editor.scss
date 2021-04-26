@@ -7,9 +7,10 @@
     width: 100%;
 
     label {
+      padding: 0 0 0 0.25em;
+      margin-bottom: 0.5em;
+      font-size: 1em;
       text-align: left;
-      margin-bottom: 0.25em;
-      font-size: 0.75em;
     }
     input {
       width: 100%;
@@ -27,23 +28,28 @@
     border: none;
 
     &:hover {
-      background-color: #f6f8fa;
+      background-color: lighten(chart-color('background'), 20%); //#f6f8fa;
     }
-
+    
     &:focus,
     &:active,
     &.active {
       color: #4e4e4e;
       border-bottom: 2px solid rgba(27, 112, 192, 1);
-      background-color: #ffffff;
+      //background-color: lighten(chart-color('background'), 20%); //#ffffff;
     }
 
     &.active {
-      color: rgb(10, 96, 175);
+      color: #FFFFFF; //rgb(10, 96, 175);
     }
   }
 
   .chart-editor-save {
+    margin: 1.5em 0 1em 0;
     text-align: right;
   }
+}
+
+.chart-editor-adv-options {
+  padding: 2em 0 0 0;
 }

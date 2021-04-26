@@ -7,10 +7,10 @@ const CustomSelect = (props : any) => {
         control: (base: any, state: any) => ({
           ...base,
           background: "#222222",
-          borderColor: state.isFocused ? "#333333" : "#222222",
+          borderColor: state.isFocused ? "#666666" : "#444444",
           boxShadow: state.isFocused ? null : null,
           "&:hover": {
-            borderColor: state.isFocused ? "#333333" : "#222222"
+            borderColor: state.isFocused ? "#666666" : "#444444"
           }
         }),
         

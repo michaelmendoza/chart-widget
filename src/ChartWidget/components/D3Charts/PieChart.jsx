@@ -18,6 +18,8 @@ const PieChart = (props) => {
     const duration = 500;
     const delay = 100;
 
+    useEffect(()=>{})
+    
     useEffect(() => {
 		var data = props.data ? Points.toXYArray(props.data).y : props.data_values;
 

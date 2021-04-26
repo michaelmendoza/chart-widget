@@ -21,7 +21,6 @@ const ChartControls = () => {
     return (
         <div className='chart-controls'>
             <button className='button-icon' onClick={handleAdd}> <i className="fas fa-plus"></i> </button>
-            <button className='button-icon' onClick={handleClear}> <i className="fas fa-trash"></i> </button>
         </div>
     )
 }

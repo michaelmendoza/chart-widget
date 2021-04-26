@@ -1,7 +1,7 @@
 
 import { ChartTypes, DataMetrics } from '../models/ChartTypes';
 import ChartDataService from './ChartDataService';
-import { IChartFilter } from '../models/ChartModels';
+import { IChartFilter, IFeedProperties } from '../models/ChartModels';
 import { DataPipeline } from './DataPipeline';
 
 export enum DataIOTypes {
@@ -18,10 +18,10 @@ export enum DataIOTypes {
 export class DataSource {
     cache: any = null;
     
-    fetch(feedName:string, attributes:string[] = [], type : ChartTypes, dataMetric : DataMetrics, historyLength: number, filters: IChartFilter) {
-        console.log('Fetching Data from Data Source - feedName: ' + feedName + ', attribute: ' + attributes[0]);
+    fetch(feed:IFeedProperties, attributes:string[] = [], type : ChartTypes, dataMetric : DataMetrics, historyLength: number, filters: IChartFilter) {
+        console.log('Fetching Data from Data Source - feedName: ' + feed.name + ', attribute: ' + attributes[0]);
 
-        return ChartDataService.fetchEntityDataByFeed(feedName).then((res) => {
+        return ChartDataService.fetchEntityDataByFeed(feed).then((res) => {
             let args = { inputData: res, attributes, type, inputType: DataIOTypes.Entity, outputType: DataIOTypes.Entity, dataMetric, historyLength, filters }
             
             // Remove attributes that are empty or null

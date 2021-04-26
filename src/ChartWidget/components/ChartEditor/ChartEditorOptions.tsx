@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import ChartState from '../../states/ChartState';
 import { ChartTypes, DataMetrics } from '../../models/ChartTypes'
 import { ActionTypes } from '../../reducers/ChartActionsTypes';
@@ -16,7 +16,7 @@ const ChartEditorOptions = () => {
     const handleNameChange = (event : any) => {
         dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, name: event.target.value}});
     }
-
+    
     const handleAttributeChange = (event : any) => {
         const attributes = [ ...editor.attributes ];
         attributes[0] =  event.value;
@@ -26,7 +26,7 @@ const ChartEditorOptions = () => {
     const handleFeedChange = (event : any) => {
         const feedName = event.value;
         const feed = editor.availableFeeds.find(item=>item.name === feedName);
-        dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, feedId: feed.id, feedName: feed.name }});
+        dispatch({type:ActionTypes.UPDATE_CHART_EDITOR, editor: {...editor, feed:feed, feedId: feed.id, feedName: feed.name, attributes:["", ""] }});
     }
     
     const handleMetricChange = (event : any) => {
@@ -44,6 +44,7 @@ const ChartEditorOptions = () => {
     } 
 
     const currentFeed = editor.availableFeeds.find(item=>item.name === editor.feedName);
+    //const currentFeed : any = editor.getCurrentFeed();
 
     // Select Options
     const dataSourceOptions = editor.availableFeeds.map(item => { return { label: item.name, value: item.name }})

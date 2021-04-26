@@ -7,8 +7,9 @@ import ChartState from '../states/ChartState';
 import { ChartModes } from '../models/ChartTypes';
 import ChartControls from './ChartControls';
 import ChartStateDebugger from '../states/ChartStateDebuger';
-import '../styles/chart-widget.scss';
 import { ActionTypes } from '../reducers/ChartActionsTypes';
+import '../styles/chart-widget.scss';
+import '@fortawesome/fontawesome-free/css/all.css';
 
 /**
  * Container component for ChartHeader, ChartFilters, ChartControls and ChartView.
@@ -64,8 +65,9 @@ const WidgetResizer = (props : any) => {
 
     const handleDrag = (event : any) => {
         event.preventDefault();
-        const dx = event.pageX - 28;
-        if(dx > minWidth) {
+        //const dx = event.pageX - 28;
+        const dx = window.innerWidth - event.pageX;
+        if(event.pageX > 0 && dx > minWidth) {
             updateSize({width:dx, height:size.height});
         }
     }
@@ -79,7 +81,8 @@ const WidgetResizer = (props : any) => {
         width: 10, 
         height: size.height, 
         top:0, 
-        right: -5, 
+        left: 12, 
+        //right: -5, 
         opacity:0, 
         cursor:"col-resize"}
 
@@ -96,10 +99,13 @@ const WidgetResizer = (props : any) => {
  * Top Chart Widget Component. Connects ChartState to ChartWidget component. 
  */
 const ChartWidget = () => {
+
+    const useDebugger = false;
+
     return (
         <ChartState.ChartStateProvider>
             <ChartWidgetComponent></ChartWidgetComponent>
-            <ChartStateDebugger></ChartStateDebugger>
+            { useDebugger ? <ChartStateDebugger></ChartStateDebugger> : null }
         </ChartState.ChartStateProvider>
     )
 }

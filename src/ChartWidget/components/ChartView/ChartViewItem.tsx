@@ -13,6 +13,7 @@ import ScatterPlot from '../D3Charts/ScatterPlot.jsx';
 
 import DataMap from '../D3Charts/Map/DataMap';
 import DataTable from '../Tables/DataTable';
+import DataTableChartItem from '../Tables/DataTableChartItem';
 import { MapOptions } from '../../models/MapConstants';
 import { ChartItem } from '../../models/ChartModels';
 
@@ -21,6 +22,10 @@ interface Props {
     index: number
 }
 
+let timer = new Date();
+let updateCounter = 0;
+const debounceTime = 500;
+
 /**
  * Contain a single chart and it's associated controls, for use with ChartView
  */
@@ -28,7 +33,8 @@ export const ChartViewItem: React.FC<Props> = (props) => {
 
     const { state } = useContext(ChartState.ChartContext);
     const [ data, setData ] = useState<any>([]);
-
+    const [ update, setUpdate ] = useState(updateCounter);
+    
     useEffect(() => {
 
         const fetchData = async () => {
@@ -39,7 +45,18 @@ export const ChartViewItem: React.FC<Props> = (props) => {
         }
         fetchData();
 
-    }, [props.item, state.chartFilters])
+    }, [props.item, state.chartFilters, updateCounter])
+    
+    const handleUpdate = () => {
+        const timeNow = new Date();
+        const timeDebounce : number = timeNow.getTime() - timer.getTime();
+        if(timeDebounce > debounceTime) {
+            timer = new Date();
+            updateCounter++;
+            setUpdate(updateCounter);
+            console.log('Updated Data: ' + updateCounter);
+        }
+    }
 
     const renderChartByChartType = () => {
         const paddingWidth = 28 * 2;
@@ -61,9 +78,9 @@ export const ChartViewItem: React.FC<Props> = (props) => {
 
         switch (props.item.type) {
             case ChartTypes.Number:
-                return <NumberChartItem data={data}></NumberChartItem>
+                return <NumberChartItem width={width} height={100} data={data}></NumberChartItem>
             case ChartTypes.Stats:
-                return <StatsChartItem data={data}></StatsChartItem>
+                return <StatsChartItem width={width} height={height} data={data}></StatsChartItem>
             case ChartTypes.Bar:
                 if (attributes.length === 1) // Simple Bar Chart
                     return <BarChart width={width} height={height} data={data} labels={labels}/>;
@@ -80,7 +97,10 @@ export const ChartViewItem: React.FC<Props> = (props) => {
             case ChartTypes.HeatMap:
                 return <DataMap map={MapOptions.USAStates} width={width} height={height} entityData={data}></DataMap>
             case ChartTypes.Table:
-                return <DataTable data={data} columns={['id', 'name', 'x', 'y', 'a', 'b', 'c', 'd', 'time']}></DataTable>
+                const editor = state.chartConfig.editor;
+                const currentFeed = editor.availableFeeds.find(item=>item.name === editor.feedName);
+                const columns = currentFeed.attr;
+                return <DataTableChartItem data={data} columns={columns}></DataTableChartItem>
             default:
                 return null;
         }
@@ -105,9 +125,9 @@ export const ChartViewItemNoData = () => {
 /**
  * Number Chart - Chart View Item
  */
-export const NumberChartItem = ({ data }: any) => {
+export const NumberChartItem = ({ data, width, height }: any) => {
     return (
-        <div className='number-chart-item layout-center' style={{ width: '500px', height: '500px' }}>
+        <div className='number-chart-item layout-center' style={{ width, height }}>
             <div className="flex-50">
                 <label>Count:</label>
                 <div className='stats-item'>{data}</div>
@@ -119,9 +139,9 @@ export const NumberChartItem = ({ data }: any) => {
 /**
  * Stats Chart - Chart View Item
  */
-export const StatsChartItem = ({ data }: any) => {
+export const StatsChartItem = ({ data, width, height }: any) => {
     return (
-        <div className='stats-chart-item layout-row-center flex-wrap' style={{ width: '500px', height: '500px' }}>
+        <div className='stats-chart-item layout-row-center flex-wrap' style={{ width, height }}>
             <div className="flex-50">
                 <label>Count:</label>
                 <div className='stats-item'>{data.count} </div>

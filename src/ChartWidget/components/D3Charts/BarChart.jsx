@@ -12,7 +12,7 @@ const BarChart = (props) => {
     
     const self = useRef({ svg: null }); 
     const d3Container = useRef(null);
-    const margin = { top: 40, right: 40, bottom: 40, left: 50 };
+    const margin = { top: 10, right: 10, bottom: 40, left: 50 };
     const fillColor = "#69b3a2";
     const hoverColor = "#6797A9";
     const duration = 500;
@@ -76,17 +76,17 @@ const BarChart = (props) => {
             .attr("transform", "translate(" + ( width / 2 ) + ", 0)")
             .attr("y", (margin.bottom - 5))
             .attr("text-anchor", "middle")
-            .style("fill", "#444444")
+            //.style("fill", "#444444")
             .text(xLabelText)
 
         // yAxis Labels
         var yLabelText = props.labels?.y ? props.labels.y : "";
         yAxis.append("text")
             .attr("class", "axis-title")
-            .attr("transform", "rotate(-90)translate(" + ( -width / 2 ) + ", 0)")
+            .attr("transform", "rotate(-90)translate(" + ( -height / 2 ) + ", 0)")
             .attr("y", - (margin.left - 10))
             .attr("text-anchor", "middle")
-            .style("fill", "#444444")
+            //.style("fill", "#444444")
             .text(yLabelText);
 
         // Define tooltip
@@ -104,7 +104,7 @@ const BarChart = (props) => {
         const { svg, g, x, y, xAxis, yAxis } = self.current;
                 
         // Get x scale
-		x.range([0, props.width])
+		x.range([0, width])
 
         // Get y scale 
 		y.range([height, 0]);

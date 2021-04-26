@@ -3,7 +3,7 @@ import { FilterTypes } from '../models/ChartTypes';
 import { EntityDataToDataArray, EntityDataToDataMatrix, EntityDataToTimeSeriesData, GroupDataArrayByValue, GroupDataMatrixByValue, GroupEntityDataByDate, ReduceDataArrayToMetric, ReduceDataArrayToStats } from './DataAggregator';
 import { geoFilter } from '../services/GeoFilter'; 
 import { DataIOTypes } from './DataSource';
-import { GeoAdapter } from './DataAdapter';
+import { TimeAdapter, GeoAdapter } from './DataAdapter';
 
 /** DataPipeline for single feed */
 export const DataPipeline = ({ inputData, attributes, type, inputType, outputType, dataMetric, historyLength, filters } : any) => {
@@ -31,8 +31,9 @@ export const DataPipeline = ({ inputData, attributes, type, inputType, outputTyp
     const validate = (data : any) => {
         // TODO: Check for propery data input     
     }
-
-    const adapt = (data : any) => {
+    
+    const adapt = (inputData : any) => {
+        let data = TimeAdapter(inputData);
         return GeoAdapter(data)
     }
 

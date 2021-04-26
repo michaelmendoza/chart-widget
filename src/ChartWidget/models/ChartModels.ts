@@ -21,11 +21,18 @@ export interface IAttributeDataArray {
     values: number[]     // Attribute values
 }
 
+export interface IFeedProperties {
+    name: string, 
+    id: string, 
+    attr: string[]
+}
+
 /** Interface for data to be feed into ChartViewItem */
 export interface IChartItem {
     id: string,
     name: string,
     type: ChartTypes,
+    feed: IFeedProperties,
     feedName: string,
     attributes: string[],
     dataMetric : DataMetrics,
@@ -33,10 +40,11 @@ export interface IChartItem {
 }
 
 let chartItemCount = 0;
-export class ChartItem implements IChartItem{
+export class ChartItem implements IChartItem {
     id: string;
     name: string;
     type: ChartTypes;
+    feed: IFeedProperties;
     feedId: string = '';
     feedName: string;
     createAt: Date;
@@ -48,6 +56,7 @@ export class ChartItem implements IChartItem{
 
     constructor(name: string, 
                 type: ChartTypes, 
+                feed: any,
                 feedId: string,
                 feedName: string, 
                 attributes: string[],
@@ -57,6 +66,7 @@ export class ChartItem implements IChartItem{
         this.id = chartItemCount.toString();
         this.name = name;
         this.type = type;
+        this.feed = feed;
         this.feedId = feedId;
         this.feedName = feedName;
         this.createAt = new Date();
@@ -69,7 +79,7 @@ export class ChartItem implements IChartItem{
     }
     
     static copy(i : ChartItem) {
-        return new ChartItem(i.name, i.type, i.feedId, i.feedName, [...i.attributes], i.dataMetric, i.historyLength, i.dataSource);
+        return new ChartItem(i.name, i.type, i.feed, i.feedId, i.feedName, [...i.attributes], i.dataMetric, i.historyLength, i.dataSource);
     }
 
     static toJsonString(i : ChartItem) {
@@ -83,7 +93,7 @@ export class ChartItem implements IChartItem{
 
     fetchData = (filter : IChartFilter)=> {
         ChartDataService.createChart(this);
-        return this.dataSource.fetch(this.feedName, this.attributes, this.type, this.dataMetric, this.historyLength, filter);
+        return this.dataSource.fetch(this.feed, this.attributes, this.type, this.dataMetric, this.historyLength, filter);
     };
 }
 
@@ -107,6 +117,7 @@ export interface IChartConfig {
     editor: {
         chartType: ChartTypes,
         name: string,
+        feed: IFeedProperties,
         feedId: string, 
         feedName: string,
         attributes: string[],
@@ -128,14 +139,15 @@ export class ChartConfig implements IChartConfig{
     editor: any = {
         chartType: ChartTypes.Bar,
         name: 'New Chart',
+        feed: {name:'',id:'',attr:[]},
         feedId:'',
         feedName: 'Population',
-        attributes: ['a', ''],
+        attributes: ['', ''],
         metric: DataMetrics.Count,
         history: 30,
         multiChartTypes: [ChartTypes.Bar, ChartTypes.LineArea],
-        availableFeeds: [{name:'Population', attr:['a','b','c','d']}, {name:'Lightning', attr:['a','b']}]
-    };
+        availableFeeds: [{name:'Population', attr:['a','b','c','d']}, {name:'Lightning', attr:['a','b']}],
+    }; 
     size = {
         width: 500,
         height: 1200

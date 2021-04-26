@@ -1,6 +1,9 @@
 
 .chart-header {
-  padding: 2em;
-  border-bottom: 1px solid #e8e8e8;
-  font-weight: 600;
+  color: chart-color('accent');
+
+  padding: 0.75em;
+  border-bottom: 1px solid chart-color('border'); //#e8e8e8;
+  //font-weight: 600;
+  font-size: 16px;
 }

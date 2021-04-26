@@ -1,5 +1,8 @@
 
 .chart-view {
+  background: darken(chart-color('background'), 5%); //#252525;
+  margin-bottom: 0;
+
   ul {
     margin: 0;
     padding: 0;
@@ -12,18 +15,17 @@
 
 .chart-view-item {
   padding: 2em;
-  margin-bottom: 1em;
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 1px solid chart-color('border');
   list-style: none;
 
   .chart-view-item-title {
+    font-size: 1.5em;
     margin: 1em 0 0 0;
-    text-align: center;
+    text-align: left; //center;
   }
 
   .data-table {
     margin-top: 5em;
-    font-size: 0.5em;
   }
 }
 
@@ -34,7 +36,7 @@
 .number-chart-item {
   .stats-item {
     font-size: 2.5em;
-    color: #404040;
+    color: chart-color('secondary'); //#404040;
   }
 }
 
@@ -44,7 +46,7 @@
 
   .stats-item {
     font-size: 2.5em;
-    color: #404040;
+    color: chart-color('secondary'); //#404040;
   }
 }
 
@@ -59,7 +61,6 @@
 .chart-view-item-attribute-controls {
   width: 50%;
   text-align: left;
-  font-size: 0.5em;
   margin: 0 0 0 1em;
 }
 

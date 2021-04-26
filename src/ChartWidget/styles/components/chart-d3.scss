@@ -1,4 +1,10 @@
 
+svg {
+  text {
+    fill: chart-color('secondary');
+  }
+}
+
 .charts-d3-tooltip {
   white-space: pre-wrap;
   
