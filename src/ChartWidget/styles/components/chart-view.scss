@@ -1,5 +1,5 @@
 
-.chart-view {
+.chart-widget .chart-view {
   background: darken(chart-color('background'), 5%); //#252525;
   margin-bottom: 0;
 
@@ -14,9 +14,12 @@
 }
 
 .chart-view-item {
-  padding: 2em;
+  background: darken(chart-color('background'), 5%);
   border-bottom: 1px solid chart-color('border');
+  color: chart-color('primary');
+  padding: 2em;
   list-style: none;
+  z-index: 10;
 
   .chart-view-item-title {
     font-size: 1.5em;
@@ -31,6 +34,10 @@
 
 .chart-view-item-no-data {
   padding: 4em;
+}
+
+.chart-view-item-no-data-in-view{
+  padding: 1em;
 }
 
 .number-chart-item {

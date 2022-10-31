@@ -4,11 +4,11 @@ import './App.scss';
 import '../node_modules/@fortawesome/fontawesome-free/css/all.css';
 import { ChartWidget } from './ChartWidget';
 import Playground from './ChartPlayground/components/Playground';
-import ChartDataService from './ChartWidget/services/ChartDataService';
 import { MapOptions } from './ChartWidget/models/MapConstants';
-import PointMap from './ChartWidget/components/D3Charts/Map/PointMap';
-import Loading from './ChartWidget/components/Loading/Loading';
-import { GeoAdapter } from './ChartWidget/services/DataAdapter';
+import PointMap from './ChartWidget/components/libraries/D3Charts/Map/PointMap';
+import Loading from './ChartWidget/components/libraries/Loading/Loading';
+import { GeoAdapter } from './ChartWidget/libraries/DataAdapter';
+import DataServiceProvider from './ChartWidget/services/data/DataServiceProvider';
 
 enum AppModes {
   StartScreen, WidgetScreen, PlaygroundScreen
@@ -27,7 +27,8 @@ const EntityPointMap = () => {
 
   const updateFeeds = () => {
     const fetch = async () => {
-      let availableCharts = await ChartDataService.fetchAvailableCharts();
+      
+      let availableCharts : any = await DataServiceProvider.fetchAvailableFeeds();
       setFeedName('')
       setAvailableFeeds(availableCharts);
     }
@@ -39,7 +40,7 @@ const EntityPointMap = () => {
     const fetch = async () => {
       let entityData: any = []
       if(feedName) {
-        entityData = await ChartDataService.fetchEntityDataByFeed(feedName);
+        entityData = await DataServiceProvider.fetchEntityDataByFeed({id:'0', name:feedName, attr:[]});
         entityData = GeoAdapter(entityData); 
         //const entityData: any = ChartDataService.getEntityDataByFeed('Lightning');
       }

@@ -1,3 +1,3 @@
-import ChartWidget from "./components/ChartWidget";
+import ChartWidget from './components/ChartWidget';
 
-export { ChartWidget }
+export { ChartWidget };

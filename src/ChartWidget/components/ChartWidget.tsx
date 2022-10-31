@@ -1,15 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
-import ChartFilters from './ChartFilters';
-import ChartView from './ChartView/ChartView';
-import ChartEditor from './ChartEditor/ChartEditor';
-import ChartHeader from './ChartHeader';
-import ChartState from '../states/ChartState';
-import { ChartModes } from '../models/ChartTypes';
-import ChartControls from './ChartControls';
-import ChartStateDebugger from '../states/ChartStateDebuger';
+import React, { useContext, useEffect } from 'react';
+import WidgetResizer from './libraries/WidgetResizer';
+import ChartFilters from './ChartWidget/ChartFilters';
+import ChartView from './ChartWidget/ChartView/ChartView';
+import ChartEditor from './ChartWidget/ChartEditor/ChartEditor';
+import ChartHeader from './ChartWidget/ChartHeader';
+import ChartState from '../state/ChartState';
+import { ChartModes } from '../models/ChartEnums';
+import ChartControls from './ChartWidget/ChartControls';
+import ChartStateDebugger from '../state/ChartStateDebuger';
 import { ActionTypes } from '../reducers/ChartActionsTypes';
 import '../styles/chart-widget.scss';
 import '@fortawesome/fontawesome-free/css/all.css';
+import DataServiceProvider from '../services/data/DataServiceProvider';
 
 /**
  * Container component for ChartHeader, ChartFilters, ChartControls and ChartView.
@@ -17,97 +19,51 @@ import '@fortawesome/fontawesome-free/css/all.css';
  */
 const ChartWidgetComponent = () => {
 
-    const { state, dispatch } = useContext(ChartState.ChartContext);
+	const { state, dispatch } = useContext(ChartState.ChartContext);
 
-    const showChartEditor = state.chartConfig.mode === ChartModes.ShowChartEditor 
+	const showChartEditor = state.chartConfig.mode === ChartModes.ShowChartEditor 
                             || state.chartConfig.mode === ChartModes.ShowChartCreator;
-    const showCharts = state.chartConfig.mode === ChartModes.ShowCharts;
+	const showCharts = state.chartConfig.mode === ChartModes.ShowCharts;
     
-    const updateSize = (size : { width:number, height: number}) => {
-        dispatch({ type:ActionTypes.UPDATE_CHART_SIZE, size: size });
+	const updateSize = (size : { width:number, height: number}) => {
+		dispatch({ type: ActionTypes.UPDATE_CHART_SIZE, size });
 
-    }
+	};
+    
+	return ( 
+		<div className="chart-widget"> 
+			<WidgetResizer size={state.chartConfig.size} updateSize={updateSize}>
+				<ChartHeader></ChartHeader>
+				{ showCharts ? <ChartControls></ChartControls> : null } 
+				{ showCharts ? <ChartFilters></ChartFilters> : null } 
+				{ showChartEditor ? <ChartEditor></ChartEditor> : null }
+				{ showCharts ? <ChartView></ChartView> : null }
+			</WidgetResizer>
+		</div>
+	);
+};
 
-    return ( 
-        <div className="chart-widget"> 
-            <WidgetResizer size={state.chartConfig.size} updateSize={updateSize}>
-                <ChartHeader></ChartHeader>
-                { showCharts ? <ChartControls></ChartControls> :  null } 
-                { showCharts ? <ChartFilters></ChartFilters> : null } 
-                { showChartEditor ? <ChartEditor></ChartEditor> : null }
-                { showCharts ? <ChartView></ChartView> : null }
-            </WidgetResizer>
-        </div>
-    )
-}
-
-const WidgetResizer = (props : any) => {
-
-    let debounceStart : any = new Date();
-    const debounceTime = 10; // time in ms
-    const minWidth = 400;
-    const minHeight = 400;
-    const [size, setSize] = useState({ width:props.size.width, height:props.size.height });
-
-    useEffect(()=>  {
-        setSize(props.size);
-    }, [props.size])
-
-    const updateSize = (updatedSize : { width:number, height: number}) => {
-        setSize(updatedSize);
-
-        let debounceNow : any = new Date();
-        if(debounceNow - debounceStart > debounceTime) {
-            debounceStart = new Date();
-            props.updateSize(updatedSize);
-        }
-    }
-
-    const handleDrag = (event : any) => {
-        event.preventDefault();
-        //const dx = event.pageX - 28;
-        const dx = window.innerWidth - event.pageX;
-        if(event.pageX > 0 && dx > minWidth) {
-            updateSize({width:dx, height:size.height});
-        }
-    }
-
-    const handleDragExit = () => {
-        console.log("test");
-    }
-
-    const resizerStyle : any = { 
-        position:"absolute", 
-        width: 10, 
-        height: size.height, 
-        top:0, 
-        left: 12, 
-        //right: -5, 
-        opacity:0, 
-        cursor:"col-resize"}
-
-    return ( 
-        <div style={{ width:size.width }} > 
-            {props.children}
-
-            <div draggable style={resizerStyle} onDrag={handleDrag}></div>
-        </div>
-    )
+interface ChartWidgetProps {
+	dataservice?: any
 }
 
 /**
  * Top Chart Widget Component. Connects ChartState to ChartWidget component. 
  */
-const ChartWidget = () => {
+const ChartWidget = (props : ChartWidgetProps) => {
 
-    const useDebugger = false;
+	const useDebugger = false;
 
-    return (
-        <ChartState.ChartStateProvider>
-            <ChartWidgetComponent></ChartWidgetComponent>
-            { useDebugger ? <ChartStateDebugger></ChartStateDebugger> : null }
-        </ChartState.ChartStateProvider>
-    )
-}
+	useEffect(() => {
+		if (props.dataservice) DataServiceProvider.setEntityDataService(props.dataservice);
+	}, []);
+	
+	return (
+		<ChartState.ChartStateProvider>
+			<ChartWidgetComponent></ChartWidgetComponent>
+			{ useDebugger ? <ChartStateDebugger></ChartStateDebugger> : null }
+		</ChartState.ChartStateProvider>
+	);
+};
 
 export default ChartWidget;

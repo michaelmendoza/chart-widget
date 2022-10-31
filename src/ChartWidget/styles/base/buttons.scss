@@ -1,0 +1,30 @@
+
+.chart-widget, .chart-view-item {
+    button {
+      color: chart-color('primary');
+      border: 1px solid chart-color('border');
+    
+      &:hover, &:focus, &:active {
+        color: darken(chart-color('primary'), 20%);
+      } 
+
+      display: inline-block;
+      background: transparent;
+      border-radius: 4px;
+      text-transform: none;
+      cursor: pointer;
+      margin: 0 0.5em;
+    }
+     
+    .button-icon {
+      border: none;
+      margin: 0;
+      padding: 0em 0.75em;
+  
+      &:hover, &:focus, &:active {
+        border: none;
+        background-color: #222222;
+        border-radius: 50%;
+      } 
+    }
+}

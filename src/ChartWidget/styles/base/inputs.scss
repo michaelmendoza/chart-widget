@@ -1,0 +1,14 @@
+
+.chart-widget {  
+    input { 
+        color: chart-color('primary');
+        background: chart-color('input');
+
+        display: block;
+        border: none;
+        padding: 1em;
+        outline: none;
+        line-height: 1;
+        border-radius: 4px;
+    }
+}
