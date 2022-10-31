@@ -1,54 +1,43 @@
 
-## Notes:
+# ChartWidget
+Chart data visualization component for geospatial data feeds.
 
-TODO:
-Plot multiple against multiple feeds
-Plot against multipel feed with asome attr
-Nested Grouping by Location and by Attr  
+## Overview
+Chart entity event data feeds with Number, Bar, Pie, Line, Time Series
 
-# Getting Started with Create React App
+## Chart Features
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Can plot Entity Event data for a Feed / Layer
+- Can resize ChartWidget by dragging edge of Widget
+- Chart Types Supported: Number, Bar, Pie, Line, Time Series
+- TimeSeries charts can plot two separate sets of data
+- Charts are rearrangeable by drag and drop
+- Plots have tooltips 
+- Can look at data in a Table View
+- Can Create, Edit, Remove, Delete Chart
+- Edit: Can edit chart name, feed/layer, aggregation method, attribute to group by (attribute to plot)
+- Edit (TimeSeries): Can edit chart name, feed/layer, aggregation method, y axis (attribute to plot), Chart Type (Bar or Line), Metric Calculation, History, and Secondary Options (Y Axis, Chart Type, Metric Calculation)
+- Create: Can create a new chart with the same options available in Edit Chart
+- Create: Can use an existing chart 
+- Chart has message if there is no data 
+- Data Aggregation: Can group by Count, Sum, Mean, Median, Std Dev
 
-## Available Scripts
+## Widget Architecture
 
-In the project directory, you can run:
+### File Structure 
+- components: react components 
+- libraries:  utility functions that don’t have side effects. (exposed api)
+- services:  functions that touch endpoints & communicate with APIs (contains interfaces with default impelmentations for services)
+- reducers:  functions that modify state & have side-effects.
+- models:  types & classes, if the classes interact with an API, they should make a call to things in services/
+- state: the classes & Higher order components necessary to create the context for reducers to use. Should be pretty lightweight. 
+- styles: scss styles
 
-### `npm start`
+# Getting Started 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+To run app locally:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Install nodejs
+- Install third party packages: `npm run build`
+- To run frontend server: `npm start`
+- Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
