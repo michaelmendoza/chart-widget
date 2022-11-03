@@ -2,11 +2,13 @@
 # ChartWidget
 Chart data visualization component (prototype) for geospatial data feeds. Orginally designed for liveearth as a replacement for charts app.
 
-![Charts Example UI](./media/ChartExampleUI.png)
+<p align="center">
+  <img src="./media/ChartExampleUI.png" alt="Charts Example UI" width="400">
+</p>
 
-Design Rework: [here](https://docs.google.com/presentation/d/1XuBSfyKTM-RdB8HzKc5j1Ga_krAomEZZXqDqXoEVPqo/edit?usp=sharing)
+Design Rework Presentation: [here](https://docs.google.com/presentation/d/1XuBSfyKTM-RdB8HzKc5j1Ga_krAomEZZXqDqXoEVPqo/edit?usp=sharing)
 
-Demo of Charts Widget in Liveearth app: [here](https://drive.google.com/file/d/19Vsk0IXWofrrRB2lrHm07c0SLMpBVQHm/view?usp=share_link) 
+Demo of Charts Widget Prototype in Liveearth app: [here](https://drive.google.com/file/d/19Vsk0IXWofrrRB2lrHm07c0SLMpBVQHm/view?usp=share_link) 
 
 
 ## Overview
