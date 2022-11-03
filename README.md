@@ -36,7 +36,6 @@ Chart entity event data feeds with Number, Bar, Pie, Line, Time Series
 - Data Aggregation: Can group by Count, Sum, Mean, Median, Std Dev
 
 ## Widget Architecture
-
 ### File Structure 
 - components: react components 
 - libraries:  utility functions that don’t have side effects. (exposed api)
@@ -46,6 +45,17 @@ Chart entity event data feeds with Number, Bar, Pie, Line, Time Series
 - state: the classes & Higher order components necessary to create the context for reducers to use. Should be pretty lightweight. 
 - styles: scss styles
 
+### Component Architecture
+
+<p>
+  <img src="./media/ComponentArchitecture.png" alt="Charts Example UI" width="600">
+</p>
+
+### Data Pipeline 
+
+<p>
+  <img src="./media/DataPipeline.png" alt="Charts Example UI" width="600">
+</p>
 # Getting Started 
 
 To run app locally:
