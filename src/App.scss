@@ -32,7 +32,7 @@ html {
 }
 
 body {
-  background: #f7f9fc;
+  background: #d7d9dd;
 }
 
 button {
@@ -147,8 +147,9 @@ label {
 }
 
 .nav {
-  background-color: #ffffff;
-  padding: 1em 0;
+  background-color: #292C33;
+  color: #fefefe;
+  padding: 0;
   box-shadow: $box-shadow;
 
   button {
@@ -156,19 +157,21 @@ label {
     margin: 0 1em;
     padding: 1em;
     border: none;
+    border-radius: 0;
     border-bottom: 2px solid rgba(0,0,0,0);
+    color: #fefefe;
 
     &:hover, &:focus, &:active {
-      color: #4e4e4e;
-      background-color: #efefef;
+      color: #fefefe;
+      background-color: #414040;
      
     }   
     
     &.active {
-      border-radius: 0;
       border: none;
-      border-bottom: 2px solid rgba(27, 112, 192, 1);
-      color: rgb(10, 96, 175);
+      border-bottom: 2px solid #8295E0;
+      color: #fefefe;
+      //color: rgb(10, 96, 175);
     }
   }
 
@@ -185,6 +188,8 @@ label {
 }
 
 .viewport {
+  padding-top: 2em;
+
   .entity-controls {
       margin: 0 2em;
 
@@ -192,6 +197,12 @@ label {
         text-align: left;
         font-size: 0.8em;
     }
+  }
+
+  .widget-container {
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 }
 

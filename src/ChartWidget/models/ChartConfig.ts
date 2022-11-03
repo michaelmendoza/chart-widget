@@ -19,7 +19,7 @@ export class ChartConfig implements IChartConfig {
         availableFeeds: [{ name: 'Population', attr: ['a', 'b', 'c', 'd'] }, { name: 'Lightning', attr: ['a', 'b'] }],
     };
     size = {
-        width: 500,
+        width: 600,
         height: 1200
     };
     updateCounter = 0;
