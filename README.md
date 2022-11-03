@@ -5,7 +5,7 @@ Chart data visualization component (prototype) for geospatial data feeds. Orgina
 <p>&nbsp;</p>
 
 <p>
-  <img src="./media/ChartExampleUI.png" alt="Charts Example UI" width="300">
+  <img src="./media/ChartExampleUI.png" alt="Charts Example UI" width="400">
 </p>
 
 <p>&nbsp;</p>
