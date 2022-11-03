@@ -1,6 +1,6 @@
 
 # ChartWidget
-Chart data visualization component (prototype) for geospatial data feeds. Orginally designed for liveearth as a replacement for charts app.
+Chart data visualization component (prototype) for geospatial data feeds.
 
 <p>&nbsp;</p>
 
@@ -12,7 +12,7 @@ Chart data visualization component (prototype) for geospatial data feeds. Orgina
 
 Design Rework Presentation: [here](https://docs.google.com/presentation/d/1XuBSfyKTM-RdB8HzKc5j1Ga_krAomEZZXqDqXoEVPqo/edit?usp=sharing)
 
-Demo of Charts Widget Prototype in Liveearth app: [here](https://drive.google.com/file/d/19Vsk0IXWofrrRB2lrHm07c0SLMpBVQHm/view?usp=share_link) 
+Demo of Charts Widget Prototype Integration: [here](https://drive.google.com/file/d/19Vsk0IXWofrrRB2lrHm07c0SLMpBVQHm/view?usp=share_link) 
 
 
 ## Overview
