@@ -48,14 +48,19 @@ Chart entity event data feeds with Number, Bar, Pie, Line, Time Series
 ### Component Architecture
 
 <p>
-  <img src="./media/ComponentArchitecture.png" alt="Charts Example UI" width="600">
+  <img src="./media/ChartWidgetArchitecture.png" alt="Charts Example UI" width="600">
 </p>
+
+ChartWiget is a react component with sub-components: ChartHeader, ChartControls, ChartView, ChartFilter, ChartEditor.
 
 ### Data Pipeline 
 
 <p>
-  <img src="./media/DataPipeline.png" alt="Charts Example UI" width="600">
+  <img src="./media/DataPipelineDiagram.png" alt="Charts Example UI" width="600">
 </p>
+
+Data Pipeline is a client side processing pipeline used by ChartWidget to process entity data into chart data.
+
 # Getting Started 
 
 To run app locally:
