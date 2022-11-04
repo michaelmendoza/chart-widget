@@ -30,7 +30,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "api": "node api/index.js",
+    "watch_api": "./node_modules/nodemon/bin/nodemon.js api/index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -51,6 +53,12 @@
     ]
   },
   "devDependencies": {
-    "@types/react-select": "^4.0.14"
+    "@types/react-select": "^4.0.14",
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.1",
+    "nodemon": "^2.0.20"
   }
 }

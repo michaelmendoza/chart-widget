@@ -14,8 +14,8 @@ const dataUrl = 'http://localhost:3001/';
  * @param feed data feed
  */
 const fetchEntityDataByFeed = async (feed: IFeedProperties) => {
-    const id = feed.id;
-    const url = dataUrl + 'entityEvents/findAndAggregate/' + id;
+    const name = feed.name;
+    const url = dataUrl + 'entity/find/' + name;
     const req = fetch(url);
     return req
     .then(res => res.json())
@@ -29,7 +29,7 @@ const fetchEntityDataByFeed = async (feed: IFeedProperties) => {
  * Fetches the available chart feeds. Returns a promise
  */
 const fetchAvailableFeeds = async () => {
-    const url = dataUrl + 'charts/getAvailbleCharts';
+    const url = dataUrl + 'feed/';
     const req = fetch(url);
     return req.then(res => res.json()).then(data => { 
         cache.feeds = data.data;
